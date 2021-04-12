@@ -36,3 +36,12 @@ $ hexo deploy
 ```
 
 More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
+
+### 깃허브 저장소에 소스 저장하기
+``` bash
+$ git init
+$ git remote add origin 저장소 주소
+$ git add .
+$ git commit -m 'commit msg'
+$ git push origin master
+```
