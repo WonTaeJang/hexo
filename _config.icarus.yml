@@ -234,7 +234,7 @@ widgets:
         social_links:
             Github:
                 icon: fab fa-github
-                url: 'https://github.com/ppoffice'
+                url: 'https://github.com/wontaejang'
             Facebook:
                 icon: fab fa-facebook
                 url: 'https://facebook.com'
