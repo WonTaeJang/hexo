@@ -13,7 +13,11 @@
   },
   "dependencies": {
     "bulma-stylus": "^0.8.0",
+<<<<<<< HEAD
     "hexo": "^5.4.0",
+=======
+    "hexo": "^5.0.0",
+>>>>>>> 5990b389908e2d6dc41bdc6c7e7752e42ed0a7d2
     "hexo-component-inferno": "^0.10.5",
     "hexo-deployer-git": "^3.0.0",
     "hexo-generator-archive": "^1.0.0",
