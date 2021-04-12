@@ -229,7 +229,7 @@ widgets:
         # Email address for the Gravatar
         gravatar: 
         # URL or path for the follow button
-        follow_link: 'https://github.com/ppoffice'
+        follow_link: 'https://github.com/wontaejang'
         # Links to be shown on the bottom of the profile widget
         social_links:
             Github:
@@ -302,15 +302,9 @@ widgets:
         position: left
         type: adsense
         # AdSense client ID
-<<<<<<< HEAD
         client_id: 'ca-pub-7282964270260694'
         # AdSense AD unit ID
         slot_id: '1111111111'
-=======
-        client_id: ''
-        # AdSense AD unit ID
-        slot_id: ''
->>>>>>> 5990b389908e2d6dc41bdc6c7e7752e42ed0a7d2
 # Plugin configurations
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/
 plugins:
