@@ -17,7 +17,13 @@ HyperText의 Hyper는 컴퓨터 용어로서 텍스트 등의 정보가 동일 �
 	</body>
 </html>
 ```
- 결과값? 나올수 있나 ?? 
+ 
+<!DOCTYPE html>
+<html>
+	<body>
+		<a href="http://www.googole.com">Visit googole.com!</a>
+	</body>
+</html>
 
 # 1. href 어트리뷰트 
 href 어트리뷰트는 이동하고자 하는 파일의 위치(경로)를 값으로 받는다. 경로(path)란 파일 시스템 상에서 특정 파일의 위치를 의미한다.
@@ -59,7 +65,8 @@ href 어트리뷰트는 이동하고자 하는 파일의 위치(경로)를 값�
 > - index.html
 > - html/index.html 
 
-href 어트리뷰트에 사용 가능한 값은 아래와 같다.     
+href 어트리뷰트에 사용 가능한 값은 아래와 같다.  
+
 |Value|Description|
 |-----------|---------------------------|
 |절대 URL|웹사이트 URL(href="https://wontaejang.github.io/")|
@@ -81,6 +88,18 @@ href 어트리뷰트에 사용 가능한 값은 아래와 같다.
   </body>
 </html>
 ```
+
+<!DOCTYPE html>
+<html>
+  <body>
+    <a href="https://www.google.com">URL</a><br>
+    <a href="html/index.html">Local file</a><br>
+    <a href="file/test.pdf" download>Download file</a><br>
+    <a href="#top">fragment identifier</a><br>
+    <a href="mailto:someone@example.com?Subject=Hello again">Send Mail</a><br>
+    <a href="javascript:alert('Hello World');">Javascript</a>
+  </body>
+</html>
 
 # 2. target 어트리뷰트  
 target 어트리뷰트는 링크를 클릭했을 때 윈도우를 어떻게 오픈할 지를 지정한다.
