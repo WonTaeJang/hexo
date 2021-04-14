@@ -13,7 +13,7 @@ HyperText의 Hyper는 컴퓨터 용어로서 텍스트 등의 정보가 동일 �
 <!DOCTYPE html>
 <html>
 	<body>
-		<a href="http://www.googole.com">Visit googole.com!</a>
+		<a href="http://www.google.com">Visit googole.com!</a>
 	</body>
 </html>
 ```
@@ -21,7 +21,7 @@ HyperText의 Hyper는 컴퓨터 용어로서 텍스트 등의 정보가 동일 �
 <!DOCTYPE html>
 <html>
 	<body>
-		<a href="http://www.googole.com">Visit googole.com!</a>
+		<a href="http://www.google.com">Visit googole.com!</a>
 	</body>
 </html>
 
