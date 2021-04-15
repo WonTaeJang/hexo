@@ -2,6 +2,7 @@
 title: html5-day-3
 date: 2021-04-14 17:36:17
 tags: html5
+categories: [html]
 ---
 ### HTML5 Tag - List & Table
 ## 목록(list)와 표(Table)형식 표현을 위한 태그
@@ -59,5 +60,99 @@ tags: html5
       <li>Tea</li>
       <li>Milk</li>
     </ol>
+  </body>
+</html>
+
+type 어트리뷰트를 사용하여 순서를 나타내는 문자를 지정할  수 있다.
+
+
+|Value|Description|
+|-----------|---------------------------|
+|"1"|숫자 (기본값)|
+|"A"|대문자 알파벳|
+|"a"|소문자 알파벳|
+|"I"|대문자 로마숫자|
+|"i"|소문자 로마숫자|
+
+``` html
+<ol type="I">
+  <li value="2">Coffee</li>
+  <li value="4">Tea</li>
+  <li>Milk</li>
+</ol>
+```
+
+<ol type="I">
+  <li value="2">Coffee</li>
+  <li value="4">Tea</li>
+  <li>Milk</li>
+</ol>
+
+start 어트리뷰트로 리스트의 시작값을 지정할 수 있다.
+
+``` html
+<ol start="3">
+  <li>Coffee</li>
+  <li>Tea</li>
+  <li>Milk</li>
+</ol>
+```
+
+<ol start="3">
+  <li>Coffee</li>
+  <li>Tea</li>
+  <li>Milk</li>
+</ol>
+
+reversed 어트리뷰트를 지정하면 리스트의 순서값을 역으로 표현한다.
+
+``` html
+<ol reversed>
+  <li>Coffee</li>
+  <li>Tea</li>
+  <li>Milk</li>
+</ol>
+```
+
+<ol reversed>
+  <li>Coffee</li>
+  <li>Tea</li>
+  <li>Milk</li>
+</ol>
+
+## 1.3 중첩 목록
+``` html
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>중첩 목록</h2>
+    <ul>
+      <li>Coffee</li>
+      <li>Tea
+        <ol>
+          <li>Black tea</li>
+          <li>Green tea</li>
+        </ol>
+      </li>
+      <li>Milk</li>
+    </ul>
+  </body>
+</html>
+```
+
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>중첩 목록</h2>
+    <ul>
+      <li>Coffee</li>
+      <li>Tea
+        <ol>
+          <li>Black tea</li>
+          <li>Green tea</li>
+        </ol>
+      </li>
+      <li>Milk</li>
+    </ul>
   </body>
 </html>

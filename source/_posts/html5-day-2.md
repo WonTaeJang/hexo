@@ -2,6 +2,7 @@
 title: html5-day-2
 date: 2021-04-13 17:03:24
 tags: html5
+categories: [html]
 ---
 ### HTML5 Tag - Link
 # HTML의 핵심 개념인 HyperLink
