@@ -1,7 +1,8 @@
 ---
 title: html5 day 1
 date: 2021-04-12 16:36:30
-tags:
+tags: html5
+categories: [html]
 ---
 # 1. HTML5
 1. HTML(HyperText Markup Language)

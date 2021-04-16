@@ -156,3 +156,171 @@ reversed 어트리뷰트를 지정하면 리스트의 순서값을 역으로 표
     </ul>
   </body>
 </html>
+
+# 2. 테이블
+표(table)를 만들 때 사용하는 태그이다. 과거에는 테이블 태그를 사용하여 레이아웃을 구성하기도 하였으나 모던 웹에서는 주로 공간분할 태그인 div 태그를 사용하여 레이아웃을 구성한다.
+
+|tag|Description|
+|-----------|---------------------------|
+|table|표를 감싸는 태그|
+|tr|표 내부의 행 (table row)|
+|th|행 내부의 제목 셀(table heading)|
+|td|행 내부의 일반 셀(table data)|
+
+![](/img/html_table_structure.png)
+
+``` html
+<!DOCTYPE html>
+<html>
+  <body>
+    <table border="1">
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Score</th>
+      </tr>
+      <tr>
+        <td>Jill</td>
+        <td>Smith</td>
+        <td>50</td>
+      </tr>
+      <tr>
+        <td>Eve</td>
+        <td>Jackson</td>
+        <td>94</td>
+      </tr>
+      <tr>
+        <td>John</td>
+        <td>Doe</td>
+        <td>80</td>
+      </tr>
+    </table>
+  </body>
+</html>
+```
+
+<!DOCTYPE html>
+<html>
+  <body>
+    <table border="1">
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Score</th>
+      </tr>
+      <tr>
+        <td>Jill</td>
+        <td>Smith</td>
+        <td>50</td>
+      </tr>
+      <tr>
+        <td>Eve</td>
+        <td>Jackson</td>
+        <td>94</td>
+      </tr>
+      <tr>
+        <td>John</td>
+        <td>Doe</td>
+        <td>80</td>
+      </tr>
+    </table>
+  </body>
+</html>
+
+테이블 태그의 어트리뷰트는 아래와 같다.
+|attribute|Description|
+|-----------|---------------------------|
+|border|표 테두리 두께 지정|
+|rowspan|해당 셀이 점유하는 행의 수 지정|
+|colspan|해당 셀이 점유하는 열의 수 지정|
+
+``` html 
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      th, td {
+        padding: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>2개의 culumn을 span</h2>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th colspan="2">Telephone</th>
+      </tr>
+      <tr>
+        <td>Bill Gates</td>
+        <td>555 77 854</td>
+        <td>555 77 855</td>
+      </tr>
+    </table>
+
+    <h2>2개의 row를 span</h2>
+    <table>
+      <tr>
+        <th>Name:</th>
+        <td>Bill Gates</td>
+      </tr>
+      <tr>
+        <th rowspan="2">Telephone:</th>
+        <td>555 77 854</td>
+      </tr>
+      <tr>
+        <td>555 77 855</td>
+      </tr>
+    </table>
+  </body>
+</html>
+```
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      th, td {
+        padding: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>2개의 culumn을 span</h2>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th colspan="2">Telephone</th>
+      </tr>
+      <tr>
+        <td>Bill Gates</td>
+        <td>555 77 854</td>
+        <td>555 77 855</td>
+      </tr>
+    </table>
+
+    <h2>2개의 row를 span</h2>
+    <table>
+      <tr>
+        <th>Name:</th>
+        <td>Bill Gates</td>
+      </tr>
+      <tr>
+        <th rowspan="2">Telephone:</th>
+        <td>555 77 854</td>
+      </tr>
+      <tr>
+        <td>555 77 855</td>
+      </tr>
+    </table>
+  </body>
+</html>
+
