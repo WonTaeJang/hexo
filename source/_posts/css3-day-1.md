@@ -19,7 +19,12 @@ HTML5에서는 **HTML는 정보와 구조화, CSS는 styling의 정의**라는 �
 
 HTML과 CSS는 **각자의 문법을 갖는 별개의 언어**이며 HTML은 CSS를 포함할 수 있다. 그러나 HTML없이 단독으로 존재하는 CSS는 의미가 없다. 새로운 언어를 학습할 때에는 먼저 용어에 익숙해져야 할 필요가 있다. CSS3의 용어에 대해 알아보도록 하자.
 
+# 셀렉터 (Selector, 선택자)
+ CSS는 HTML 요소의 style(design, layout etc)을 정의하는데 사용된다. 이를 위해서 선행되어야하는 것은 스타일을 적용하고자 하는 HTML 요소를 선택할 수 있어야 한다.
 
+ 셀렉터는 스타일을 적용하고자 하는 HTML요소를 선택하기 위해 CSS에서 제공하는 수단이다. 
+
+ ![selector](img/selector.gif)
 
 
 
