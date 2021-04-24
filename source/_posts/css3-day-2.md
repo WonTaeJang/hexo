@@ -1297,4 +1297,307 @@ n은 0부터 시작하는 정수이다.
 ">
 </iframe>
 
-[참조 사이트: https://poiemaweb.com/css3-selector](https://poiemaweb.com/css3-selector)
+## 7.4 부정 셀렉터(Negation pseudo-class)
+|pseudo-class|Description|
+|------------|-----------|
+|:not(셀렉터)|셀렉터에 해당하지 않는 모든 요소를 선택한다.|
+
+``` html 
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* input 요소 중에서 type 어트리뷰트의 값이 password가 아닌 요소를 선택 */
+    input:not([type=password]) {
+      background: yellow;
+    }
+  </style>
+</head>
+<body>
+  <input type="text" value="Text input">
+  <input type="email" value="email input">
+  <input type="password" value="Password input">
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='100px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* input 요소 중에서 type 어트리뷰트의 값이 password가 아닌 요소를 선택 */
+    input:not([type=password]) {
+      background: yellow;
+    }
+  </style>
+</head>
+<body>
+  <input type='text' value='Text input'>
+  <input type='email' value='email input'>
+  <input type='password' value='Password input'>
+</body>
+</html>
+">
+</iframe>
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+    }
+    div {
+      float: left;
+      width: 32%;
+      height: 200px;
+      background-color: red;
+      /* margin-bottom: 2%; */
+      color: #fff;
+      font-size: 3em;
+      line-height: 200px;
+      text-align: center;
+    }
+    /* div 요소 중에서 1, 4, 7...번째 등장하는 요소가 아닌 요소만을 선택 */
+    /* 1, 4, 7... : 공차가 3인 등차수열 */
+    div:not(:nth-of-type(3n+1)) {
+      margin-left: 2%;
+    }
+    /* div 요소 중에서 4번째 이후 등장하는 요소가 아닌 요소만을 선택 */
+    div:not(:nth-of-type(n+4)) {
+      margin-bottom: 2%;
+    }
+  </style>
+</head>
+<body>
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='450px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+    }
+    div {
+      float: left;
+      width: 32%;
+      height: 200px;
+      background-color: red;
+      /* margin-bottom: 2%; */
+      color: #fff;
+      font-size: 3em;
+      line-height: 200px;
+      text-align: center;
+    }
+    /* div 요소 중에서 1, 4, 7...번째 등장하는 요소가 아닌 요소만을 선택 */
+    /* 1, 4, 7... : 공차가 3인 등차수열 */
+    div:not(:nth-of-type(3n+1)) {
+      margin-left: 2%;
+    }
+    /* div 요소 중에서 4번째 이후 등장하는 요소가 아닌 요소만을 선택 */
+    div:not(:nth-of-type(n+4)) {
+      margin-bottom: 2%;
+    }
+  </style>
+</head>
+<body>
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+</body>
+</html>
+">
+</iframe>
+
+## 7.5 정합성 체크 셀렉터(validity pseudo-class)
+|pseudo-class|Description|
+|------------|-----------|
+|:valid(셀렉터)|정합성 검즘이 성공한 input 요소 또는 form 요소를 선택한다.|
+|:invaild(셀렉터)|정합성 검증이 실패한 input 요소 또는 form 요소를 선택한다.|
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    input[type="text"]:valid {
+      background-color: greenyellow;
+    }
+
+    input[type="text"]:invalid {
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <label>입력값이 반드시 필요
+    <input type="text" required>
+  </label>
+  <br>
+  <label>특수문자를 포함하지 않는 4자리 문자 또는 숫자
+    <input type="text" value="ab1!"
+      pattern="[a-zA-Z0-9]{4}" required>
+  </label>
+  <br>
+  <label>핸드폰 번호 형식
+    <input type="text" value="010-1111-2222"
+      pattern="^\d{3}-\d{3,4}-\d{4}$" required>
+  </label>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='120px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    input[type='text']:valid {
+      background-color: greenyellow;
+    }
+    input[type='text']:invalid {
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <label>입력값이 반드시 필요
+    <input type='text' required>
+  </label>
+  <br>
+  <label>특수문자를 포함하지 않는 4자리 문자 또는 숫자
+    <input type='text' value='ab1!'
+      pattern='[a-zA-Z0-9]{4}'required>
+  </label>
+  <br>
+  <label>핸드폰 번호 형식
+    <input type='text' value='010-1111-2222'
+      pattern='^\d{3}-\d{3,4}-\d{4}$' required>
+  </label>
+</body>
+</html>
+">
+</iframe>
+
+* [Browser Support](https://caniuse.com/form-validation)
+
+# 8. 가상 요소 셀렉터(Pseudo-Element Selector)
+가상 요소는 요소의 특정 부분에 스타일을 적용하기 위하여 사용된다. 특정 부분이란 예를 들어 다음과 같다. 
+
+* 요소 콘텐츠의 첫글자 또는 첫줄
+* 요소 콘텐츠의 앞 또는 뒤 
+
+가상 요소에는 두개의 콜론(::)을 사용한다. CSS 표준에 의해 미리 정의된 이름이 있기 때문에 임의의 이름을 사용할 수 없다.
+
+``` css
+selector::pseudo-element {
+  property:value;
+}
+```
+
+|pseudo-element|Description|
+|--------------|-----------|
+|::first-letter|콘텐츠의 첫클자를 선택한다.|
+|::first-line|콘텐츠의 첫줄을 선택한다. 블록 요소에만 적용할 수 있다.|
+|::after|콘텐츠의 뒤에 위치하는 공간을 선택한다. 일반적으로 content 프로퍼티와 함께 사용된다.|
+|::before|콘텐츠의 앞에 위치하는 공간을 선택한다. 일반적으로 content 프로퍼티와 함께 사용된다.|
+|::selection|드래그한 콘첸츠를 선택한다. iOS Safari 등 일부 브라우저에서 동작 않는다.|
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* p 요소 콘텐츠의 첫글자를 선택 */
+    p::first-letter { font-size: 3em; }
+    /* p 요소 콘텐츠의 첫줄을 선택 */
+    p::first-line   { color: red; }
+
+    /* h1 요소 콘텐츠의 앞 공간에 content 어트리뷰트 값을 삽입한다 */
+    h1::before {
+      content: " HTML!!! ";
+      color: blue;
+    }
+    /* h1 요소 콘텐츠의 뒷 공간에 content 어트리뷰트 값을 삽입한다 */
+    h1::after {
+      content: " CSS3!!!";
+      color: red;
+    }
+
+    /* 드래그한 콘텐츠를 선택한다 */
+    ::selection {
+      color: red;
+      background: yellow;
+    }
+  </style>
+</head>
+<body>
+  <h1>This is a heading</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo illum sunt distinctio sed, tempore, repellat rerum et ea laborum voluptatum! Quisquam error fugiat debitis maiores officiis, tenetur ullam amet in!</p>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='300px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* p 요소 콘텐츠의 첫글자를 선택 */
+    p::first-letter { font-size: 3em; }
+    /* p 요소 콘텐츠의 첫줄을 선택 */
+    p::first-line   { color: red; }
+    /* h1 요소 콘텐츠의 앞 공간에 content 어트리뷰트 값을 삽입한다 */
+    h1::before {
+      content: ' HTML!!! ';
+      color: blue;
+    }
+    /* h1 요소 콘텐츠의 뒷 공간에 content 어트리뷰트 값을 삽입한다 */
+    h1::after {
+      content: ' CSS3!!!';
+      color: red;
+    }
+    /* 드래그한 콘텐츠를 선택한다 */
+    ::selection {
+      color: red;
+      background: yellow;
+    }
+  </style>
+</head>
+<body>
+  <h1>This is a heading</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo illum sunt distinctio sed, tempore, repellat rerum et ea laborum voluptatum! Quisquam error fugiat debitis maiores officiis, tenetur ullam amet in!</p>
+</body>
+</html>
+">
+</iframe>
+
+# Reference
+[poiemaweb.com/css3-selector](https://poiemaweb.com/css3-selector)
+
+[W3C CSS Document](https://www.w3.org/TR/CSS/)
+
+[CSS selectors](https://quirksmode.org/css/selectors/)
