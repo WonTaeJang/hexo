@@ -346,8 +346,153 @@ em의 기준은 상속의 영향으로 바뀔 수 있다. 즉, 상황에 따라 
 
 Reset CSS를 사용하여 사전에 html 요소의 font-size 지정이 필요하다. font-size 미지정 시에는 16px가 적용된다. 
 
+## 2.5 Viewport 단위 (vh, vw, vmin, vmax)
+반응형 웹디자인은 화명의 크기에 동적으로 대응하기 위해 % 당위를 자주 사용한다. 하지만 % 단위는 em과 같이 상속에 의해 부모 요소에 상대적 영향을 받는다.  
+
+Viewport 단위는 상대적인 단위로 viewport를 기준으로 한 상대적 사이즈를 의미한다. 
+
+|단위|Description|
+|----|-----------|
+|vw|viewport 너비의 1/100|
+|vh|viewport 높이의 1/100|
+|vmin|viewport 너비 또는 높이 중 작은 쪽의 1/100|
+|vmax|viewport 너비 또는 높이 중 큰 쪽의 1/100|
+
+<br>
+
+예를 들어 viewport 너비가 1000px, 높이가 600px인 경우, 
+- 1vw: viewport 너비 1000px의 1%인 10px
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { margin: 0px; }
+    .item {
+      width: 50vw;
+      height: 100vh;
+      text-align: center;
+      line-height: 100vh;
+      font-size: 4rem;
+      color: white;
+    }
+    .item1 { background-color: red; }
+    .item2 { background-color: orange; }
+  </style>
+</head>
+<body>
+  <div class='item item1'>item1</div>
+  <div class='item item2'>item2</div>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='100px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { margin: 0px; }
+    .item {
+      width: 50vw;
+      height: 100vh;
+      text-align: center;
+      line-height: 100vh;
+      font-size: 4rem;
+      color: white;
+    }
+    .item1 { background-color: red; }
+    .item2 { background-color: orange; }
+  </style>
+</head>
+<body>
+  <div class='item item1'>item1</div>
+  <div class='item item2'>item2</div>
+</body>
+</html>
+">
+</iframe>
+브라우저에 따라 지원이 완전하지 않을 수 있으므로 주의가 필요하다.
+
+# 3. 색상 표현 단위
+색상을 지정하기 위해 키워드(red, blue)를 사용할 수 있다. 사용이 간편하다는 장점이 있으나 표현할 수 있는 색상의 수는 제한된다. 
+
+색상을 표현할 수 있는 키워드 리스트는 [W3C css3-color](https://www.w3.org/TR/css-color-3/)를 참조
+
+``` html
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2 style="background-color:red">
+    Red background-color
+    </h2>
+
+    <h2 style="background-color:green">
+    Green background-color
+    </h2>
+
+    <h2 style="background-color:blue;color:white">
+    Blue background-color and white text color
+    </h2>
+
+    <h2 style="background-color:orange">
+    Orange background-color
+    </h2>
+
+    <h2 style="background-color:yellow">
+    Yellow background-color
+    </h2>
+
+    <h2 style="background-color:cyan">
+    Cyan background-color
+    </h2>
+
+    <h2 style="background-color:black;color:white">
+    Black background-color and white text color
+    </h2>
+  </body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='400px' srcdoc="
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2 style='background-color:red'>
+    Red background-color
+    </h2>
+    <h2 style='background-color:green'>
+    Green background-color
+    </h2>
+    <h2 style='background-color:blue;color:white'>
+    Blue background-color and white text color
+    </h2>
+    <h2 style='background-color:orange'>
+    Orange background-color
+    </h2>
+    <h2 style='background-color:yellow'>
+    Yellow background-color
+    </h2>
+    <h2 style='background-color:cyan'>
+    Cyan background-color
+    </h2>
+    <h2 style='background-color:black;color:white'>
+    Black background-color and white text color
+    </h2>
+  </body>
+</html>
+">
+</iframe>
+
+더욱 다양한 색상을 표현하기 위해 다음과 같은 색상 표현 당위를 사용할 수 있다. [HTML COLOR CODES](https://htmlcolorcodes.com/)
+
 
 <br><br><br><br>
 
 # Reference
-[poiemaweb.com/css3-units](https://poiemaweb.com/css3-units)
+[poiemaweb.com/css3-units](https://poiemaweb.com/css3-units) 
