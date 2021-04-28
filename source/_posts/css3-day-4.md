@@ -83,8 +83,1135 @@ Box 모델을 구성하는 콘텐트(Content), 패딩(Padding), 테두리(Border
 ">
 </iframe>
 
+# 1. width / height 프로퍼티
+width와 height 프로퍼티는 요소의 너비와 높이를 지정하기 위해 사용된다. 이때 지정되는 요소의 너비와 높이는 **콘텐츠 영역**을 대상으로 한다. 
+> 이는 box-sizing 프로퍼티에 기본값인 context-box가 적용되었기 때문이다. box-sizing 프로퍼티에 border-box를 적용하면 콘텐츠 영역, padding, border가 포함된 영역을 width / height 프로퍼티의 대상으로 지정 할 수 있다.
 
-<br><br><br><br>
+만일 width와 height로 지정한 콘텐츠 영역보다 실제 콘텐츠가 크면 콘텐츠 영역을 넘치게 된다는 것에 유의하여야 한다.
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    div {
+      width: 300px;
+      height: 100px;
+      background-color: cornsilk;
+      border: 5px solid navy;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </div>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='300px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <style>
+    div {
+      width: 300px;
+      height: 100px;
+      background-color: cornsilk;
+      border: 5px solid navy;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </div>
+</body>
+</html>
+">
+</iframe>
+
+> overflow: hidden; 을 지정하면 넘친 콘텐츠를 감출 수 있다.
+
+기본적으로 width와 height 프로퍼티는 **콘텐츠 영역**을 대상으로 요소의 너비와 높이를 지정하므로 박스 전체 크기는 다음과 같이 계산할 수 있다.
+>**전체 너비**  
+width + left padding + right padding + left border + right border + left margin + right margin
+
+>**전체 높이**  
+height + top padding + bottom padding + top border + bottom border + top margin + bottom margin
+
+width와 height 프로퍼티의 초기값은 auto로써 이것은 브라우저가 상황에 따라 적당한 width와 height 값을 계산할 것을 의미한다.
+
+예를 들어 block 요소의 경우, width는 부모 요소의 100%, height는 콘텐츠의 높이(+ 약간의 여분)가 지정된다.
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    div {
+      background-color: beige;
+    }
+  </style>
+</head>
+<body>
+  <div>This is a div</div>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='40px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <style>
+    div {
+      background-color: beige;
+    }
+  </style>
+</head>
+<body>
+  <div>This is a div</div>
+</body>
+</html>
+">
+</iframe>
+
+명시적으로 width와 height를 지정하기 위해서는 px, % 등의 크기 단위를 사용한다.
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    div {
+      background-color: beige;
+      height: 100px;
+      width: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div>This is a div</div>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='120px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <style>
+    div {
+      background-color: beige;
+      height: 100px;
+      width: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div>This is a div</div>
+</body>
+</html>
+">
+</iframe>
+
+> width와 height 프로퍼티를 비롯한 모든 박스모델 관련 프로퍼티(margin, padding, border, box-sizing 등)는 상속되지 않는다.
+
+# 2. margin / padding 프로퍼티
+margin / padding 프로퍼티는 content의 4개 방향(top, right, left, bottom)에 대하여 지정이 가능하다.
+
+![CSS3 Box Model](img/CSS3_Box_Model.png)
+
+``` html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      div {
+        border: 5px solid red;
+
+        margin-top: 40px;
+        margin-right: 30px;
+        margin-bottom: 20px;
+        margin-left: 10px;
+
+        padding-top: 10px;
+        padding-right: 20px;
+        padding-bottom: 30px;
+        padding-left: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+  </body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='300px' srcdoc="
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      div {
+        border: 5px solid red;
+        margin-top: 40px;
+        margin-right: 30px;
+        margin-bottom: 20px;
+        margin-left: 10px;
+        padding-top: 10px;
+        padding-right: 20px;
+        padding-bottom: 30px;
+        padding-left: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+  </body>
+</html>
+">
+</iframe>
+
+-top, -right, -bottom, -left 4방향의 프로퍼티를 각각 지정하지 않고 margin, padding 1개의 프로퍼티만으로 4방향의 프로퍼티를 한번에 지정할 수 있다.
+> **4개의 값을 지정할 때**
+> - margin: 25px 50px 75px 100px;
+> - margin-top: 25px;
+> - margin-right: 50px;
+> - margin-bottom: 75px;
+> - margin-left: 100px;
+
+> **3개의 값을 지정할 때**
+> - margin: 25px 50px 75px;
+> - margin-top: 25px;
+> - margin-right: 50px; margin-left: 50px;
+> - margin-bottom: 75px
+
+> **2개의 값을 지정할 때**
+> - margin: 25px 50px;
+> - margin-top: 25px; margin-bottom: 25px;
+> - margin-right: 50px; margin-left: 50px;
+
+> **1개의 값을 지정할 때**
+> - margin: 25px;
+> - margin-top: 25px; margin-right: 25px; > - margin-bottom: 25px; margin-left: 25px;
+
+``` html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      div {
+        border: 5px solid red;
+
+        margin:  40px 30px 20px 10px;
+        padding: 10px 20px 30px 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+  </body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='300px' srcdoc="
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      div {
+        border: 5px solid red;
+        margin:  40px 30px 20px 10px;
+        padding: 10px 20px 30px 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+  </body>
+</html>
+">
+</iframe>
+
+margin 프로퍼티에 auto 키워드를 설정하면 해당 요소를 브라우저 중앙에 위치 시킬 수 있다. 
+
+보다 자세한 중앙 정렬 방법에 대해서는 Horizontal & Vertical Centering을 참조
+
+``` html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      div {
+        border: 5px solid red;
+        width: 600px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+  </body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='200px' srcdoc="
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      div {
+        border: 5px solid red;
+        width: 600px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+  </body>
+</html>
+">
+</iframe>
+
+요소 너비가 브라우저 너비보다 크면 가로 스크롤바가 만들어진다. 이 문제를 해결하기 위해서 max-width 프로퍼티를 사용할 수 있다.
+
+``` html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      div {
+        border: 5px solid red;
+        max-width: 600px;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+  </body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='200px' srcdoc="
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      div {
+        border: 5px solid red;
+        max-width: 600px;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+  </body>
+</html>
+">
+</iframe>
+
+max-width 프로퍼티를 사용하면 브라우저 너비가 요소의 너비보다 좁아질 때 자동으로 요소의 너비가 줄어든다.
+> max-width 프로퍼티는 요소 너비의 최대값을, min-width 프로퍼티는 요소 너비의 최소값을 지정한다. 예를 들어 max-width: 300px; 의 경우, 브라우저의 너비가 300px보다 작아지면 요소 너비는 브라우저의 너비에 따라서 작아진다. min-width: 300px; 의 경우 브라우저의 너비가 300px보다 작아져도 요소 너비는 지정 너비(300px)을 유지한다.
+
+# 3. border 프로퍼티
+## 3.1 border-style
+border-style 프로퍼티는 테두리 선의 스타일을 지정한다. 
+- [MDN: border-style](https://developer.mozilla.org/ko/docs/Web/CSS/border-style)
+
+``` html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      p {
+        background: palegreen;
+        padding: 10px;
+      }
+      p.dotted { border-style: dotted; }
+      p.dashed { border-style: dashed; }
+      p.solid  { border-style: solid; }
+      p.double { border-style: double; }
+      p.groove { border-style: groove; }
+      p.ridge  { border-style: ridge; }
+      p.inset  { border-style: inset; }
+      p.outset { border-style: outset; }
+      p.none   { border-style: none; }
+      p.hidden { border-style: hidden; }
+      p.mix    { border-style: dotted dashed solid double; }
+    </style>
+  </head>
+  <body>
+    <h2>border-style Property</h2>
+
+    <p class="dotted">dotted</p>
+    <p class="dashed">dashed</p>
+    <p class="solid">solid</p>
+    <p class="double">double</p>
+    <p class="groove">groove</p>
+    <p class="ridge">ridge</p>
+    <p class="inset">inset</p>
+    <p class="outset">outset</p>
+    <p class="none">none</p>
+    <p class="hidden">hidden</p>
+    <p class="mix">dotted dashed solid double</p>
+  </body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='750px' srcdoc="
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      p {
+        background: palegreen;
+        padding: 10px;
+      }
+      p.dotted { border-style: dotted; }
+      p.dashed { border-style: dashed; }
+      p.solid  { border-style: solid; }
+      p.double { border-style: double; }
+      p.groove { border-style: groove; }
+      p.ridge  { border-style: ridge; }
+      p.inset  { border-style: inset; }
+      p.outset { border-style: outset; }
+      p.none   { border-style: none; }
+      p.hidden { border-style: hidden; }
+      p.mix    { border-style: dotted dashed solid double; }
+    </style>
+  </head>
+  <body>
+    <h2>border-style Property</h2>
+    <p class='dotted'>dotted</p>
+    <p class='dashed'>dashed</p>
+    <p class='solid'>solid</p>
+    <p class='double'>double</p>
+    <p class='groove'>groove</p>
+    <p class='ridge'>ridge</p>
+    <p class='inset'>inset</p>
+    <p class='outset'>outset</p>
+    <p class='none'>none</p>
+    <p class='hidden'>hidden</p>
+    <p class='mix'>dotted dashed solid double</p>
+  </body>
+</html>
+">
+</iframe>
+
+프로퍼티 값의 갯수에 따라 4개 방향 (top, right, left, bottom)에 대하여 지정이 가능하다.
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    p {
+      background: palegreen;
+      padding: 10px;
+    }
+    p.d1 {
+      /* four sides */
+      border-style: dashed;
+    }
+    p.d2 {
+      /* horizontal | vertical */
+      border-style: dotted solid;
+    }
+    p.d3 {
+      /* top | horizontal | bottom */
+      border-style: hidden double dashed;
+    }
+    p.d4 {
+      /* top | right | bottom | left */
+      border-style: none solid dotted dashed;
+    }
+  </style>
+</head>
+<body>
+  <p class="d1">border-style: dashed;</p>
+  <p class="d2">border-style: dotted solid;</p>
+  <p class="d3">border-style: hidden double dashed;</p>
+  <p class="d4">border-style: none solid dotted dashed;</p>
+  </body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='260px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    p {
+      background: palegreen;
+      padding: 10px;
+    }
+    p.d1 {
+      /* four sides */
+      border-style: dashed;
+    }
+    p.d2 {
+      /* horizontal | vertical */
+      border-style: dotted solid;
+    }
+    p.d3 {
+      /* top | horizontal | bottom */
+      border-style: hidden double dashed;
+    }
+    p.d4 {
+      /* top | right | bottom | left */
+      border-style: none solid dotted dashed;
+    }
+  </style>
+</head>
+<body>
+  <p class='d1'>border-style: dashed;</p>
+  <p class='d2'>border-style: dotted solid;</p>
+  <p class='d3'>border-style: hidden double dashed;</p>
+  <p class='d4'>border-style: none solid dotted dashed;</p>
+  </body>
+</html>
+">
+</iframe>
+
+## 3.2 border-width
+border-width 프로퍼티는 테두리의 두께를 지정한다. 프로퍼티 값의 갯수에 따라 4개 방향(top, right, left, bottom)에 대하여 지정이 가능하다.
+> border-width 프로퍼티는 border-style과 함께 사용하지 않으면 적용되지 않는다.
+
+- [MDN: border-width](https://developer.mozilla.org/ko/docs/Web/CSS/border-width)
+
+``` html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      p {
+        background: palegreen;
+        padding: 10px;
+        border-style: solid
+      }
+      p.one {
+        border-width: thin; /* 1px */
+      }
+      p.two {
+        border-width: medium; /* 3px */
+      }
+      p.three {
+        border-width: thick; /* 5px */
+      }
+      p.four {
+        border-width: 15px;
+      }
+      p.five {
+        border-width: 2px 10px 4px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>border-width Property</h2>
+
+    <p>initial: 3px</p>
+    <p class="one">thin: 1px</p>
+    <p class="two">medium: 3px</p>
+    <p class="three">thick: 5px</p>
+    <p class="four">15px</p>
+    <p class="five">2px 10px 4px 20px</p>
+  </body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='500px' srcdoc="
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      p {
+        background: palegreen;
+        padding: 10px;
+        border-style: solid
+      }
+      p.one {
+        border-width: thin; /* 1px */
+      }
+      p.two {
+        border-width: medium; /* 3px */
+      }
+      p.three {
+        border-width: thick; /* 5px */
+      }
+      p.four {
+        border-width: 15px;
+      }
+      p.five {
+        border-width: 2px 10px 4px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>border-width Property</h2>
+    <p>initial: 3px</p>
+    <p class='one'>thin: 1px</p>
+    <p class='two'>medium: 3px</p>
+    <p class='three'>thick: 5px</p>
+    <p class='four'>15px</p>
+    <p class='five'>2px 10px 4px 20px</p>
+  </body>
+</html>
+">
+</iframe>
+
+## 3.3 border-color
+border-color 프로퍼티는 테두리의 색상을 지정한다. 프로퍼티 값의 갯수에 따라 4개 방향(top, right, left, bottom)에 대하여 지정이 가능하다. 
+> border-color 프로퍼티는 border-style 과 함께 사용하지 않으면 적용되지 않는다.
+
+- [MDN: border-color](https://developer.mozilla.org/ko/docs/Web/CSS/border-color)
+
+``` html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      p {
+        background: palegreen;
+        padding: 10px;
+        border-style: solid;
+      }
+      p.one {
+        border-color: red;
+      }
+      p.two {
+        border-color: green;
+      }
+      p.three {
+        border-color: red green blue yellow;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h2>border-color Property</h2>
+
+    <p class="one">border-color: red</p>
+    <p class="two">border-color: green</p>
+    <p class="three">border-color: red green blue yellow</p>
+  </body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='250px' srcdoc="
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      p {
+        background: palegreen;
+        padding: 10px;
+        border-style: solid;
+      }
+      p.one {
+        border-color: red;
+      }
+      p.two {
+        border-color: green;
+      }
+      p.three {
+        border-color: red green blue yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>border-color Property</h2>
+    <p class='one'>border-color: red</p>
+    <p class='two'>border-color: green</p>
+    <p class='three'>border-color: red green blue yellow</p>
+  </body>
+</html>
+">
+</iframe>
+
+## 3.4 border-radius
+border-radius 프로퍼티는 테두리 모서리를 둥글게 표현하도록 지정한다. 프로퍼티 값은 길이를 나타내는 단위(px, em 등)와 %를 사용한다. 각각의 모서리에 border-radius 프로퍼티를 개별적으로 지정할 수도 있고 4개의 모서리를 short-hand로 한번에 지정할 수도 있다.
+
+하나 혹은 2개의 반지름을 설정하여 각각의 모서리 굴곡을 설정할 수 있기 때문에 원 혹은 타원의 모양으로 정의가 가능하다.
+
+- [MDN: border-radius](https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius)
+
+``` html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      div {
+        background: #eaeaed;
+        color: #666;
+        display: inline-block;
+        width: 90px;
+        height: 90px;
+        line-height: 90px;
+        margin: 0 14px;
+        text-align: center;
+      }
+
+      .border-rounded {
+        /* 4 꼭지점에 대해 Radius 지정 */
+        border-radius: 5px;
+      }
+      .border-circle {
+        border-radius: 50%;
+      }
+      .border-football {
+        /* top-left & bottom-right | top-right & bottom-left */
+        border-radius: 15px 75px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="border-rounded">5px</div>
+    <div class="border-circle">50%</div>
+    <div class="border-football">15px 75px</div>
+  </body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='110px' srcdoc="
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      div {
+        background: #eaeaed;
+        color: #666;
+        display: inline-block;
+        width: 90px;
+        height: 90px;
+        line-height: 90px;
+        margin: 0 14px;
+        text-align: center;
+      }
+      .border-rounded {
+        /* 4 꼭지점에 대해 Radius 지정 */
+        border-radius: 5px;
+      }
+      .border-circle {
+        border-radius: 50%;
+      }
+      .border-football {
+        /* top-left & bottom-right | top-right & bottom-left */
+        border-radius: 15px 75px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='border-rounded'>5px</div>
+    <div class='border-circle'>50%</div>
+    <div class='border-football'>15px 75px</div>
+  </body>
+</html>
+">
+</iframe>
+
+모든 모서리에 동일한 둥근 모서리 설정
+
+``` css
+.border-rounded {
+  border-radius: 20px;
+
+  /* 위 코드는 아래의 shorthand이다.
+  border-top-left-radius:     20px;
+  border-top-right-radius:    20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius:  20px;
+  */
+}
+```
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      background: #eaeaed;
+      color: #666;
+      width: 150px;
+      height: 150px;
+      line-height: 150px;
+      text-align: center;
+    }
+    .border-rounded {
+      /* 모든 모서리를 동일하게 설정 */
+      border-radius: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="border-rounded">border-radius: 20px</div>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='200px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      background: #eaeaed;
+      color: #666;
+      width: 150px;
+      height: 150px;
+      line-height: 150px;
+      text-align: center;
+    }
+    .border-rounded {
+      /* 모든 모서리를 동일하게 설정 */
+      border-radius: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class='border-rounded'>border-radius: 20px</div>
+</body>
+</html>
+">
+</iframe>
+
+각각의 모서리를 개별적으로 설정
+``` css
+.border-rounded {
+  border-radius: 10px 40px 40px 10px;
+
+  /* 위 코드는 아래의 shorthand이다.
+  border-top-left-radius:     10px;
+  border-top-right-radius:    40px;
+  border-bottom-right-radius: 40px;
+  border-bottom-left-radius:  10px;
+  */
+}
+```
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      background: #eaeaed;
+      color: #666;
+      width: 200px;
+      height: 150px;
+      line-height: 150px;
+      text-align: center;
+    }
+    .border-rounded {
+      /* 각각의 모서리를 개별적으로 설정 */
+      border-radius: 10px 40px 40px 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="border-rounded">10px 40px 40px 10px</div>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='200px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      background: #eaeaed;
+      color: #666;
+      width: 200px;
+      height: 150px;
+      line-height: 150px;
+      text-align: center;
+    }
+    .border-rounded {
+      /* 각각의 모서리를 개별적으로 설정 */
+      border-radius: 10px 40px 40px 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class='border-rounded'>10px 40px 40px 10px</div>
+</body>
+</html>
+">
+</iframe>
+
+두개의 반지름을 지정하여 타원형 둥근 모서리 설정
+
+``` css
+.border-rounded {
+  border-top-left-radius: 50px 25px;
+}
+```
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      background: #eaeaed;
+      color: #666;
+      width: 300px;
+      height: 150px;
+      line-height: 150px;
+      text-align: center;
+    }
+    .border-rounded {
+      border-top-left-radius: 50px 25px;
+    }
+  </style>
+</head>
+<body>
+  <div class="border-rounded">border-top-left-radius: 50px 25px</div>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='200px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      background: #eaeaed;
+      color: #666;
+      width: 300px;
+      height: 150px;
+      line-height: 150px;
+      text-align: center;
+    }
+    .border-rounded {
+      border-top-left-radius: 50px 25px;
+    }
+  </style>
+</head>
+<body>
+  <div class='border-rounded'>border-top-left-radius: 50px 25px</div>
+</body>
+</html>
+">
+</iframe>
+
+각각의 모서리에 타원형 둥근 모서리 축약 설정
+
+``` css
+.border-rounded {
+  border-radius: 50px 50px 0 0 / 25px 25px 0 0;
+}
+```
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      background: #eaeaed;
+      color: #666;
+      width: 450px;
+      height: 150px;
+      padding: 10px;
+    }
+    .border-rounded {
+      border-radius: 10px 20px 30px 40px / 5px 10px 15px 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="border-rounded">
+    border-radius: 10px 20px 30px 40px / 5px 10px 15px 20px;
+    <ul>
+      <li>border-top-left-radius: 10px 5px;</li>
+      <li>border-top-right-radius: 20px 10px;</li>
+      <li>border-bottom-right-radius: 30px 15px;</li>
+      <li>border-bottom-left-radius: 40px 20px;</li>
+    </ul>
+  </div>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='200px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      background: #eaeaed;
+      color: #666;
+      width: 450px;
+      height: 150px;
+      padding: 10px;
+    }
+    .border-rounded {
+      border-radius: 10px 20px 30px 40px / 5px 10px 15px 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class='border-rounded'>
+    border-radius: 10px 20px 30px 40px / 5px 10px 15px 20px;
+    <ul>
+      <li>border-top-left-radius: 10px 5px;</li>
+      <li>border-top-right-radius: 20px 10px;</li>
+      <li>border-bottom-right-radius: 30px 15px;</li>
+      <li>border-bottom-left-radius: 40px 20px;</li>
+    </ul>
+  </div>
+</body>
+</html>
+">
+</iframe>
+
+## 3.5 border
+border 프로퍼티는 border-width, border-style, border-color를 한번에 설정하기 위한 shorthand 프로퍼티이다.
+
+- [MDN: Border Shorthand](https://developer.mozilla.org/en-US/docs/Web/CSS/border)
+
+``` code
+/* Syntax */
+border: border-width border-style border-color;
+```
+
+``` css
+p {
+  /* border-width border-style border-color */
+  border: 5px solid red;
+}
+```
+
+# 4. box-sizing 프로퍼티
+box-sizing 프로퍼티는 width, height 프로퍼티의 대상 영역을 변경할 수 있다.
+
+box-sizing 프로퍼티의 기본값은 content-box이다. 이는 width, height 프로퍼티의 대상 영역이 content 영역을 의미한다. box-sizing 프로퍼티의 값을 border-box로 지정하면 마진을 제외한 박스 모델 전체를 width, height 프로퍼티의 대상 영역으로 지정할 수 있어서 CSS Layout을 직관적으로 사용할 수 있게 한다.
+
+|키워드|설명|
+|------|----|
+|content-box|width, height 프로퍼티 값은 content 영역을 의미한다. (기본값)|
+|border-box|width, height 프로퍼티 값은 content 영역, padding, border가 포함된 값을 의미한다.|
+
+``` html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .content-box {
+        width: 600px;
+        border: 10px solid;
+        padding: 50px;
+        margin: 50px;
+        background-color: red;
+      }
+      .border-box {
+        box-sizing: border-box;
+        width: 600px;
+        border: 10px solid;
+        padding: 50px;
+        margin: 50px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+  <div class="content-box">content-box</div>
+  <div class="border-box">border-box</div>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='400px' srcdoc="
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .content-box {
+        width: 600px;
+        border: 10px solid;
+        padding: 50px;
+        margin: 50px;
+        background-color: red;
+      }
+      .border-box {
+        box-sizing: border-box;
+        width: 600px;
+        border: 10px solid;
+        padding: 50px;
+        margin: 50px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+  <div class='content-box'>content-box</div>
+  <div class='border-box'>border-box</div>
+</body>
+</html>
+">
+</iframe>
+
+> box-sizing 프로퍼티는 상속되지 않는다. 따라서 box-sizing 프로퍼티를 사용하도록 초기화하려면 아래와 같이 정의한다.
+
+``` css
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+```
+
+<br><br>
 
 # Reference
 [poiemaweb.com/css3-box-model](https://poiemaweb.com/css3-box-model) 
