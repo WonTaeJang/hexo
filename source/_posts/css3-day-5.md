@@ -372,7 +372,7 @@ opacity 프로퍼티는 요소의 투명도를 정의한다. 0.0 ~ 1.0의 값을
 </head>
 <body>
   <div>opacity: 0.5</div>
-  <img src="https://poiemaweb.com/img/doug.jpg" alt="doug">
+  <img src="../img/cat.png" alt="cat">
 </body>
 </html>
 ```
@@ -401,7 +401,7 @@ opacity 프로퍼티는 요소의 투명도를 정의한다. 0.0 ~ 1.0의 값을
 </head>
 <body>
   <div>opacity: 0.5</div>
-  <img src='img/cat.png' alt='cat'>
+  <img src='../img/cat.png' alt='cat'>
 </body>
 </html>
 ">
