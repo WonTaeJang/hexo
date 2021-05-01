@@ -12,7 +12,7 @@ categories:
 
 모든 HTML 요소는 Box 형태의 영역을 가지고 있다. Box 형태란 물론 사각형을 의미한다. 
 
-![CSS3 Box Model](img/CSS3_Box_Model.png)
+![CSS3 Box Model](https://en.wikipedia.org/wiki/CSS_box_model#/media/File:Boxmodell-detail.png)
 
 브라우저는 박스 모델의 크기(dimension)와 프로퍼티(색, 배경, 모양 등), 위치를 근거로 하여 렌더링을 실행한다.
 
@@ -1217,3 +1217,5 @@ html {
 [poiemaweb.com/css3-box-model](https://poiemaweb.com/css3-box-model) 
 
 [www.w3schools.com/css/css_boxmodel.asp](https://www.w3schools.com/css/css_boxmodel.asp)
+
+[wikipedia.org](https://en.wikipedia.org/wiki/CSS_box_model)
