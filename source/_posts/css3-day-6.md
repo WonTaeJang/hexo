@@ -231,13 +231,84 @@ body {
   background-size: 100%, 500px;
 }
 ```
+# 4. background-attachment 프로퍼티
+일반적으로 화면을 스크롤하면 배경 이미지도 함께 스크롤 된다. 화면이 스크롤 되더라도 배경이미지는 스크롤되지 않고 고정되어 있게 하려면 background-attachment 프로퍼티에 fixed 키워드를 지정한다.
 
-``` html
-
+``` css
+background-attachment: fixed;
 ```
-### ***result***
 
-<iframe width='100%' height='350px' srcdoc="
+# 5. background-position 프로퍼티
+일반적으로 background-image는 좌상단부터 이미지를 출력한다. 이때 background-position 프로퍼티를 사용하면 이미지의 좌표(xpos,ypos)를 지정할 수 있다.
 
-">
-</iframe>
+기본값은 background-position: 0% 0%; 로 배경이미지는 우측 상단에 위치하게 된다. 
+
+- [MDN: background-position](https://developer.mozilla.org/en-US/docs/Web/CSS/background-position)
+
+``` css
+.example1 {
+  background-position: top;
+}
+.example2 {
+  background-position: bottom;
+}
+.example3 {
+  background-position: center;
+}
+.example4 {
+  background-position: left;
+}
+.example5 {
+  background-position: right;
+}
+.example6 {
+  /* <percentage> values */
+  background-position: 25% 75%;
+}
+.example7 {
+  /*
+  <length> values
+  xpos ypos
+  */
+  background-position: 10px 20px;
+}
+.example8 {
+  background-position: 0px 0px, center;
+}
+```
+
+# 6. background-color 프로퍼티
+background-color 프로퍼티는 요소의 배경 색상을 지정한다. 색상값 또는 transparent 키워드를 지정할 수 있다.
+
+- [MDN: background-color](https://developer.mozilla.org/en-US/docs/Web/CSS/background-color)
+
+``` css
+.bg-col-white {
+  background-color: rgb(255, 255, 255);
+}
+
+.bg-col-red {
+  background-color: red;
+}
+```
+
+# 7. background Shorthand
+background-color, background-image, background-repeat, background-position를 한번에 정의하기 위한 Shorthand Syntax이다.
+
+``` code
+// order
+background: color || image || repeat || attachment || position
+```
+
+- [MDN: background](https://developer.mozilla.org/en-US/docs/Web/CSS/background)
+
+``` css
+ background: #FFEE99 url("URL") no-repeat center;
+```
+
+<br><br>
+
+# Reference
+[poiemaweb.com/css3-background](https://poiemaweb.com/css3-background)
+
+[W3C CSS Document](https://www.w3.org/TR/CSS/)
