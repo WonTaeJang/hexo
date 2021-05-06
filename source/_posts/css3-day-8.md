@@ -24,7 +24,6 @@ static은 position 프로퍼티의 기본값으로 position 프로퍼티를 지�
 
 좌표 프로퍼티(top, bottom, left, right)를 같이 사용할 수 없으며 사용할 경우에는 무시 된다.
 
-
 ``` html
 <!DOCTYPE html>
 <html>
@@ -84,5 +83,87 @@ static은 position 프로퍼티의 기본값으로 position 프로퍼티를 지�
   </div>
 </body>
 </html>
+">
+</iframe>
+
+## 1.2 relative(상대위치)
+기본 위치(static으로 지정되었을 때의 위치)를 기준으로 좌표 프로퍼티(top, bottom, left, right)를 사용하여 위치를 이동시킨다. static을 선언한 요소와 relative를 선언한 요소의 차이점은 좌표 프로퍼티의 동작 여부뿐이며 그외는 동일하게 동작한다. 
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { margin: 0; }
+    .parent {
+      width: 150px;
+      height: 150px;
+      background: #bcbcbc;
+      border: 1px solid #bcbcbc;
+      margin: 50px;
+    }
+    .relative-box {
+      position: relative;
+      top: 50px; left: 50px;
+      background: #2E303D;
+      color: #e55c3c;
+      font-weight: bold;
+      text-align: center;
+      line-height: 150px;
+    }
+  </style>
+</head>
+<body>
+  <div class="parent">
+    <div class="relative-box">relative box</div>
+  </div>
+</body>
+</html>
+```
+### ***result***
+
+<iframe width='100%' height='300px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { margin: 0; }
+    .parent {
+      width: 150px;
+      height: 150px;
+      background: #bcbcbc;
+      border: 1px solid #bcbcbc;
+      margin: 50px;
+    }
+    .relative-box {
+      position: relative;
+      top: 50px; left: 50px;
+      background: #2E303D;
+      color: #e55c3c;
+      font-weight: bold;
+      text-align: center;
+      line-height: 150px;
+    }
+  </style>
+</head>
+<body>
+  <div class='parent'>
+    <div class='relative-box'>relative box</div>
+  </div>
+</body>
+</html>
+">
+</iframe>
+
+위 예제를 보면 parent 클래스의 자식인 relative-box 클래스 요소의 width, height가 부모 요소와 동일하다. 이는 상속에 의한 것이 아니라(width, height는 상속되지 않는다.) relative를 적용한 요소는 좌표 프로퍼티가 적용되는 것만 다를 뿐 그 이외는 static을 지정했을 때와 동일하게 동작하기 때문이다. 즉, width는 100%가 적용되어 부모 요소의 width와 동일한 값을 갖게 된 것이고, height는 auto가 적용되지만 line-height: 150px이 적용되어 부모 요소와 hight가 동일하게 된 것이다.
+
+
+``` html
+
+```
+### ***result***
+
+<iframe width='100%' height='200px' srcdoc="
+
 ">
 </iframe>
