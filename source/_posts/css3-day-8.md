@@ -247,11 +247,365 @@ absolute 프로퍼티는 부모에 static 이외의 position 프로퍼티가 지
 따라서 absolute 프로퍼티 요소는 부모 요소의 영역을 벗어나 자유롭게 어디든지 위치할 수 있다.
 
 ``` html
-
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { margin: 0;}
+    .parent {
+      width: 150px;
+      height: 150px;
+      background: #bcbcbc;
+      border: 1px solid #bcbcbc;
+      margin: 50px;
+      float: left;
+      /*position: relative;*/
+    }
+    .relative-box {
+      position: relative;
+      top: 10px; left: 10px;
+      width: 150px;
+      height: 150px;
+      background: #2E303D;
+      color: #e55c3c;
+      font-weight: bold;
+      text-align: center;
+      line-height: 150px;
+    }
+    .absolute-box {
+      position: absolute;
+      top: 10px; left: 10px;
+      width: 150px;
+      height: 150px;
+      background: #2E303D;
+      color: #e55c3c;
+      font-weight: bold;
+      text-align: center;
+      line-height: 150px;
+    }
+  </style>
+</head>
+<body>
+  <div class="parent">
+    <div class="absolute-box">absolute box</div>
+  </div>
+  <div class="parent">
+    <div class="relative-box">relative box</div>
+  </div>
+</body>
+</html>
 ```
 ### ***result***
 
-<iframe width='100%' height='200px' srcdoc="
-
+<iframe width='100%' height='300px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { margin: 0;}
+    .parent {
+      width: 150px;
+      height: 150px;
+      background: #bcbcbc;
+      border: 1px solid #bcbcbc;
+      margin: 50px;
+      float: left;
+      /*position: relative;*/
+    }
+    .relative-box {
+      position: relative;
+      top: 10px; left: 10px;
+      width: 150px;
+      height: 150px;
+      background: #2E303D;
+      color: #e55c3c;
+      font-weight: bold;
+      text-align: center;
+      line-height: 150px;
+    }
+    .absolute-box {
+      position: absolute;
+      top: 10px; left: 10px;
+      width: 150px;
+      height: 150px;
+      background: #2E303D;
+      color: #e55c3c;
+      font-weight: bold;
+      text-align: center;
+      line-height: 150px;
+    }
+  </style>
+</head>
+<body>
+  <div class='parent'>
+    <div class='absolute-box'>absolute box</div>
+  </div>
+  <div class='parent'>
+    <div class='relative-box'>relative box</div>
+  </div>
+</body>
+</html>
 ">
 </iframe>
+
+## 1.4 fixed (고정위치)
+부모 요소와 관계없이 브라우저의 viewport를 기준으로 좌표프로퍼티(top, bottom, left, right)을 사용하여 위치를 이동시킨다.
+
+스크롤이 되더라도 화면에서 사라지지 않고 항상 같은곳에 위치한다. 
+
+fixd 프로퍼티 선언 시, block 요소의 width는 inline 요소와 같이 content에 맞게 변화되므로 적절한 width를 지정하여야 한다.
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { margin: 0; }
+    .fixed-box {
+      position: fixed;
+      color: #e55c3c;
+      font-weight: bold;
+      text-align: center;
+      background: #2E303D;
+    }
+    .sidebar {
+      width: 50px;
+      height: 100%;
+      top: 0;
+      right: 0;
+      padding-top: 100px;
+    }
+    .footer {
+      width: 200px;
+      width: 100%;
+      height: 50px;
+      bottom: 0;
+      left: 0;
+      line-height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="fixed-box sidebar">fixed box (side-bar)</div>
+  <div class="fixed-box footer">fixed box (footer)</div>
+</body>
+</html>
+```
+### ***result***
+
+<iframe width='100%' height='300px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { margin: 0; }
+    .fixed-box {
+      position: fixed;
+      color: #e55c3c;
+      font-weight: bold;
+      text-align: center;
+      background: #2E303D;
+    }
+    .sidebar {
+      width: 50px;
+      height: 100%;
+      top: 0;
+      right: 0;
+      padding-top: 100px;
+    }
+    .footer {
+      width: 200px;
+      width: 100%;
+      height: 50px;
+      bottom: 0;
+      left: 0;
+      line-height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class='fixed-box sidebar'>fixed box (side-bar)</div>
+  <div class='fixed-box footer'>fixed box (footer)</div>
+</body>
+</html>
+">
+</iframe>
+
+# 2. z-index 프로퍼티
+z-index 프로퍼티에 큰 숫자값을 지정할수록 화면 전면에 출력된다. position 프로퍼티가 static 이외인 요소에만 적용된다.
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .normal-box {
+      width: 100px; height: 100px;
+    }
+    .absolute-box {
+      width: 100px; height: 100px;
+      position: absolute;
+    }
+    /* z-index는 positon 프로퍼티가 static 이외인 요소에만 적용된다. */
+    .orange {
+      background-color: orange;
+      z-index: 1000;
+    }
+    .red {
+      background-color: red;
+      left: 50px; top: 50px;
+      z-index: 100;
+    }
+    .green {
+      background-color: green;
+      left: 100px; top: 100px;
+      z-index: 10;
+    }
+    .blue {
+      background-color: blue;
+      left: 150px; top: 150px;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="normal-box orange"></div>
+  <div class="absolute-box red"></div>
+  <div class="absolute-box green"></div>
+  <div class="absolute-box blue"></div>
+</body>
+</html>
+```
+### ***result***
+
+<iframe width='100%' height='300px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .normal-box {
+      width: 100px; height: 100px;
+    }
+    .absolute-box {
+      width: 100px; height: 100px;
+      position: absolute;
+    }
+    /* z-index는 positon 프로퍼티가 static 이외인 요소에만 적용된다. */
+    .orange {
+      background-color: orange;
+      z-index: 1000;
+    }
+    .red {
+      background-color: red;
+      left: 50px; top: 50px;
+      z-index: 100;
+    }
+    .green {
+      background-color: green;
+      left: 100px; top: 100px;
+      z-index: 10;
+    }
+    .blue {
+      background-color: blue;
+      left: 150px; top: 150px;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class='normal-box orange'></div>
+  <div class='absolute-box red'></div>
+  <div class='absolute-box green'></div>
+  <div class='absolute-box blue'></div>
+</body>
+</html>
+">
+</iframe>
+
+# 3. overflow 프로퍼티 
+overflow 프로퍼티는 자식 요소가 부모 요소의 영역을 벗어났을 때 처리 방법을 정의한다.
+
+|프로퍼티값|Description|
+|----------|-----------|
+|visible|영역을 벗어난 부분을 표시한다.(기본값)|
+|hidden|영역을 벗어난 부분을 잘라내어 보이지 않게 한다.|
+|scroll|영역을 벗어난 부분이 없어도 스크롤 표시한다.(현재 대부분 브라우저는 auto과 동일하게 작동한다.)|
+|auto|영역을 벗어난 부분이 있을때만 스크롤 표시한다.|
+
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      width: 150px;
+      height: 150px;
+      padding: 10px;
+      margin: 30px;
+      font-size: 1.2em;
+      border-radius: 6px;
+      border-color: gray;
+      border-style: dotted;
+      float: left;
+    }
+    .visible { overflow: visible; }
+    .hidden  { overflow: hidden; }
+    .scroll  { overflow: scroll; }
+    .auto    { overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>overflow</h1>
+  <div class="visible"><h3>visible</h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+  <div class="hidden"><h3>hidden</h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+  <div class="scroll"><h3>scroll</h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+  <div class="auto"><h3>auto</h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+</body>
+</html>
+```
+### ***result***
+
+<iframe width='100%' height='400px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      width: 150px;
+      height: 150px;
+      padding: 10px;
+      margin: 30px;
+      font-size: 1.2em;
+      border-radius: 6px;
+      border-color: gray;
+      border-style: dotted;
+      float: left;
+    }
+    .visible { overflow: visible; }
+    .hidden  { overflow: hidden; }
+    .scroll  { overflow: scroll; }
+    .auto    { overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>overflow</h1>
+  <div class='visible'><h3>visible</h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+  <div class='hidden'><h3>hidden</h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+  <div class='scroll'><h3>scroll</h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+  <div class='auto'><h3>auto</h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+</body>
+</html>
+">
+</iframe>
+
+특정방향으로만 스크롤을 표시하고자 할 때는 overflow-x 또는 overflow-y 프로퍼티를 사용한다.
+
+``` css
+div {overflow-y: auto;}
+```
+
+# Reference
+[poiemaweb.com/css3-position](https://poiemaweb.com/css3-position)
+
+[W3C CSS Document](https://www.w3.org/TR/CSS/)
