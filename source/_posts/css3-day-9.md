@@ -371,6 +371,84 @@ overflow: hidden 프로퍼티는 자식 요소가 부모 요소의 영역보다 
 
 두번째 요소에도 float 프로퍼티를 선언하면 overflow: hidden 프로퍼티는 선언하지 않아도 되지만 너비가 최소화 된다. 
 
+## 3.2 float 프로퍼티가 선언된 자식 요소를 포함하는 부모 요소의 높이가 정상적으로 반영되지 않는 문제
+
+아래 예제를 보면 float 프로퍼티가 선언된 두개의 자식 요소를 포함하는 부모 요소의 높이가 정상적인 값을 가지지 못하는 문제가 발생한다. float 요소는 일반적인 흐름 상에 존재하지 않기 때문에 float 요소의 높이를 알 수 없기 때문인데 이 문제는 부모 요소 이후에 위치하는 요소의 정렬에 문제를 발생시킨다. 
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      color: white;
+      text-align: center;
+      padding: 10px;
+      background-color: #def0c2;
+    }
+    .d1, .d2 {
+      float: left;
+      width: 50%;
+      padding: 20px 0;
+    }
+    .d1 {
+      background-color: #59b1f6;
+    }
+    .d2 {
+      background-color: #ffb5b4;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="d1">1</div>
+    <div class="d2">2</div>
+  </div>
+  <div style="background:red;padding:10px;color:white;">3</div>
+</body>
+</html>
+```
+### ***result***
+
+<iframe width='100%' height='150px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      color: white;
+      text-align: center;
+      padding: 10px;
+      background-color: #def0c2;
+    }
+    .d1, .d2 {
+      float: left;
+      width: 50%;
+      padding: 20px 0;
+    }
+    .d1 {
+      background-color: #59b1f6;
+    }
+    .d2 {
+      background-color: #ffb5b4;
+    }
+  </style>
+</head>
+<body>
+  <div class='container'>
+    <div class='d1'>1</div>
+    <div class='d2'>2</div>
+  </div>
+  <div style='background:red;padding:10px;color:white;'>3</div>
+</body>
+</html>
+">
+</iframe>
+
+이 문제를 해결하는 가장 쉬운 방법은 float 프로퍼티가 선언된 자식 요소의 부모요소(.container)에 overflow: hidden 프로퍼티를 선언하는 것이다.
+
+
+
 
 ``` html
 
