@@ -447,15 +447,354 @@ overflow: hidden 프로퍼티는 자식 요소가 부모 요소의 영역보다 
 
 이 문제를 해결하는 가장 쉬운 방법은 float 프로퍼티가 선언된 자식 요소의 부모요소(.container)에 overflow: hidden 프로퍼티를 선언하는 것이다.
 
+``` css
+.container {
+  ...
+  overflow: hidden;
+}
+```
 
+다른 방법으로 부모 요소(.container)에 float 프로퍼티를 선언하는 방법도 있다. 하지만 부모 요소의 너비 float된 두개의 자식요소의 콘텐츠를 표현할 수 있는 만큼만으로 작게 줄어들게 된다. 권장할 수 있는 방법은 아니다.
 
+ container 영역이 끝나기 직전 빈 요소를 만들고 clear:both 를 설정하는 방법도 가능하다. 하지만 의미 없는 빈 요소를 사용하여야 하기 때문에 이방법 역시 권장할 수 있는 방법은 아니다. 
+
+ ``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      color: white;
+      text-align: center;
+      padding: 10px;
+      background-color: #def0c2;
+      /*overflow: hidden;*/
+    }
+    .d1, .d2 {
+      float: left;
+      width: 50%;
+      padding: 20px 0;
+    }
+    .d1 {
+      background-color: #59b1f6;
+    }
+    .d2 {
+      background-color: #ffb5b4;
+    }
+    .clear {
+      height: 0;
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="d1">1</div>
+    <div class="d2">2</div>
+    <div class="clear"></div>
+  </div>
+  <div style="background:red; padding:10px; color:white;">3</div>
+</body>
+</html>
+```
+### ***result***
+
+<iframe width='100%' height='150px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      color: white;
+      text-align: center;
+      padding: 10px;
+      background-color: #def0c2;
+      /*overflow: hidden;*/
+    }
+    .d1, .d2 {
+      float: left;
+      width: 50%;
+      padding: 20px 0;
+    }
+    .d1 {
+      background-color: #59b1f6;
+    }
+    .d2 {
+      background-color: #ffb5b4;
+    }
+    .clear {
+      height: 0;
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+  <div class='container'>
+    <div class='d1'>1</div>
+    <div class='d2'>2</div>
+    <div class='clear'></div>
+  </div>
+  <div style='background:red; padding:10px; color:white;'>3</div>
+</body>
+</html>
+">
+</iframe>
+
+overflow: hidden; 과 함께 많이 사용되는 방법은 ::after 가상 요소 선택자를 이용하는 것이다. 가상 요소 선택자는 CSS2 문법(:after)과 CSS3 문법(::after)이 있는데 IE8까지 지원하는 CSS2 문법을 사용하는 편이 좋다. 
 
 ``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      color: white;
+      text-align: center;
+      padding: 10px;
+      background-color: #def0c2;
+      /*overflow: hidden;*/
+    }
+    .clearfix:after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+    .d1, .d2 {
+      float: left;
+      width: 50%;
+      padding: 20px 0;
+    }
+    .d1 {
+      background-color: #59b1f6;
+    }
+    .d2 {
+      background-color: #ffb5b4;
+    }
+  </style>
+</head>
+<body>
+  <div class="container clearfix">
+    <div class="d1">1</div>
+    <div class="d2">2</div>
+  </div>
+  <div style="background:red;padding:10px;color:white;">3</div>
+</body>
+</html>
+```
+### ***result***
 
+<iframe width='100%' height='150px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      color: white;
+      text-align: center;
+      padding: 10px;
+      background-color: #def0c2;
+      /*overflow: hidden;*/
+    }
+    .clearfix:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+    .d1, .d2 {
+      float: left;
+      width: 50%;
+      padding: 20px 0;
+    }
+    .d1 {
+      background-color: #59b1f6;
+    }
+    .d2 {
+      background-color: #ffb5b4;
+    }
+  </style>
+</head>
+<body>
+  <div class='container clearfix'>
+    <div class='d1'>1</div>
+    <div class='d2'>2</div>
+  </div>
+  <div style='background:red;padding:10px;color:white;'>3</div>
+</body>
+</html>
+">
+</iframe>
+
+부모 요소에 위 예제와 같이 사전에 작성한 clearfix 클래스만 추가하거나, 해당 요소를 선택하여 클리어 문법을 선언하면 되기 때문에 가장 깔끔하고 간편하다. 이 방법을 사용하는 것을 추천한다. 
+
+``` css
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* or */
+
+selector:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+```
+
+또 다른 방법은 float 프로퍼티 대신 display: inline-block; 을 선언하는 것이다. 중의해야 하는 점은 inline-block 프로퍼티 요소를 연속 사용하는 경우, 두 요소 사이에 정의하지 않은 공백(4px)가 자동 지정되는 것이다. 
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      color: white;
+      text-align: center;
+      padding: 10px;
+      background-color: #def0c2;
+    }
+    .d1, .d2 {
+      display: inline-block;
+      width: 50%;
+      padding: 20px 0;
+    }
+    .d1 {
+      background-color: #59b1f6;
+    }
+    .d2 {
+      background-color: #ffb5b4;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="d1">1</div>
+    <div class="d2">2</div>
+  </div>
+  <div style="background:red;padding:10px;color:white;">3</div>
+</body>
+</html>
 ```
 ### ***result***
 
 <iframe width='100%' height='200px' srcdoc="
-
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      color: white;
+      text-align: center;
+      padding: 10px;
+      background-color: #def0c2;
+    }
+    .d1, .d2 {
+      display: inline-block;
+      width: 50%;
+      padding: 20px 0;
+    }
+    .d1 {
+      background-color: #59b1f6;
+    }
+    .d2 {
+      background-color: #ffb5b4;
+    }
+  </style>
+</head>
+<body>
+  <div class='container'>
+    <div class='d1'>1</div>
+    <div class='d2'>2</div>
+  </div>
+  <div style='background:red;padding:10px;color:white;'>3</div>
+</body>
+</html>
 ">
 </iframe>
+
+위 예제를 보면 .d1, .d2 요소에 display: inline-block; 을 선언하여 텍스트와 같이 배치되도록 하였지만 두 요소 사이에 정의하지 않은 공백(4px)이 자동 지정되어 부모 요소의 width를 초과하여 가로 정렬이 되지 않았다.
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      color: white;
+      text-align: center;
+      padding: 10px;
+      background-color: #def0c2;
+      /* 폰트 사이즈를 0으로 지정하여 두 요소 사이에 정의하지 않은 공백을 제거 */
+      font-size: 0;
+    }
+    .d1, .d2 {
+      display: inline-block;
+      width: 50%;
+      padding: 20px 0;
+      /* 폰트 사이즈를 재지정 */
+      font-size: 1rem;
+    }
+    .d1 {
+      background-color: #59b1f6;
+    }
+    .d2 {
+      background-color: #ffb5b4;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="d1">1</div>
+    <div class="d2">2</div>
+  </div>
+  <div style="background:red;padding:10px;color:white;">3</div>
+</body>
+</html>
+```
+### ***result***
+
+<iframe width='100%' height='150px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      color: white;
+      text-align: center;
+      padding: 10px;
+      background-color: #def0c2;
+      /* 폰트 사이즈를 0으로 지정하여 두 요소 사이에 정의하지 않은 공백을 제거 */
+      font-size: 0;
+    }
+    .d1, .d2 {
+      display: inline-block;
+      width: 50%;
+      padding: 20px 0;
+      /* 폰트 사이즈를 재지정 */
+      font-size: 1rem;
+    }
+    .d1 {
+      background-color: #59b1f6;
+    }
+    .d2 {
+      background-color: #ffb5b4;
+    }
+  </style>
+</head>
+<body>
+  <div class='container'>
+    <div class='d1'>1</div>
+    <div class='d2'>2</div>
+  </div>
+  <div style='background:red;padding:10px;color:white;'>3</div>
+</body>
+</html>
+">
+</iframe>
+
+# Reference
+[poiemaweb.com/css3-float](https://poiemaweb.com/css3-float)
+
+[W3C CSS Document](https://www.w3.org/TR/CSS/)
