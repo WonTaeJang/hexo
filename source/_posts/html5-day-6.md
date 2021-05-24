@@ -33,3 +33,6 @@ categories:
     <img src="img/SemanticHTML.png" alt="HTML Semantic element">
   </body>
 </html>
+
+이와 같은 공간 분할 태그는 일반적으로 다른 요소를 포함하는 컨테이너 역할을 하게 된다.   
+div와 span의 차이는 block 레벨 요소와 inline 레벨 요소를 이해하여야 한다. 

@@ -249,6 +249,63 @@ transition의 프로퍼티는 아래와 같다.
 |transition-delay|프로퍼티가 변화한 시점과 트랜지션이 실제로 시작하는 사이에 대기하는 시간을 초 단위(s) 또는 초 단위 (ms)로 지정한다|0s|
 |transition|모두 트랜지션 프로퍼티를 한번에 지정한다([shorthand syntax](https://www.w3.org/TR/css-transitions-1/#transition-shorthand-property))||
 
+# 1. transition-property
+transition-proterty 프로퍼티는 트랜지션의 대상이 되는 CSS 프로퍼티명을 지정한다. 지정하지 않는 경우 모든 프로퍼티가 트랜지션의 대상이 된다. 복수의 프로퍼티를 지정하는 경우 쉼표(,)로 구분한다. 
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      width: 100px;
+      height: 50px;
+      background-color: red;
+      margin-bottom: 10px;
+      transition-property: width, background-color;
+      transition-duration: 2s, 2s;
+    }
+    div:hover {
+      width: 300px;
+      background-color: blue;
+    }
+  </style>
+</head>
+<body>
+  <div></div>
+</body>
+</html>
+```
+### ***result***
+
+<iframe width='100%' height='100px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      width: 100px;
+      height: 50px;
+      background-color: red;
+      margin-bottom: 10px;
+      transition-property: width, background-color;
+      transition-duration: 2s, 2s;
+    }
+    div:hover {
+      width: 300px;
+      background-color: blue;
+    }
+  </style>
+</head>
+<body>
+  <div></div>
+</body>
+</html>
+">
+</iframe>
+
+주의해야 할 사항은 모든 CSS 프로퍼티가 트랜지션의 대상이 될 수 없다는 것이다. 예를 들어 width, font-size, background-color 등은 하나의 범주(width, font-size는 크기, background-color는 색상)안에서 값이 변화하지만 display 프로퍼티는 그렇지 않다. 
+
 
 ``` html
 
