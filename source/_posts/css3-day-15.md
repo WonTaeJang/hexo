@@ -35,3 +35,114 @@ transition으로도 어느정도의 애니메이션 효과를 표현할 수 있�
 |animation-play-state|애니메이션 재생 상태(재생 또는 중지)를 지정한다|running|
 |animation|모든 애니메이션 프로퍼티를 한번에 지정한다(shorthand syntax)||
 
+# 1. @keyframes
+- [@keyframes](https://developer.mozilla.org/ko/docs/Web/CSS/@keyframes)
+
+CSS 애니메이션과 트랜지션 방식의 주된 차이는 @keyframes rule에 있다. 이 rule을 사용하면 애니메이션의 흐름(sequence)중의 여러 시점(breakpoint)에서 CSS 프로퍼티값을 지정할 수 있다.
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      animation-name: move;
+      animation-duration: 5s;
+      animation-iteration-count: infinite;
+    }
+    /* @keyframes rule */
+    @keyframes move {
+      /* keyframe */
+      from {
+        left: 0;
+      }
+      /* keyframe */
+      to {
+        left: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div></div>
+</body>
+</html>
+```
+### ***result***
+
+<iframe width='100%' height='130px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      animation-name: move;
+      animation-duration: 5s;
+      animation-iteration-count: infinite;
+    }
+    /* @keyframes rule */
+    @keyframes move {
+      /* keyframe */
+      from {
+        left: 0;
+      }
+      /* keyframe */
+      to {
+        left: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div></div>
+</body>
+</html>
+">
+</iframe>
+
+@keyframes rule은 시간의 흐름에 따라 애니메이션을 정의한다. 여러 개의 키프레임을 정의하거나 애니메이션 중에 특정 CSS프로퍼티에 값을 지정하는 지점을 정의할 수 있다.
+
+위 예제를 보면 @keyframes 뒤에 애니메이션을 대표하는 임의의 이름을 부여하였다. 
+
+``` css
+@keyframes move {}
+```
+
+from, to 키워드를 사용하여 애니메이션의 시작과 끝 시점을 정의하였다. 그리고 애니메이션의 시작 시점을 의미하는 from 키프레임 내에서 left 프로퍼티에 값 0을, 애니메이션의 끝 시점을 의미하는 to 키프레임 내에서 left 프로퍼티에 값 300px을 지정하였다. 그 결과, 정지 상태에서 오른쪽으로 300px 이동하는 애니메이션이 실행된다.
+
+``` css 
+@keyframes move {
+  /* 애니메이션 시작 시점 */
+  from { left: 0; }
+  /* 애니메이션 종료 시점 */
+  to   { left: 300px; }
+}
+```
+
+from, to 키워드 대신 %를 사용할 수 있다. 또한 시작과 끝 키프레임 사이에 % 단위로 키프레임을 삽입할 수 있다. 
+
+``` css
+@keyframes move {
+  0%   { left: 0; }
+  50%  { left: 100px; }
+  100% { left: 300px; }
+}
+```
+
+``` html
+
+```
+### ***result***
+
+<iframe width='100%' height='130px' srcdoc="
+
+">
+</iframe>
