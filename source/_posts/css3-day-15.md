@@ -137,6 +137,110 @@ from, to 키워드 대신 %를 사용할 수 있다. 또한 시작과 끝 키프
 }
 ```
 
+# 2.animation-name
+위 예제를 보면 @keyframes 뒤에 애니메이션을 대표하는 임의의 이름을 부여하였다. 
+
+``` css
+  @keyframes move{}
+```
+이 이름을 animation-name 프로퍼티값으로 지정하여 사용하고자 하는 @keyframes rule을 선택한다. 하나 이상의 애니메이션 이름을 지정할 수 있다. 
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      animation-name: move, fadeOut, changeColor;
+      animation-duration: 5s;
+      animation-iteration-count: infinite;
+    }
+    @keyframes move {
+      from { left: 0; }
+      to   { left: 300px; }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+    @keyframes changeColor {
+      from { background-color: red; }
+      to   { background-color: blue; }
+    }
+  </style>
+</head>
+<body>
+  <div></div>
+</body>
+</html>
+```
+### ***result***
+
+<iframe width='100%' height='130px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      animation-name: move, fadeOut, changeColor;
+      animation-duration: 5s;
+      animation-iteration-count: infinite;
+    }
+    @keyframes move {
+      from { left: 0; }
+      to   { left: 300px; }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+    @keyframes changeColor {
+      from { background-color: red; }
+      to   { background-color: blue; }
+    }
+  </style>
+</head>
+<body>
+  <div></div>
+</body>
+</html>
+">
+</iframe>
+
+# 3. animation-duration
+한 싸이클의 애니메이션에 소요되는 시간을 초 단위(s) 또는 밀리 초 단위(ms)로 지정한다. 
+
+``` code
+  animation-duration: .5s;
+  animation-duration: 500ms;
+```
+
+animation-duration은 반드시 지정해야 한다. 지정하지 않는 경우 기본값 0s가 셋팅되어 어떠한 애니메이션도 실행되지 않는다. 
+
+# 4. animation-timing-function
+애니메이션 효과를 위한 수치 함수를 지정한다. 수치 함수에 대한 설명은 트랜지션 transtition-timing-function 프로퍼티를 참조.
+
+# 5. animation-delay
+요소가 로드된 시점과 애니메이션이 실제로 시작하는 사이에 대기하는 시간을 초 단위(s) 또는 밀리 초 단위(ms)로 지정한다. 
+
+``` code
+  animation-delay: 2s;
+```
+
+# 6. animation-iteration-count
+애니메이션 주기의 재생 횟수를 지정한다. 기본값은 1이며 infinite로 무한반복 할 수 있다. 
+
+``` code
+  animation-iteration-count: 3;
+```
+
+
 ``` html
 
 ```
