@@ -240,13 +240,389 @@ animation-duration은 반드시 지정해야 한다. 지정하지 않는 경우 
   animation-iteration-count: 3;
 ```
 
+# 7.animation-direction
+애니메이션이 종료된 이후 반복될 때 진행하는 방향을 지정한다. 
+
+|프로퍼티값|설명|
+|---------|----|
+|normal|기본값으로 from(0%)에서 to(100%)방향으로 진행한다.|
+|reverse|to에서 from 방향으로 진행한다.|
+|alternate|홀수번째는 normal로, 짝수번째는 reverse로 진행한다.|
+|alternate-reverse|홀수번째는 reverse로, 짝수번째는 normal로 진행한다.|
 
 ``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      width: 100px;
+      height: 100px;
+      background: red;
+      position: relative;
+      animation: myAnimation 5s infinite;
+      /*홀수번째는 normal로, 짝수번째는 reverse로 진행*/
+      animation-direction: alternate;
+    }
+    @keyframes myAnimation {
+      0%   { background: red;    left: 0px;   top: 0px; }
+      25%  { background: yellow; left: 200px; top: 0px; }
+      50%  { background: blue;   left: 200px; top: 200px; }
+      75%  { background: green;  left: 0px;   top: 200px; }
+      100% { background: red;    left: 0px;   top: 0px; }
+    }
+  </style>
+  </head>
+  <body>
+    <div></div>
+  </body>
+</html>
+```
+### ***result***
 
+<iframe width='100%' height='320px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      width: 100px;
+      height: 100px;
+      background: red;
+      position: relative;
+      animation: myAnimation 5s infinite;
+      /*홀수번째는 normal로, 짝수번째는 reverse로 진행*/
+      animation-direction: alternate;
+    }
+    @keyframes myAnimation {
+      0%   { background: red;    left: 0px;   top: 0px; }
+      25%  { background: yellow; left: 200px; top: 0px; }
+      50%  { background: blue;   left: 200px; top: 200px; }
+      75%  { background: green;  left: 0px;   top: 200px; }
+      100% { background: red;    left: 0px;   top: 0px; }
+    }
+  </style>
+  </head>
+  <body>
+    <div></div>
+  </body>
+</html>
+">
+</iframe>
+
+# 8.animation-fill-mode
+애니메이션 미실행 시(대기 또는 종료) 요소의 스타일을 지정한다. 
+
+|프로퍼티값|상태|설명|
+|---------|----|----|
+|none|대기|시작 프레임(from)에 설정한 스타일을 적용하지 않고 대기한다.|
+||종료|애니메이션 실행 전 상태로 애니메이션 요소의 프로퍼티값을 되돌리고 종료한다.|
+|forwards|대기|시작 프레임(from)에 설정한 스타일을 적용하지 않고 대기한다.|
+||종료|종료 프레임(to)에 설정한 스타일을 적용하고 종료한다.|
+|backwards|대기|시작 프레임(from)에 설정한 스타일을 적용하고 대기한다.|
+||종료|애니메이션 실행 전 상태로 애니메이션 요소의 프로퍼티값을 되돌리고 종료한다.|
+|both|대기|시작 프레임(from)에 설정한 스타일을 적용하고 대기한다.|
+||종료|종료 프레임(to)에 설정한 스타일을 적용하고 종료한다.|
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      width: 100px;
+      height: 100px;
+      font: bold 1em/100px san-serif;
+      text-align: center;
+      color: #fff;
+      background: red;
+      margin-bottom: 10px;
+      position: relative;
+      /*name duration timing-function delay iteration-count direction fill-mode play-state*/
+      animation: myAnimation 2s linear 2s;
+    }
+    div:nth-of-type(1) {
+      animation-fill-mode: none;
+    }
+    div:nth-of-type(2) {
+      animation-fill-mode: forwards;
+    }
+    div:nth-of-type(3) {
+      animation-fill-mode: backwards;
+    }
+    div:nth-of-type(4) {
+      animation-fill-mode: both;
+    }
+    @keyframes myAnimation {
+      0%   { left: 0px;   background: yellow; }
+      100% { left: 200px; background: blue; }
+    }
+  </style>
+</head>
+<body>
+  <h1>animation-fill-mode</h1>
+
+  <div>none</div>
+  <p>대기 : 시작 프레임(from)에 설정한 스타일을 적용하지 않고 대기한다.</p>
+  <p>종료 : 애니메이션 실행 전 상태로 애니메이션 요소의 프로퍼티값을 되돌리고 종료한다.</p>
+
+  <div>forwards</div>
+  <p>대기 : 시작 프레임(from)에 설정한 스타일을 적용하지 않고 대기한다.
+  <p>종료 : 종료 프레임(to)에 설정한 스타일을 적용하고 종료한다.
+
+  <div>backwards</div>
+  <p>대기 : 시작 프레임(from)에 설정한 스타일을 적용하고 대기한다.
+  <p>종료 : 애니메이션 실행 전 상태로 애니메이션 요소의 프로퍼티값을 되돌리고 종료한다.
+
+  <div>both</div>
+  <p>대기 : 시작 프레임(from)에 설정한 스타일을 적용하고 대기한다.
+  <p>종료 : 종료 프레임(to)에 설정한 스타일을 적용하고 종료한다.
+</body>
+</html>
+```
+### ***result***
+
+<iframe width='100%' height='800px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      width: 100px;
+      height: 100px;
+      font: bold 1em/100px san-serif;
+      text-align: center;
+      color: #fff;
+      background: red;
+      margin-bottom: 10px;
+      position: relative;
+      /*name duration timing-function delay iteration-count direction fill-mode play-state*/
+      animation: myAnimation 2s linear 2s;
+    }
+    div:nth-of-type(1) {
+      animation-fill-mode: none;
+    }
+    div:nth-of-type(2) {
+      animation-fill-mode: forwards;
+    }
+    div:nth-of-type(3) {
+      animation-fill-mode: backwards;
+    }
+    div:nth-of-type(4) {
+      animation-fill-mode: both;
+    }
+    @keyframes myAnimation {
+      0%   { left: 0px;   background: yellow; }
+      100% { left: 200px; background: blue; }
+    }
+  </style>
+</head>
+<body>
+  <h1>animation-fill-mode</h1>
+  <div>none</div>
+  <p>대기 : 시작 프레임(from)에 설정한 스타일을 적용하지 않고 대기한다.</p>
+  <p>종료 : 애니메이션 실행 전 상태로 애니메이션 요소의 프로퍼티값을 되돌리고 종료한다.</p>
+  <div>forwards</div>
+  <p>대기 : 시작 프레임(from)에 설정한 스타일을 적용하지 않고 대기한다.
+  <p>종료 : 종료 프레임(to)에 설정한 스타일을 적용하고 종료한다.
+  <div>backwards</div>
+  <p>대기 : 시작 프레임(from)에 설정한 스타일을 적용하고 대기한다.
+  <p>종료 : 애니메이션 실행 전 상태로 애니메이션 요소의 프로퍼티값을 되돌리고 종료한다.
+  <div>both</div>
+  <p>대기 : 시작 프레임(from)에 설정한 스타일을 적용하고 대기한다.
+  <p>종료 : 종료 프레임(to)에 설정한 스타일을 적용하고 종료한다.
+</body>
+</html>
+">
+</iframe>
+
+# 9.animation-play-state
+애니메이션 재생 상태(재생 또는 중지)를 지정한다. 기본값은 running이다.
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      width: 100px;
+      height: 100px;
+      background: red;
+      position: relative;
+      /*name duration timing-function delay iteration-count direction fill-mode play-state*/
+      animation: move 5s infinite;
+    }
+    div:hover {
+      background: blue;
+      animation-play-state: paused;
+    }
+    div:active {
+      background: yellow;
+      animation-play-state: running;
+    }
+    @keyframes move {
+      from { left: 0px; }
+      to   { left: 200px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>animation-play-state</h1>
+  <div></div>
+</body>
+</html>
+```
+### ***result***
+
+<iframe width='100%' height='200px' srcdoc="
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    div {
+      width: 100px;
+      height: 100px;
+      background: red;
+      position: relative;
+      /*name duration timing-function delay iteration-count direction fill-mode play-state*/
+      animation: move 5s infinite;
+    }
+    div:hover {
+      background: blue;
+      animation-play-state: paused;
+    }
+    div:active {
+      background: yellow;
+      animation-play-state: running;
+    }
+    @keyframes move {
+      from { left: 0px; }
+      to   { left: 200px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>animation-play-state</h1>
+  <div></div>
+</body>
+</html>
+">
+</iframe>
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .box {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      animation-name: move;
+      animation-duration: 5s;
+      animation-play-state: paused; /* 초기 애니메이션 재생 상태: 정지 */
+      animation-iteration-count: infinite;
+    }
+
+    /* @keyframes rule */
+    @keyframes move {
+      from {
+        left: 0;
+      }
+
+      to {
+        left: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+  <button class="start">start animation</button>
+  <button class="pause">pause animation</button>
+
+  <script>
+    const box = document.querySelector('.box');
+
+    document.querySelector('.start').addEventListener('click', function () {
+      // trigger animation
+      // prefixes would be needed...
+      box.style.animationPlayState = 'running';
+    });
+
+    document.querySelector('.pause').addEventListener('click', function () {
+      // pause animation
+      // prefixes would be needed...
+      box.style.animationPlayState = 'paused';
+    });
+  </script>
+</body>
+</html>
 ```
 ### ***result***
 
 <iframe width='100%' height='130px' srcdoc="
-
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .box {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      animation-name: move;
+      animation-duration: 5s;
+      animation-play-state: paused; /* 초기 애니메이션 재생 상태: 정지 */
+      animation-iteration-count: infinite;
+    }
+    /* @keyframes rule */
+    @keyframes move {
+      from {
+        left: 0;
+      }
+      to {
+        left: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class='box'></div>
+  <button class='start'>start animation</button>
+  <button class='pause'>pause animation</button>
+  <script>
+    const box = document.querySelector('.box');
+    document.querySelector('.start').addEventListener('click', function () {
+      // trigger animation
+      // prefixes would be needed...
+      box.style.animationPlayState = 'running';
+    });
+    document.querySelector('.pause').addEventListener('click', function () {
+      // pause animation
+      // prefixes would be needed...
+      box.style.animationPlayState = 'paused';
+    });
+  </script>
+</body>
+</html>
 ">
 </iframe>
+
+# 10.animation
+모든 애니메이션 프로퍼티를 한번에 지정한다. 값을 지정하지 않은 프로퍼티에는 기본값이 지정된다. 지정 방법은 다음과 같다. 
+
+``` code
+animation: name duration timing-function delay iteration-count direction fill-mode play-state
+```
+
+animation-duration은 반드시 지정해야 한다. 지정하지 않는 경우 기본값 0s가 셋팅되어 어떠한 애니메이션도 실행되지 않는다. 기본값은 아래와 같다. 
+
+``` code  
+none 0 ease 0 1 normal none running
+```
+# Reference
+[poiemaweb.com/css3-animation](https://poiemaweb.com/css3-animation)
+
+[css3generator.com](http://www.css3generator.com/)
