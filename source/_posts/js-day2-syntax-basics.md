@@ -71,3 +71,23 @@ undefined
 // 함수 리터럴
 function() {}
 ```
+
+숫자, 문자열, 불리언과 같은 원시 타입의 리터럴은 다양한 연산자의 피연산자가 되어 하나의 값으로 평가될 수 있다. 이렇게 리터럴은 연산에 의해 하나의 값이 될 수 있다. 
+
+``` javascript
+// 산술연산
+10.50 + 1001
+```
+
+자바스크립트의 모든 값은 데이터 타입을 갖는다. 자바스크립트는 7가지 데이터 타입을 제공한다. 
+
+- 원시 타입(primitive data type)
+>- number
+>- string
+>- boolean
+>- null
+>- undefined
+>- symbol (new in ECMAScript 6)
+
+- 객체 타입(object data type)
+>- object
