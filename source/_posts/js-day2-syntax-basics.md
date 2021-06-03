@@ -91,3 +91,89 @@ function() {}
 
 - 객체 타입(object data type)
 >- object
+
+자바스크립트는 C나 Java외는 다르게 변수를 선언할 때 데이터 타입을 미리 지정하지 않는다. 다시 말해, 변수에 할당된 값의 타입에 의해 동적으로 변수의 타입이 결정된다. 이를 동적 타이핑이라 하며 자바스크립트가 다른 프로그래밍 언어와 구별되는 특징 중 하나이다. 
+
+``` javascript
+// Number
+var num1 = 1001;
+var num2 = 10.50;
+
+// String
+var string1 = 'Hello';
+var string2 = "World";
+
+// Boolean
+var bool = true;
+
+// null
+var foo = null;
+
+// undefined
+var bar;
+
+// Object
+var obj = { name: 'Lee', gender: 'male' };
+
+// Array
+var array = [ 1, 2, 3 ];
+
+// function
+var foo = function() {};
+```
+
+# 연산자 
+연산자(Operator)는 하나 이상의 표현식을 대상으로 산술, 할당, 비교, 논리, 타입 연산 등을 수행해 하나의 값을 만든다. 이때 연산의 대상을 피연산자(Operand)라 한다. 
+
+``` javascript
+// 산술 연산자
+var area = 5 * 4; // 20
+
+// 문자열 연결 연산자
+var str = 'My name is ' + 'Lee'; // "My name is Lee"
+
+// 할당 연산자
+var color = 'red'; // "red"
+
+// 비교 연산자
+var foo = 3 > 5; // false
+
+// 논리 연산자
+var bar = (5 > 3) && (2 < 4);  // true
+
+// 타입 연산자
+var type = typeof 'Hi'; // "string"
+
+// 인스턴스 생성 연산자
+var today = new Date(); // (한국 표준시)
+```
+
+``` javascript
+var foo = 1 + '10'; // '110'
+var bar = 1 * '10'; // 10
+```
+
+# 4. 키워드 
+키워드(keyword)는 수행할 동작을 규정한 것이다. 예를 들어 var 키워드는 새로운 변수를 생성할 것을 지시한다.
+
+``` javascript
+// 변수의 선언
+var x = 5 + 6;
+
+// 함수의 선언
+function foo (arg) {
+  // 함수 종료 및 값의 반환
+  return ++arg;
+}
+
+var i = 0;
+// 반복문
+while (1) {
+  if (i > 5) {
+    // 반복문 탈출
+    break;
+  }
+  console.log(i);
+  i++;
+}
+```
