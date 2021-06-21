@@ -1,5 +1,5 @@
 ---
-title: js-jay4-operator
+title: js-day4-operator
 date: 2021-06-14 14:29:29
     - javascript 
     - operator
