@@ -304,3 +304,248 @@ switch 문은 case, default, break 등 다양한 키워드를 사용해야 하�
 
 자바스크립트는 3가지 반복문 for문, while문, do...while문을 제공한다. 그 외에도 for...in문, ES6에서 새롭게 도입된 for...of문이 있다. for...in 문과 for...of문에 대해서는 나중에 살펴보기로 하자.
 
+## 3.1 for 문
+for 문은 조건식이 거짓으로 판별될 때까지 코드 블록을 반복 실행한다. 가장 일반적으로 사용되는 반복문이다. 
+
+``` code
+for (초기화식; 조건식; 증감식) {
+  조건식이 참인 경우 반복 실행될 문;
+}
+```
+
+for 문은 매우 중요하다. 아직 for문에 익숙하지 않다면 많은 연습을 통해 확실히 이해하기를 권장한다. 
+
+아래의 예제를 통해 for문이 어떻게 동작하는지 살펴보자.
+
+``` javascript
+for (var i = 0; i < 2; i++) {
+  console.log(i);
+}
+```
+
+위 예제의 for 문은 변수 i가 0으로 초기화된 상태에서 시작하여 i가 2보다 작을 때까지 코드 블록을 2번 반복 실행한다. for 문의 실행 순서를 따라가며 어떻게 동작하는지 살펴보자.
+
+for 문을 실행하면 가장 먼저 초기화식 var i = 0이 실행된다. 초기화식은 단 한번만 실행된다.
+
+초기화식의 실행이 종료되면 조건식으로 실행 순서가 이동한다. 현재 변수 i는 0이므로 조건식의 평가 결과는 true다.
+
+조건식의 평가 결과가 true이므로 실행 순서가 코드 블록으로 이동하여 실행된다. 증감문으로 실행 순서가 이동하는 것이 아니라 코드 블록으로 실행 순서가 이동하는 것에 주의하자.
+
+코드 블록의 실행이 종료하면 증감식으로 실행 순서가 이동한다. 증감식 i++가 실행되어 i는 1이 된다.
+
+증감식 실행이 종료되면 다시 조건식으로 실행 순서가 이동한다. 초기화식으로 실행 순서가 이동하는 것이 아니라 조건식으로 실행 순서가 이동하는 것에 주의하자. 초기화식은 단 한번만 실행된다. 현재 변수 i는 1이므로 조건식의 평가 결과는 true다.
+
+조건식의 평가 결과가 true이므로 실행 순서가 코드 블록으로 이동하여 실행된다.
+
+코드 블록의 실행이 종료하면 증감식으로 실행 순서가 이동한다. 증감식 i++가 실행되어 i는 2가 된다.
+
+증감식 실행이 종료되면 다시 조건식으로 실행 순서가 이동한다. 현재 변수 i는 2이므로 조건식의 평가 결과는 false다. 조건식의 평가 결과가 false이므로 for 문의 실행이 종료된다.
+
+아래 예제는 위 예제를 역으로 반복하는 for 문이다. 변수 i가 1으로 초기화된 상태에서 시작하여 i가 0보다 같거나 커질 때까지 코드 블록을 2번 반복 실행한다.
+
+``` javascript
+for (var i = 1; i >= 0; i--) {
+  console.log(i);
+}
+```
+
+for 문의 초기화식, 조건식, 증감식은 모두 옵션이므로 반드시 사용할 필요는 없다. 어떤 식도 선언하지 않으면 무한 루프가 된다.
+
+``` javascript
+for (;;) { } // 무한루프
+```
+
+for 문 내에 for 문을 중첩해 사용할 수 있다. 아래는 두 개의 주사위를 던졌을 때, 두 눈의 합이 6이 되는 모든 경우의 수를 출력하는 예제다.
+
+``` javascript
+for (var i = 1; i <= 6; i++) {
+  for (var j = 1; j <= 6; j++) {
+    if (i + j === 6) console.log(`[${i}, ${j}]`);
+  }
+}
+```
+
+출력 결과는 아래와 같다.
+
+``` code
+[1, 5]
+[2, 4]
+[3, 3]
+[4, 2]
+[5, 1]
+```
+
+## 3.2 while 문
+while 문은 주어진 조건식의 평가 결과가 참이면 코드 블록을 계속해서 반복 실행한다. 조건문의 평가 결과가 거짓이 되면 실행을 종료한다. 만약 조건식의 평가 결과가 불리언 값이 아니면 불리언 값으로 강제 변환되어 논리적 참, 거짓을 구별한다.
+
+``` javascript
+var count = 0;
+
+// count가 3보다 작을 때까지 코드 블록을 계속 반복 실행한다.
+while (count < 3) {
+  console.log(count);
+  count++;
+} // 0 1 2
+```
+
+조건식의 평가 결과가 언제나 참이면 무한루프가 된다. 
+
+``` javascript
+// 무한루프
+while (true) { }
+```
+
+무한루프를 탈출하기 위해서는 코드 블럭 탈출 조건을 if 문에 부여하고 break 문으로 코드 블럭을 탈출한다.
+
+``` javascript
+var count = 0;
+
+// 무한루프
+while (true) {
+  console.log(count);
+  count++;
+  // count가 3이면 코드 블록을 탈출한다.
+  if (count === 3) break;
+} // 0 1 2
+```
+
+## 3.3 do...while 문
+do…while 문은 코드 블록을 실행하고 조건식을 평가한다. 따라서 코드 블록은 무조건 한번 이상 실행된다.
+
+``` javascript
+var count = 0;
+
+// count가 3보다 작을 때까지 코드 블록을 계속 반복 실행한다.
+do {
+  console.log(count);
+  count++;
+} while (count < 3); // 0 1 2
+```
+
+# 4. break 문
+switch 문과 while 문에서 살펴보았듯이 break 문은 코드 블록을 탈출한다. 좀 더 정확히 표현하자면 코드 블록을 탈출하는 것이 아니라 레이블 문, 반복문(for, for…in, for…of, while, do…while) 또는 switch 문의 코드 블록을 탈출한다. 레이블 문, 반복문, switch 문의 코드 블록 이외에 break 문을 사용하면 SyntaxError(문법 에러)가 발생한다.
+
+``` javascript
+if (true) {
+  break; // Uncaught SyntaxError: Illegal break statement
+}
+```
+
+레이블 문(Label statement)이란 식별자가 붙은 문을 말한다.
+
+``` javascript
+// foo라는 레이블 식별자가 붙은 레이블 문
+foo: console.log('foo');
+```
+
+레이블 문은 프로그램의 실행 순서를 제어하기 위해 사용한다. 사실 switch 문의 case 문과 default 문도 레이블 문이다. 레이블 문을 탈출하려면 break 문에 레이블 식별자를 지정한다.
+
+``` javascript
+// foo라는 식별자가 붙은 레이블 블록문
+foo: {
+  console.log(1);
+  break foo; // foo 레이블 블록문을 탈출한다.
+  console.log(2);
+}
+
+console.log('Done!');
+```
+
+중첩된 for 문의 내부 for 문에서 break 문을 실행하면 내부 for 문을 탈출하여 외부 for 문으로 진입한다. 이때 내부 for 문이 아닌 외부 for 문을 탈출하려면 레이블 문을 사용한다.
+
+``` javascript
+// outer라는 식별자가 붙은 레이블 for 문
+outer: for (var i = 0; i < 3; i++) {
+  for (var j = 0; j < 3; j++) {
+    // i + j === 3이면 외부 for 문을 탈출한다.
+    if (i + j === 3) break outer;
+  }
+}
+
+console.log('Done!');
+```
+
+중첩된 for 문을 외부로 탈출할 때 레이블 문은 유용하지만 그 외의 경우 레이블 문은 일반적으로 권장하지 않는다. 레이블 문을 사용하면 프로그램의 흐름이 복잡해져서 가독성이 나빠지고 오류를 발생시킬 가능성이 높아지기 때문이다.
+
+break 문은 레이블 문 뿐만이 아니라 반복문, switch 문에서도 사용할 수 있다. 이 경우에는 break 문에 레이블 식별자를 지정하지 않는다. break 문은 반복문을 더 이상 진행하지 않아도 될 때 불필요한 반복을 회피할 수 있어 유용하다.
+
+아래는 문자열에서 특정 문자의 인덱스(위치)를 검색하는 예제이다.
+
+``` javascript
+var string = 'Hello World.';
+var index;
+
+// 문자열은 유사배열이므로 for 문으로 순회할 수 있다.
+for (var i = 0; i < string.length; i++) {
+  // 문자열의 개별 문자가 'l'이면
+  if (string[i] === 'l') {
+    index = i;
+    break; // 반복문을 탈출한다.
+  }
+}
+
+console.log(index); // 2
+
+// 참고로 String.prototype.indexOf 메소드를 사용해도 같은 동작을 한다.
+console.log(string.indexOf('l')); // 2
+```
+
+# 5. continue 문
+continue 문은 반복문(for, for…in, for…of, while, do…while)의 코드 블록 실행을 현 지점에서 중단하고 반복문의 증감식으로 이동한다. break 문처럼 반복문을 탈출하지는 않는다.
+
+아래는 문자열에서 특정 문자의 개수를 카운트하는 예제이다.
+
+``` javascript
+var string = 'Hello World.';
+var count = 0;
+
+// 문자열은 유사배열이므로 for 문으로 순회할 수 있다.
+for (var i = 0; i < string.length; i++) {
+  // 'l'이 아니면 현 지점에서 실행을 중단하고 반복문의 증감식으로 이동한다.
+  if (string[i] !== 'l') continue;
+  count++; // continue 문이 실행되면 이 문은 실행되지 않는다.
+}
+
+console.log(count); // 3
+
+// 참고로 String.prototype.match 메소드를 사용해도 같은 동작을 한다.
+console.log(string.match(/l/g).length); // 3
+```
+
+위 예제의 for 문은 아래와 동일하게 동작한다.
+
+``` javascript
+for (var i = 0; i < string.length; i++) {
+  // 'l'이면 카운트를 증가시킨다.
+  if (string[i] === 'l') count++;
+}
+```
+
+위와 같이 if 문 내에서 실행해야 할 코드가 한 줄이라면 continue 문을 사용했을 때보다 간편하며 가독성도 좋다. 하지만 if 문 내에서 실행해야 할 코드가 길다면 들여쓰기가 한 단계 더 깊어지므로 continue 문을 사용하는 것이 가독성이 더 좋다.
+
+``` javascript
+// continue 문을 사용하지 않으면 if 문 내에 코드를 작성해야 한다.
+for (var i = 0; i < string.length; i++) {
+  // 'l'이면 카운트를 증가시킨다.
+  if (string[i] === 'l') {
+    count++;
+    // code
+    // code
+    // code
+  }
+}
+
+// continue 문을 사용면 if 문 밖에 코드를 작성할 수 있다.
+for (var i = 0; i < string.length; i++) {
+  // 'l'이 아니면 카운트를 증가시키지 않는다.
+  if (string[i] !== 'l') continue;
+
+  count++;
+  // code
+  // code
+  // code
+}
+```
+
+# Reference
+[poiemaweb.com/js-control-flow](https://poiemaweb.com/js-control-flow)
