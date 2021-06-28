@@ -110,3 +110,98 @@ Math + ''           // "[object Math]"
 (function(){}) + '' // "function(){}"
 Array + ''          // "function Array() { [native code] }"
 ```
+
+## 2.2. 숫자 타입으로 변환 
+아래의 예제를 살펴보자. 
+
+``` javascript
+1 - '1'    // 0
+1 * '10'   // 10
+1 / 'one'  // NaN
+```
+
+위 예제의 연산자는 모두 산술 연산자이다. 산술 연산자의 역할은 숫자 값을 만드는 것이다. 따라서 산술 연산자의 피연산자는 문맥, 즉 컨텍스트 상 숫자 타입이여야 한다.
+
+자바스크립트 엔지은 산술 연산자 표현식을 평가하기 위해 산술 연산자의 피연산자 중에서 숫자 타입이 아닌 피연산자를 숫자 타입으로 암묵적 타입 변환한다. 이때 피연산자를 숫자 타입으로 변환할 수 없는 경우는 산술 연산을 수행할 수 없으므로 NaN을 반환한다. 
+
+피연산자를 숫자 타입으로 변환해야 할 컨텍스트는 산술 연산자 뿐만이 아니다. 아래 예제를 살펴보자. 
+
+``` javascript
+'1' > 0   // true
+```
+
+비교 연산자의 역할은 불리언 값을 만드는 것이다. > 비교 연산자는 피연산자의 크기를 비교하므로 피연산자는 컨텍스트 상 숫자 타입이여야 한다. 자바스크립트 엔진은 비교 연산자 표현식을 평가하기 위해 비교 연산자의 피연산자 중에서 숫자 타입이 아닌 피연산자를 숫자 타입으로 암묵적 타입 변환한다. 
+
+자바스크립트 엔진은 숫자 타입 아닌 값을 숫자 타입으로 암묵적 타입 변환을 수행할 때 아래와 같이 동작한다. + 단항 연산자가 숫자 타입의 값이 아니면 숫자 타입의 값으로 암묵적 타입 변환을 수행한다.
+
+``` javascript
+// 문자열 타입
++''             // 0
++'0'            // 0
++'1'            // 1
++'string'       // NaN
+// 불리언 타입
++true           // 1
++false          // 0
+// null 타입
++null           // 0
+// undefined 타입
++undefined      // NaN
+// 심볼 타입
++Symbol()       // TypeError: Cannot convert a Symbol value to a number
+// 객체 타입
++{}             // NaN
++[]             // 0
++[10, 20]       // NaN
++(function(){}) // NaN
+```
+
+빈 문자열(''), 빈 배열([]), null, false는 0으로, true는 1로 변환된다. 객체와 빈 배열이 아닌 배열, undefined는 변환되지 않아 NaN이 된다는 것에 주의하자.
+
+## 2.3. 불리언 타입으로 변환
+아래의 예제를 살펴보자. 
+``` javascript
+if ('') console.log(x);
+```
+
+if 문이나 for문과 같은 제어문의 조건식(conditional expression)은 불리언 값, 즉 논리적 참, 거짓을 반환해야 하는 표현식이다. 자바스크립트 엔진은 제어문의 조건식을 평가 결과를 불리언 타입으로 암묵적 타입 변환한다.
+
+``` javascript
+if ('')    console.log('1');
+if (true)  console.log('2');
+if (0)     console.log('3');
+if ('str') console.log('4');
+if (null)  console.log('5');
+
+// 2 4
+```
+
+Falsy 값 이외의 값은 제어문의 조건식과 같이 불리언 값으로 평가되어야 할 컨텍스트에서 모두 true로 평가되는 Truthy 값이다. 
+
+아래 예제는 Truthy/Falsy 값을 판별하는 함수다. 함수란 어떤 작업을 수행하기 위해 필요한 문들의 집합을 정의한 코드 블록이다. 함수는 이름과 매개변수를 갖으며 필요한 때에 호출하여 코드 블록에 담긴 문들을 일괄적으로 실행할 수 있다. 함수에 대해서는 나중에 자세히 살펴볼 것이다.
+
+``` javascript
+// 주어진 인자가 Falsy 값이면 true, Truthy 값이면 false를 반환한다.
+function isFalsy(v) {
+  return !v;
+}
+
+// 주어진 인자가 Truthy 값이면 true, Falsy 값이면 false를 반환한다.
+function isTruthy(v) {
+  return !!v;
+}
+
+// 모두 true를 반환한다.
+console.log(isFalsy(false));
+console.log(isFalsy(undefined));
+console.log(isFalsy(null));
+console.log(isFalsy(0));
+console.log(isFalsy(NaN));
+console.log(isFalsy(''));
+
+console.log(isTruthy(true));
+// 빈 문자열이 아닌 문자열은 Truthy 값이다.
+console.log(isTruthy('0'));
+console.log(isTruthy({}));
+console.log(isTruthy([]));
+```
