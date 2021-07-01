@@ -266,7 +266,6 @@ widgets:
         # Names and URLs of the sites
         links:
             Hexo: 'https://hexo.io'
-            Bulma: 'https://bulma.io'
     # Categories widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
@@ -302,9 +301,9 @@ widgets:
         position: left
         type: adsense
         # AdSense client ID
-        client_id: 'ca-pub-7282964270260694'
+        client_id: ''
         # AdSense AD unit ID
-        slot_id: '1111111111'
+        slot_id: ''
 # Plugin configurations
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/
 plugins:
