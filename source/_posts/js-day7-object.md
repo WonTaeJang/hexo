@@ -52,3 +52,106 @@ console.log(person); // {name: "Lee", gender: "male", sayHello: ƒ}
 
 person.sayHello(); // Hi! My name is Lee
 ```
+
+## 2.2 Object 생성자 함수 
+new 연산자와 Object 생성자 함수를 호출하여 빈 객체를 생성할 수 있다. 빈 객체 생성 이후 프로퍼티 또는 메소드를 추가하여 객체를 완성하는 방법이다. 
+
+생성자(Constructor) 함수란 new 키워드와 함께 객체를 생성하고 초기화 하는 함수를 말한다. 생성자 함수를 통해 생성된 객체를 인스턴스(instrance)라 한다. 자바스크립트 Object 생성자 함수 이외에도 String, Number, Boolean, Arraym Date, RegExp 등의 빌트인 생성자 함수를 제공한다. 일반 함수와 생성자 함수를 구분하기 위해 생성자 함수의 이름은 파스칼 케이스(PascalCase)를 사용하는 것이 일반적이다. 
+
+객체가 소유하고 있지 않은 프로퍼티 키에 값을 할당하면 해당 객체에 프로퍼티를 추가하고 값을 할당한다. 이미 존재하는 프로퍼티 키에 새로운 값을 할당하면 프로퍼티 값은 할당한 값으로 변경된다.
+
+``` javascript
+// 빈 객체의 생성
+var person = new Object();
+// 프로퍼티 추가
+person.name = 'Lee';
+person.gender = 'male';
+person.sayHello = function () {
+  console.log('Hi! My name is ' + this.name);
+};
+
+console.log(typeof person); // object
+console.log(person); // {name: "Lee", gender: "male", sayHello: ƒ}
+
+person.sayHello(); // Hi! My name is Lee
+```
+
+반드시 Object 생성자 함수를 사용해 빈 객체를 생성해야 하는 것은 아니다. 객체를 생성하는 방법은 객체 리터럴을 사용하는 것이 더 간편하다. Object 생성자 함수 방식은 특별한 이유가 없다면 그다지 유용해 보이지 않는다. 
+
+사실 객체 리터럴 방식으로 생성된 객체는 결국 빌트인(Built-in) 함수인 Object 생성자 함수로 객체를 생성하는 것을 단순화시킨 축약 표현(short-hand)이다. 다시말해, 자바스크립트 엔진은 객체 리터럴로 객체를 생성하는 코드를 만나면 내부적으로 Object 생성자 함수를 사용하여 객체를 생성한다. 따라서 개발자가 일부러 Object 생성자 함수를 사용해 객체를 생성해야 할 일은 거의 없다. 
+
+## 2.3 생성자 함수 
+객체 리터럴 방식과 Object 생성자 함수 방식으로 객체를 생성하는 것은 프로퍼티 값만 다른 여러 개의 객체를 생성할 때 불편하다. 동일한 프로퍼티를 갖는 객체임에도 불구하고 매번 같은 프로퍼티를 기술해야 한다. 
+
+``` javascript
+var person1 = {
+  name: 'Lee',
+  gender: 'male',
+  sayHello: function () {
+    console.log('Hi! My name is ' + this.name);
+  }
+};
+
+var person2 = {
+  name: 'Kim',
+  gender: 'female',
+  sayHello: function () {
+    console.log('Hi! My name is ' + this.name);
+  }
+};
+```
+
+생성자 함수를 사용하면 마치 객체를 생성하기 위한 템플릿(클래스)처럼 사용하여 프로퍼티가 동일한 객체 여러 개를 간편하게 생성할 수 있다. 
+
+``` javascript
+// 생성자 함수
+function Person(name, gender) {
+  this.name = name;
+  this.gender = gender;
+  this.sayHello = function(){
+    console.log('Hi! My name is ' + this.name);
+  };
+}
+
+// 인스턴스의 생성
+var person1 = new Person('Lee', 'male');
+var person2 = new Person('Kim', 'female');
+
+console.log('person1: ', typeof person1);
+console.log('person2: ', typeof person2);
+console.log('person1: ', person1);
+console.log('person2: ', person2);
+
+person1.sayHello();
+person2.sayHello();
+```
+
+- 생성자 함수 이름은 일반적으로 대문자로 시작한다. 이것은 생성자 함수임을 익식하도록 도움을 준다. 
+- 프로퍼티 또는 메소드명 앞에 기술한 this는 생성자 함수가 생성할 인스턴스(instance)를 가르킨다. 
+- this에 연결(바인딩)되어 있는 프로퍼티와 메소드는 public (외부에서 참조 가능)하다. 
+- 생성자 함수 내에서 선언된 일반 변수는 private (외부에서 참조 불가능)하다. 즉, 생성자 함수내부에서는 자유롭게 접근이 가능하나 외부에서 접근할 수 없다. 
+
+``` javascript
+function Person(name, gender) {
+  var married = true;         // private
+  this.name = name;           // public
+  this.gender = gender;       // public
+  this.sayHello = function(){ // public
+    console.log('Hi! My name is ' + this.name);
+  };
+}
+
+var person = new Person('Lee', 'male');
+
+console.log(typeof person); // object
+console.log(person); // Person { name: 'Lee', gender: 'male', sayHello: [Function] }
+
+console.log(person.gender);  // 'male'
+console.log(person.married); // undefined
+```
+
+자바스크립트의 생성자 함수는 이름 그대로 객체를 생성하는 함수이다. 하지만 자바와 같은 클래스 기반 객체지향 언어의 생성자(constructor)와는 다르게 그 형식이 정해져 있는 것이 아니라 기존 함수와 동일한 방법으로 생성자 함수를 선언하고 new 연산자를 붙여서 호출하면 해당 함수는 생성자 함수로 동작한다. 
+
+이는 생성자 함수가 아닌 일반 함수에 new 연산자를 붙여 호출하면 생성자 함수처럼 동작할 수 있다는 것을 의미한다. 따라서 일반적으로 생성자 함수명은 첫문자를 대문자로 기술하여 혼락을 방지하려는 노력을 한다. 
+
+new 연산자와 함꼐 함수를 호출하면 this 바인딩이 다르게 동작한다. 자세한 내용은 생성자 호출 패턴을 참조
