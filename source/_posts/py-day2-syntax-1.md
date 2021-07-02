@@ -7,7 +7,7 @@ categories:
     - python
 ---
 
-# Python Syntax
+# Python Syntax 1
 ## 들여쓰기
 들여쓰기는 코드 줄의 시작 부분에 있는 공백을 나타냅니다. 
 다른 프로그래밍 언어에서는 코드의 들여쓰기는 가독성만을 위한 것이지만 Python의 들여쓰기는 매우 중요합니다. 
