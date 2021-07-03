@@ -62,7 +62,6 @@ my_variable_name = "John"
 Python을 사용하면 한 줄로 여러 변수에 값을 할당 할 수 있습니다.
 
 ### example
-잘못된 변수 이름:
 ``` python
 x, y, z = "Orange", "Banana", "Cherry"
 print(x)
@@ -75,7 +74,6 @@ print(z)
 한 줄에 여러 변수에 동일한 값을 할당 할 수 있습니다 .
 
 ### example
-잘못된 변수 이름:
 ``` python
 x = y = z = "Orange"
 print(x)
