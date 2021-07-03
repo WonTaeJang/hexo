@@ -1,5 +1,5 @@
 ---
-title: py-day9-Numbers
+title: py-day9-numbers
 date: 2021-07-03 15:44:21
     - python 
     - numbers
