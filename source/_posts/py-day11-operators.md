@@ -60,22 +60,24 @@ Python은 연산자를 다음 그룹으로 나눕니다.
 
 ## 3. 비교 연산자(Comparison operators)
 비교 연산자는 두 값을 비교하는 데 사용됩니다.
-|Operator|	Name|	Example|
-|--------|------|----------|
-|==|	Equal|	x == y	|
-|!=|	Not equal|	x != y	|
-|>|	Greater than|	x > y	|
-|<|	Less than|	x < y	|
-|>=|	Greater than or equal to|	x >= y	|
-|<=	|Less than or equal to|	x <= y|
+
+| Operator | Name | Example |
+|---------------|--------|-------|
+| == | Equal | x == y |
+| != | Not equal | x != y | 
+| > | Greater than | x > y |
+| < | Less than | x < y |
+| >= | Greater than or equal to | x >= y |
+| <= | Less than or equal to | x <= y |
 
 ## 4. 논리 연산자(Logical operators)
 논리 연산자는 조건문을 결합하는 데 사용됩니다.
+
 |Operator|	Description|	Example|
 |--------|-------------|-----------|
-|and| 	둘 다 True이면 True|	x < 5 and  x < 10	
-|or|	둘중 하나가 True이면 True|	x < 5 or x < 4	
-|not|	반대의 결과, 결과가 True이면 False |	not(x < 5 and x < 10)
+|and| 	둘 다 True이면 True |	x < 5 and  x < 10|	
+|or|	둘중 하나가 True이면 True |	x < 5 or x < 4|	
+|not|	반대의 결과, 결과가 True이면 False |	not(x < 5 and x < 10)|
 
 ## 5. Membership operators
 |Operator|	Description|	Example|
