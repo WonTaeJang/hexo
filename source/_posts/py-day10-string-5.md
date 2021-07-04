@@ -52,7 +52,7 @@ print(myorder.format(quantity, itemno, price))
 ```
 
 # Exercises
-[py-exercises-3](https://wontaejang.github.io/2021/07/03/py-exercises-4/)
+[py-exercises-4](https://wontaejang.github.io/2021/07/03/py-exercises-4/)
 
 # Reference
 [w3schools python](https://www.w3schools.com/python)
