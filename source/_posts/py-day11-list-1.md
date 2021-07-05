@@ -20,7 +20,7 @@ Lists 말고도 Tuple, Set, Dictionary 가 있고 모두 쓰임새가 다릅니�
 >- Lists are created using square brackets:
 
 ### example
-Crate a List:
+Create a List:
 ``` python
 thislist = ["apple", "banana", "cherry"]
 print(thislist)
