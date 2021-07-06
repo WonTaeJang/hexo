@@ -54,7 +54,7 @@ fruits = ["apple", "banana", "cherry", "orange", "kiwi", "melon", "mango"]
 print(fruits[???])
 ```
 
-# Exercise 6
+# Exercise 7
 내장함수 ??? 를 사용하여 list의 개수를 출력하시오.
 ``` python
 fruits = ["apple", "banana", "cherry", "orange", "kiwi", "melon", "mango"]
