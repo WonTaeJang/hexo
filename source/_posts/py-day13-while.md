@@ -16,6 +16,7 @@ Python에는 두가지 기본 Loop 명령이 있다.
 while문은 조건이 충족할때까지 해당 코드 블록이 무한번 반복한다.
 > With the while loop we can execute a set of statements as long as a condition is true.
 
+### example
 ``` python
 i = 1
 while i < 6:
@@ -27,6 +28,7 @@ while i < 6:
 break 문은 loop를 빠져 나올수 있다.
 > With the break statement we can stop the loop even if the while condition is true:
 
+### example
 ``` python
 i = 1
 while i < 6:
@@ -40,6 +42,7 @@ while i < 6:
 continue문은 현재의 반복을 중지하고 다음 반복으로 넘어간다.
 > With the continue statement we can stop the current iteration, and continue with the next
 
+### example
 ``` python
 i = 0
 while i < 6:
@@ -53,6 +56,7 @@ while i < 6:
 while문이 끝나고 else를 실행할 수 있다.
 >With the else statement we can run a block of code once when the condition no longer is true
 
+### example
 ``` python
 i = 1
 while i < 6:
