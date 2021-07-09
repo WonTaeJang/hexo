@@ -66,7 +66,7 @@ else:
   print("i is no longer less than 6")
 ```
 # Exercises
-[py-exercises-8](https://wontaejang.github.io/2021/07/06/py-exercises-9/)
+[py-exercises-9](https://wontaejang.github.io/2021/07/06/py-exercises-9/)
 
 # Reference
 [w3schools python](https://www.w3schools.com/python)
