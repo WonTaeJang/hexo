@@ -5,7 +5,7 @@ date: 2021-07-09 11:34:02
    - class
    - object
 categories: 
-   - python
+   - python-object
 ---
 
 # Python Classes/Objects
@@ -16,6 +16,22 @@ categories:
 >- Python is an object oriented programming language.
 >- Almost everything in Python is an object, with its properties and methods.
 >- A Class is like an object constructor, or a "blueprint" for creating objects.
+
+## 정의
+> class : 
+> - 실세계의 것을 모델링하여 속성과 동작을 갖는 데이터 타입
+>- 다루고자 하는 데이터와 데이터를 다루는 연산을 하나로 캡슐화하여 클래스로 표현
+
+> init(self):
+>- 생성자를 정의, 클래스 인스턴스가 생성될 때 호출됨
+>- self인자는 항상 첫 번째로 오며 자기 자신을 가리킴
+
+> method: 
+>- 멤버함수라고 하며, 해당 클래스의 object에서만 호출 가능
+
+> object: 
+>- 객체는 어떠한 속성값과 행동을 가지고 있는 데이터
+>- 파이썬의 모든것들(숫자, 문자, 함수 등)은 여러 속성과 행동을 가지고 있는 데이터
 
 ## Create a Class
 class 키워드를 사용하여 클래스를 만들어봅시다. 
@@ -52,6 +68,64 @@ p1 = Person("John", 36)
 print(p1.name)
 print(p1.age)
 ```
+
+## Object Methods
+- Object는 methods를 가질 수 있습니다. 
+
+- object methods는 object에 속하는 함수입니다. 
+
+### example
+``` python
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+  def myfunc(self):
+    print("Hello my name is " + self.name)
+
+p1 = Person("John", 36)
+p1.myfunc()
+```
+
+## self Parameter
+self 파라메터는 현재의 클래스 인스턴스를 참조하고, 클래스에 속한 변수를 접근하여 사용한다. 
+
+self라고 이름지어질 필요가 없으며 원하는 명으로 지을 수 있다. 그러나 첫번째 파라메터로 지정하여야 한다 
+
+>The self parameter is a reference to the current instance of the class, and is used to access variables that belongs to the class.
+
+>It does not have to be named self , you can call it whatever you like, but it has to be the first parameter of any function in the class:
+
+## Modify Object Properties
+### example
+``` python
+p1 = testClass()
+p1.age = 40
+```
+
+## Delete Object Properties
+### example
+``` python
+p1 = testClass()
+del p1.age
+```
+
+## Delete Objects
+### example
+``` python
+p1 = testClass()
+del p1
+```
+
+## The pass Statement
+### example
+``` python
+class Person:
+  pass
+```
+# Exercises
+[py-exercises-12](https://wontaejang.github.io/2021/07/13/py-exercises-12/)
 
 # Reference
 [w3schools python](https://www.w3schools.com/python)

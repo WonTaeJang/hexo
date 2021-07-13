@@ -4,7 +4,7 @@ date: 2021-07-04 14:07:52
    - python 
    - lists
 categories: 
-   - python
+   - python-list
 ---
 # python - Change List Items
 

@@ -5,7 +5,7 @@ date: 2021-07-04 12:31:05
     - boolean
     - exercises
 categories: 
-    - python
+    - python-exercises
 ---
 
 # Exercise 1

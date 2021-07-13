@@ -1,10 +1,10 @@
 ---
 title: py-day11-list-5
-date: 2021-07-04 14:25:28
+date: 2021-07-05 9:25:28
    - python 
    - lists
 categories: 
-   - python
+   - python-list
 ---
 # Python - Loop Lists
 list items를 사용하여 for loop를 쓸 수 있습니다. 

@@ -4,7 +4,7 @@ date: 2021-07-04 14:17:37
    - python 
    - lists
 categories: 
-   - python
+   - python-list
 ---
 
 # Python - Remove List Items

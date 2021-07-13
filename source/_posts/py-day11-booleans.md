@@ -4,7 +4,7 @@ date: 2021-07-04 12:13:00
     - python 
     - bool
 categories: 
-    - python
+    - python-booleans
 ---
 
 # Python Booleans

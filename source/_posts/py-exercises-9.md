@@ -5,7 +5,7 @@ date: 2021-07-06 10:53:52
     - while
     - exercises
 categories: 
-    - python
+    - python-exercises
 ---
 
 # Exercise 1

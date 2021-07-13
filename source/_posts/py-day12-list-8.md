@@ -5,7 +5,7 @@ date: 2021-07-05 11:10:09
    - lists
    - join
 categories: 
-   - python
+   - python-list
 ---
 
 # Python -Join Lists

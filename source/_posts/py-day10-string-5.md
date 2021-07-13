@@ -5,7 +5,7 @@ date: 2021-07-03 17:30:49
     - string
     - format
 categories: 
-    - python
+    - python-string
 ---
 
 # 문자열 형식 (String Format)

@@ -4,7 +4,7 @@ date: 2021-07-04 13:22:02
    - python 
    - lists
 categories: 
-   - python
+   - python-list
 ---
 
 # Python Lists

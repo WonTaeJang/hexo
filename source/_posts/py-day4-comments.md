@@ -4,7 +4,7 @@ date: 2021-07-01 16:33:08
     - python 
     - comments
 categories: 
-    - python
+    - python-comments
 ---
 
 # Python Comments

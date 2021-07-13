@@ -5,7 +5,7 @@ date: 2021-07-03 17:27:18
     - string
     - concatenation
 categories: 
-    - python
+    - python-string
 ---
 
 # 문자열 연결 (String Concatenation)

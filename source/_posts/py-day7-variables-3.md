@@ -5,7 +5,7 @@ date: 2021-07-02 10:12:20
     - variables
     - Global
 categories: 
-    - python
+    - python-variables
 ---
 
 # Python Variables 3

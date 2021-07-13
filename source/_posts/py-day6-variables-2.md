@@ -5,7 +5,7 @@ date: 2021-07-02 09:36:35
     - variables
     - output
 categories: 
-    - python
+    - python-variables
 ---
 
 # Python Variables 2

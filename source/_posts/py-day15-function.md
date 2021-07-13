@@ -4,7 +4,7 @@ date: 2021-07-08 10:17:35
    - python 
    - function
 categories: 
-   - python
+   - python-function
 ---
 
 함수는 호출 되었을때 해당 코드 블록이 실행이 된다.      

@@ -4,7 +4,7 @@ date: 2021-07-11 22:14:10
     - python 
     - testanswer
 categories: 
-    - python
+    - python-test
 ---
 
 # TEST 1

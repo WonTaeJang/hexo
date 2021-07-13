@@ -4,7 +4,7 @@ date: 2021-07-07 10:36:27
    - python 
    - for
 categories: 
-   - python
+   - python-for
 ---
 
 # Python For Loops

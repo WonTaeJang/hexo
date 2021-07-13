@@ -4,7 +4,7 @@ date: 2021-07-04 12:34:55
     - python 
     - operators
 categories: 
-    - python
+    - python-operators
 ---
 
 # Python 연산자 (Python Operators)

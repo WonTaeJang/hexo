@@ -5,7 +5,7 @@ date: 2021-07-02 10:35:48
     - variables
     - exercises
 categories: 
-    - python
+    - python-exercises
 ---
 
 # Exercise 1

@@ -5,7 +5,7 @@ date: 2021-07-02 11:16:57
     - datatype
     - exercises
 categories: 
-    - python
+    - python-exercises
 ---
 
 # Exercise 1

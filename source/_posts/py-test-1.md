@@ -5,7 +5,7 @@ date: 2021-07-07 11:47:42
     - for
     - test
 categories: 
-    - python
+    - python-test
 ---
 
 # Python middle test

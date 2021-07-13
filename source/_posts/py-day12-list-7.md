@@ -5,7 +5,7 @@ date: 2021-07-05 11:02:24
    - lists
    - copy
 categories: 
-   - python
+   - python-list
 ---
 
 # Python - Copy Lists

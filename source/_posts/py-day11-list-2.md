@@ -4,7 +4,7 @@ date: 2021-07-04 14:01:19
    - python 
    - lists
 categories: 
-   - python
+   - python-list
 ---
 
 # List Items 접근 (Access List Items)

@@ -5,7 +5,7 @@ date: 2021-07-05 10:13:29
    - lists
    - sort
 categories: 
-   - python
+   - python-list
 ---
 
 # Python - Sort Lists

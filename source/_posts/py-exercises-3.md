@@ -5,7 +5,7 @@ date: 2021-07-03 16:04:11
     - numbers
     - exercises
 categories: 
-    - python
+    - python-exercises
 ---
 
 # Exercise 1

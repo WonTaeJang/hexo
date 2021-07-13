@@ -5,7 +5,7 @@ date: 2021-07-03 16:55:39
     - string
     - slicing
 categories: 
-    - python
+    - python-string
 ---
 
 # Python String 2

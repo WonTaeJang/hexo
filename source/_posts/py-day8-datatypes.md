@@ -4,7 +4,7 @@ date: 2021-07-02 10:46:21
     - python 
     - datatype
 categories: 
-    - python
+    - python-datatypes
 ---
 
 # Python DataTypes

@@ -4,7 +4,7 @@ date: 2021-07-03 15:44:21
     - python 
     - numbers
 categories: 
-    - python
+    - python-numbers
 ---
 
 # Python Numbers

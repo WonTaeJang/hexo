@@ -4,7 +4,7 @@ date: 2021-07-06 10:02:55
    - python 
    - if
 categories: 
-   - python
+   - python-if
 ---
 
 # Python IF...Else

@@ -4,7 +4,7 @@ date: 2021-07-06 10:46:47
    - python 
    - while
 categories: 
-   - python
+   - python-while
 ---
 
 # Python While Loops

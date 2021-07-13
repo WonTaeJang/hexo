@@ -4,7 +4,7 @@ date: 2021-07-01 16:06:29
     - python 
     - syntax
 categories: 
-    - python
+    - python-syntax
 ---
 
 # Python Syntax 2

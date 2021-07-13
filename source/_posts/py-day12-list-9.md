@@ -5,7 +5,7 @@ date: 2021-07-05 11:13:31
    - lists
    - method
 categories: 
-   - python
+   - python-list
 ---
 
 # List Methods 

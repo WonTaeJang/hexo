@@ -5,7 +5,7 @@ date: 2021-07-04 12:52:10
     - operators
     - exercises
 categories: 
-    - python
+    - python-exercises
 ---
 
 # Exercise 1

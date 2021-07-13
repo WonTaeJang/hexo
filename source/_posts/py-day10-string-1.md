@@ -4,7 +4,7 @@ date: 2021-07-03 16:18:36
     - python 
     - string
 categories: 
-    - python
+    - python-string
 ---
 
 # Python String

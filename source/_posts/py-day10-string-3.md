@@ -4,7 +4,7 @@ date: 2021-07-03 17:20:28
     - python 
     - string
 categories: 
-    - python
+    - python-string
 ---
 
 # 문자열 수정 (Modify Strings)

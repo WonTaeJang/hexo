@@ -4,7 +4,7 @@ date: 2021-07-01 16:46:10
     - python 
     - variables
 categories: 
-    - python
+    - python-variables
 ---
 # Python Variables 1
 - 변수는 데이터 값을 저장하기위한 컨테이너.

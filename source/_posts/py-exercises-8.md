@@ -5,7 +5,7 @@ date: 2021-07-06 10:37:59
     - if
     - exercises
 categories: 
-    - python
+    - python-exercises
 ---
 
 # Exercise 1
