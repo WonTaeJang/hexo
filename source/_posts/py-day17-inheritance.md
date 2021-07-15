@@ -96,3 +96,65 @@ class Student(Person):
   def __init__(self, fname, lname):
     Person.__init__(self, fname, lname)
 ```
+
+## 4. Use the super() Function
+super() 함수를 사용하면 자식 클래스가 부모 클래스의 모든 속성과 메소드를 상속할 수 있다. 
+
+> Python also has a super() function that will make the child class inherit all the methods and properties from its parent
+
+### example
+``` python
+class Student(Person):
+  def __init__(self, fname, lname):
+    super().__init__(fname, lname)
+```
+
+ super() 함수를 사용하면 부모의 요소를 언급할 필요가 없다.
+
+ > By using the super() function, you do not have to use the name of the parent element, it will automatically inherit the methods and properties from its parent.
+
+ ## 5. Add Properties
+ ### example
+ >Add a property called graduationyear to the Student class:
+``` python
+class Student(Person):
+  def __init__(self, fname, lname):
+    super().__init__(fname, lname)
+    self.graduationyear = 2019
+```
+
+클래스 매개변수로 Student Properties를 추가할 수 있습니다.
+> In the example below, the year 2019 should be a variable, and passed into the Student class when creating student objects. To do so, add another parameter in the &#95;&#95;init&#95;&#95;() function
+
+### example
+``` python
+class Student(Person):
+  def __init__(self, fname, lname, year):
+    super().__init__(fname, lname)
+    self.graduationyear = year
+
+x = Student("Mike", "Olsen", 2019)
+```
+
+## 6. Add Methods
+
+### example
+``` python
+class Student(Person):
+  def __init__(self, fname, lname, year):
+    super().__init__(fname, lname)
+    self.graduationyear = year
+
+  def welcome(self):
+    print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
+```
+
+부모 클래스의 함수와 이름이 같은 메서드를 자식 클래스에 추가하면 부모 메서드의 상속이 무시됩니다.
+
+>If you add a method in the child class with the same name as a function in the parent class, the inheritance of the parent method will be overridden.
+
+# Exercises
+[py-exercises-13](https://wontaejang.github.io/2021/07/15/py-exercises-13/)
+
+# Reference
+[w3schools python](https://www.w3schools.com/python)
