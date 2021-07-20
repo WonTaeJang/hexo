@@ -210,7 +210,7 @@ def tri_recursion(k):
 print("\n\nRecursion Example Results")
 tri_recursion(6)
 ```
-
+# Exercises
 [py-exercises-11](https://wontaejang.github.io/2021/07/08/py-exercises-11/)
 
 # Reference

@@ -119,7 +119,7 @@ for문을 선언하고 사용하지 않을때 pass문을 넣으면 오류가 발
 for x in [0, 1, 2]:
   pass
 ```
-
+# Exercises
 [py-exercises-10](https://wontaejang.github.io/2021/07/07/py-exercises-10/)
 
 # Reference
