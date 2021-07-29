@@ -187,3 +187,49 @@ var square = function(number) {
 JavaScript: The Good Parts의 저자이며 자바스크립트의 권위자인 더글러스 크락포드(Douglas Crockford)는 이와 같은 문제 때문에 함수 표현식만을 사용할 것을 권고하고 있다. 함수 호이스팅이 함수 호출 전 반드시 함수를 선언하여야 한다는 규칙을 무시하므로 코드의 구조를 엉성하게 만들 수 있다고 지적한다.
 
 또한 함수 선언문으로 함수를 정의하면 사용하기에 쉽지만 대규모 애플리케이션을 개발하는 경우 인터프리터가 너무 많은 코드를 변수 객체(VO)에 저장하므로 애플리케이션의 응답속도는 현저히 떨어질 수 있으므로 주의해야 할 필요가 있다.
+
+# 3. First-class object(일급 객체)
+일급 객체(first-class object)란 생성, 대입, 연산, 인자 또는 반환값으로서의 전달 등 프로그래밍 언어의 기본적 조작을 제한없이 사용할 수 있는 대상을 의미한다. 
+
+다음 조건을 만족하면 일급 객체로 간주한다. 
+> 1. 무명의 리터럴로 표현이 가능하다. 
+> 2. 변수나 자료 구조(객체, 배열 등)에 저장할 수 있다. 
+> 3. 함수의 매개변수에 전달할 수 있다. 
+> 4. 반환값으로 사용할 수 있다. 
+
+``` javascript
+// 1. 무명의 리터럴로 표현이 가능하다.
+// 2. 변수나 자료 구조에 저장할 수 있다.
+var increase = function (num) {
+  return ++num;
+};
+
+var decrease = function (num) {
+  return --num;
+};
+
+var predicates = { increase, decrease };
+
+// 3. 함수의 매개변수에 전달할 수 있다.
+// 4. 반환값으로 사용할 수 있다.
+function makeCounter(predicate) {
+  var num = 0;
+
+  return function () {
+    num = predicate(num);
+    return num;
+  };
+}
+
+var increaser = makeCounter(predicates.increase);
+console.log(increaser()); // 1
+console.log(increaser()); // 2
+
+var decreaser = makeCounter(predicates.decrease);
+console.log(decreaser()); // -1
+console.log(decreaser()); // -2
+```
+
+Javascript의 함수는 위의 조건을 모두 만족하므로 Javascript의 함수는 일급객체이다. 따라서 Javascript의 함수는 흡사 변수와 같이 사용할 수 있으며 코드의 어디에서든지 정의할 수 있다. 
+
+함수와 다른 객체를 구분짓는 특징은 호출할 수 있다는 것이다.
