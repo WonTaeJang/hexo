@@ -232,4 +232,65 @@ console.log(decreaser()); // -2
 
 Javascript의 함수는 위의 조건을 모두 만족하므로 Javascript의 함수는 일급객체이다. 따라서 Javascript의 함수는 흡사 변수와 같이 사용할 수 있으며 코드의 어디에서든지 정의할 수 있다. 
 
-함수와 다른 객체를 구분짓는 특징은 호출할 수 있다는 것이다.
+**함수와 다른 객체를 구분짓는 특징은 호출할 수 있다는 것이다.**       
+
+
+# 4. 매개변수(Parameter, 인자)
+함수의 작업 실행을 위해 추가적인 정보가 필요할 경우, 매개변수를 지정한다. 매개변수는 함수 내에서 변수와 동일하게 동작한다.
+
+## 4.1 매개변수(parameter, 인자) vs 인수(argument)
+매개변수는 함수 내에서 변수와 동일하게 메모리 공간을 확보하며 함수에 전달한 인수는 매개변수에 할당된다. 만약 인수를 전달하지 않으면 매개변수는 Undefined로 초기화 된다. 
+
+``` javascript
+var foo = function (p1, p2) {
+  console.log(p1, p2);
+};
+
+foo(1); // 1 undefined
+```
+
+## 4.2 Call-by-value
+원시 타입 인수는 Call-by-value(값에 의한 호출)로 동작한다. 이는 함수 호출 시 원시 타입 인수를 함수에 매개변수로 전달할 때 매개변수에 값을 복사하여 함수로 전달하는 방식이다. 이때 함수 내에서 매개변수를 통해 값이 변경되어도 전달이 완료된 원시 타입 값은 변경되지 않는다.
+
+``` javascript
+function foo(primitive) {
+  primitive += 1;
+  return primitive;
+}
+
+var x = 0;
+
+console.log(foo(x)); // 1
+console.log(x);      // 0
+```
+
+## 4.3 Call-by-reference
+객체형(참조형) 인수는 Call-by-reference(참조에 의한 호출)로 동작한다. 이는 함수 호출 시 참조 타입 인수를 함수에 매개변수로 전달할 때 매개변수에 값이 복사되지 않고 객체의 참조값이 매개변수에 저장되어 함수로 전달되는 방식이다. 이때 함수 내에서 매개변수의 참조값이 이용하여 객체의 값을 변경했을 때 전달되어진 참조형의 인수값도 같이 변경된다.
+
+``` javascript
+function changeVal(primitive, obj) {
+  primitive += 100;
+  obj.name = 'Kim';
+  obj.gender = 'female';
+}
+
+var num = 100;
+var obj = {
+  name: 'Lee',
+  gender: 'male'
+};
+
+console.log(num); // 100
+console.log(obj); // Object {name: 'Lee', gender: 'male'}
+
+changeVal(num, obj);
+
+console.log(num); // 100
+console.log(obj); // Object {name: 'Kim', gender: 'female'}
+```
+
+changeVal 함수는 원시 타입과 객체 타입 인수를 전달 받아 함수 몸체에서 매개변수의 값을 변경하였다. 이때 원시 타입 인수는 값을 복사하여 매개변수에 전달하기 때문에 함수 몸체에서 그 값을 변경하여도 어떠한 부수 효과(side-effect)도 발생시키지 않는다.
+
+하지만 객체형 인수는 참조값을 매개변수에 전달하기 때문에 함수 몸체에서 그 값을 변경할 경우 원본 객체가 변경되는 부수 효과(side-effect)가 발생한다. 이와 같이 부수 효과를 발생시키는 비순수 함수(Impure function)는 복잡성을 증가시킨다. 비순수 함수를 최대한 줄이는 것은 부수 효과를 최대한 억제하는 것과 같다. 이것은 디버깅을 쉽게 만든다.
+
+어떤 외부 상태도 변경하지 않는 함수를 순수함수(Pure function), 외부 상태도 변경시켜는 부수 효과(side-effect)가 발생시키는 함수를 비순수 함수(Impure function)라 한다.
