@@ -294,3 +294,174 @@ changeVal 함수는 원시 타입과 객체 타입 인수를 전달 받아 함�
 하지만 객체형 인수는 참조값을 매개변수에 전달하기 때문에 함수 몸체에서 그 값을 변경할 경우 원본 객체가 변경되는 부수 효과(side-effect)가 발생한다. 이와 같이 부수 효과를 발생시키는 비순수 함수(Impure function)는 복잡성을 증가시킨다. 비순수 함수를 최대한 줄이는 것은 부수 효과를 최대한 억제하는 것과 같다. 이것은 디버깅을 쉽게 만든다.
 
 어떤 외부 상태도 변경하지 않는 함수를 순수함수(Pure function), 외부 상태도 변경시켜는 부수 효과(side-effect)가 발생시키는 함수를 비순수 함수(Impure function)라 한다.
+
+# 5. 반환값
+함수는 자신을 호출한 코드에게 수행한 결과를 반환(return)할 수 있다. 이때 반환된 값을 반환값(return value)이라 한다. 
+- return 키워드는 함수를 호출한 코드(caller)에게 값을 반환할 때 사용한다. 
+- 함수는 배열 등을 이용하여 한번에 여러 개의 값을 리턴할 수 있다. 
+- 함수는 반환을 생략할 수 있다. 이때 함수는 암묵적으로 undefined를 반환한다. 
+- 자바스크립트 해석기는 return 키워드를 만나면 함수의 실행을 중단한 후, 함수를 호출한 코드로 되돌아간다. 만일 return 키워드 이후에 다른 구문이 존재하면 그 구문은 실행되지 않는다. 
+
+``` javascript
+function calculateArea(width, height) {
+  var area = width * height;
+  return area; // 단일 값의 반환
+}
+console.log(calculateArea(3, 5)); // 15
+console.log(calculateArea(8, 5)); // 40
+
+function getSize(width, height, depth) {
+  var area = width * height;
+  var volume = width * height * depth;
+  return [area, volume]; // 복수 값의 반환
+}
+
+console.log('area is ' + getSize(3, 2, 3)[0]);   // area is 6
+console.log('volume is ' + getSize(3, 2, 3)[1]); // volume is 18
+```
+
+# 6. 함수 객체의 프로퍼티
+함수는 객체이다. 따라서 함수도 프로퍼티를 가질 수 있다. 
+
+``` javascript
+function square(number) {
+  return number * number;
+}
+
+square.x = 10;
+square.y = 20;
+
+console.log(square.x, square.y);
+```
+
+함수는 일반 객체와는 다른 함수만의 프로퍼티를 갖는다. 
+
+``` javascript
+function square(number) {
+  return number * number;
+}
+console.dir(square);
+```
+
+## 6.1 arguments 프로퍼티
+
+arguments 객체는 함수 호출 시 전달된 인수(argument)들의 정보를 담고 있는 순회가능한 (iterble)유사 배열 객체(array-like object)이며 함수 내부에서 지역변수처럼 사용된다. 즉, 함수 외부에서는 사용할 수 없다. 
+
+> arguments 프로퍼티는 현재 일부 브라우저에서 지원하고 있지만 ES3부터 표준에서 deprecated 되었다. Function.arguments와 같은 사용 방법은 권장되지 않으며 함수 내부에서 지역변수처럼 사용할 수 있는 arguments 객체를 참조하도록 한다.
+
+자바스트립트는 함수 호출 시 함수 정의에 따라 인수를 전달하지 않아도 에러가 발생하지 않는다. 
+
+``` javascript
+function multiply(x, y) {
+  console.log(arguments);
+  return x * y;
+}
+
+multiply();        // {}
+multiply(1);       // { '0': 1 }
+multiply(1, 2);    // { '0': 1, '1': 2 }
+multiply(1, 2, 3); // { '0': 1, '1': 2, '2': 3 }
+```
+
+매개변수(parameter)는 인수(argument)로 초기화 된다. 
+
+- 매개변수의 갯수보다 인수를 적게 전달했을 때(multiply(), multiply(1)) 인수가 전달되지 않은 매개변수는 undefined 으로 초기화 된다. 
+- 매개변수의 갯수보다 인수를 더 많이 전달한 경우, 초과된 인수는 무시된다. 
+
+이러한 자바스크립트의 특성떄문에 런타임 시에 호출된 함수의 인자 갯수를 확인하고 이에따라 동작을 달리 정의할 필요가 있을 수 있다. 이때 유용하게 사용되는 것이 arguments 객체이다. 
+
+arguments 객체는 매개변수 갯수가 확정되지 않은 가변 인자 함수를 구현할 때 유용하게 사용된다. 
+
+``` javascript
+function sum() {
+  var res = 0;
+
+  for (var i = 0; i < arguments.length; i++) {
+    res += arguments[i];
+  }
+
+  return res;
+}
+
+console.log(sum());        // 0
+console.log(sum(1, 2));    // 3
+console.log(sum(1, 2, 3)); // 6
+```
+
+자바스크립트는 함수를 호출할 때 인수들과 함께 암묵적으로 arguments 객체가 함수 내부로 전달된다. arguments 객체는 배열의 형태로 인자값 정보를 담고 있지만 실제 배열이 아닌 유사배열객체(array-like object)이다.
+
+유사배열객체란 length 프로퍼티를 가진 객체를 말한다. 유사배열객체는 배열이 아니므로 배열 메소드를 사용하는 경우 에러가 발생하게 된다. 따라서 배열 메소드를 사용하려면 [Function.prototype.call](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Function/call), [Function.prototype.apply]https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)를 사용하여야 하는 번거로움이 있다.
+
+``` javascript
+function sum() {
+  if (!arguments.length) return 0;
+
+  // arguments 객체를 배열로 변환
+  var array = Array.prototype.slice.call(arguments);
+  return array.reduce(function (pre, cur) {
+    return pre + cur;
+  });
+}
+
+// ES6
+// function sum(...args) {
+//   if (!args.length) return 0;
+//   return args.reduce((pre, cur) => pre + cur);
+// }
+
+console.log(sum(1, 2, 3, 4, 5)); // 15
+```
+
+## 6.2 caller 프로퍼티
+caller 프로퍼티는 자신을 호출한 함수를 의미한다. 
+
+``` javascript
+function foo(func) {
+  var res = func();
+  return res;
+}
+
+function bar() {
+  return 'caller : ' + bar.caller;
+}
+
+console.log(foo(bar)); // caller : function foo(func) {...}
+console.log(bar());    // null (browser에서의 실행 결과)
+```
+
+## 6.3 length 프로퍼티
+length 프로퍼티는 함수 정의 시 작성된 매개변수 갯수를 의미한다. 
+
+``` javascript
+function foo() {}
+console.log(foo.length); // 0
+
+function bar(x) {
+  return x;
+}
+console.log(bar.length); // 1
+
+function baz(x, y) {
+  return x * y;
+}
+console.log(baz.length); // 2
+```
+
+arguments.length의 값과는 다를 수 있으므로 주의하여야 한다. arguments.length는 함수 호출 시 인자의 갯수이다. 
+
+## 6.4 name 프로퍼티
+함수명을 나타낸다. 기명함수의 경우 함수명을 값으로 갖고 익명함수의 경우 빈문자열을 값으로 갖는다. 
+
+``` javascript
+// 기명 함수 표현식(named function expression)
+var namedFunc = function multiply(a, b) {
+  return a * b;
+};
+// 익명 함수 표현식(anonymous function expression)
+var anonymousFunc = function(a, b) {
+  return a * b;
+};
+
+console.log(namedFunc.name);     // multiply
+console.log(anonymousFunc.name); // ''
+```
