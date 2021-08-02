@@ -465,3 +465,230 @@ var anonymousFunc = function(a, b) {
 console.log(namedFunc.name);     // multiply
 console.log(anonymousFunc.name); // ''
 ```
+
+## 6.5 __proto__ 접근자 프로퍼티
+모든 객체는 [[prototype]]이라는 내부 슬롯이 있다. [[prototype]] 내부 슬롯은 프로포타입 객체를 가리킨다. 프로토타입 객체란 프로포타입 기반 객체 지향 프로그래밍의 근간을 이루는 객체로서 객체간의 상속(Inheritance)을 구현하기 위해 사용된다. 즉, 프로포타입 객체는 다른 객체에 공유 프로퍼티를 제공하는 개체를 말한다. 
+
+&#95;&#95;proto&#95;&#95; 프로퍼티는 [[prototype]] 내부 슬롯이 가리키는 프로토타입 객체에 접근하기 위해 사용하는 접근자 프로퍼티이다. 내부 슬롯에는 직접 접근할 수 없고 간접적인 접근 방법을 제공하는 경우에 한하여 접근할 수 있다. 
+[[prototype]] 내부 슬롯에도 직접 접근할 수 없으며 &#95;&#95;proto&#95;&#95; 접근자 프로퍼티를 통해 간접적으로 프로토타입 객체에 접근할 수 있다. 
+
+``` javascript
+// __proto__ 접근자 프로퍼티를 통해 자신의 프로토타입 객체에 접근할 수 있다.
+// 객체 리터럴로 생성한 객체의 프로토타입 객체는 Object.prototype이다.
+console.log({}.__proto__ === Object.prototype); // true
+```
+
+&#95;&#95;proto&#95;&#95; 프로퍼티는 객체가 직접 소유하는 프로퍼티가 아니라 모든 객체의 프로토타입 객체인 Object.prototype 객체의 프로퍼티이다. 모든 객체는 상속을 통해 &#95;&#95;proto&#95;&#95; 접근자 프로퍼티는 사용할 수 있다. 
+
+``` javascript
+// 객체는 __proto__ 프로퍼티를 소유하지 않는다.
+console.log(Object.getOwnPropertyDescriptor({}, '__proto__'));
+// undefined
+
+// __proto__ 프로퍼티는 모든 객체의 프로토타입 객체인 Object.prototype의 접근자 프로퍼티이다.
+console.log(Object.getOwnPropertyDescriptor(Object.prototype, '__proto__'));
+// {get: ƒ, set: ƒ, enumerable: false, configurable: true}
+
+// 모든 객체는 Object.prototype의 접근자 프로퍼티 __proto__를 상속받아 사용할 수 있다.
+console.log({}.__proto__ === Object.prototype); // true
+```
+
+함수도 객치이므로 &#95;&#95;proto&#95;&#95; 접근자 프로퍼티를 통해 프로토타입 객체에 접근할 수 있다. 
+
+``` javascript
+// 함수 객체의 프로토타입 객체는 Function.prototype이다.
+console.log((function() {}).__proto__ === Function.prototype); // true
+```
+
+## 6.6 prototype 프로퍼티
+prototype 프로퍼티는 함수 객체만이 소유하는 프로퍼티이다. 즉 일반 객체에는 prototype 프로퍼티가 없다. 
+
+``` javascript
+// 함수 객체는 prototype 프로퍼티를 소유한다.
+console.log(Object.getOwnPropertyDescriptor(function() {}, 'prototype'));
+// {value: {…}, writable: true, enumerable: false, configurable: false}
+
+// 일반 객체는 prototype 프로퍼티를 소유하지 않는다.
+console.log(Object.getOwnPropertyDescriptor({}, 'prototype'));
+// undefined
+```
+
+prototype 프로퍼티는 함수가 객체를 생성하는 생성자 함수로 사용될 때, 생성자 함수가 생성한 인스턴스의 프로토타입 객체를 가리킨다. 
+
+# 7. 함수의 다양한 형태 
+## 7.1 즉시 실행 함수
+함수의 정의와 동시에 실행되는 함수를 즉시 실행 함수 (IIFE, Immediately Invoke Function Expression)라고 한다. 최초 한번만 호출되며 다시 호출할 수는 없다. 이러한 특징을 이용하여 최초 한번만 실행이 필요한 초기화 처리등에 사용할 수 있다. 
+
+``` javascript
+// 기명 즉시 실행 함수(named immediately-invoked function expression)
+(function myFunction() {
+  var a = 3;
+  var b = 5;
+  return a * b;
+}());
+
+// 익명 즉시 실행 함수(immediately-invoked function expression)
+(function () {
+  var a = 3;
+  var b = 5;
+  return a * b;
+}());
+
+// SyntaxError: Unexpected token (
+// 함수선언문은 자바스크립트 엔진에 의해 함수 몸체를 닫는 중괄호 뒤에 ;가 자동 추가된다.
+function () {
+  // ...
+}(); // => };();
+
+// 따라서 즉시 실행 함수는 소괄호로 감싸준다.
+(function () {
+  // ...
+}());
+
+(function () {
+  // ...
+})();
+```
+
+자바스크립트에서 가장 큰 문제점 중의 하나는 파일이 분리되어 있다하여도 글로벌 스코프가 하나이며 글로벌 스코프에 선언된 변수나 함수는 코드 내의 어디서든지 접근이 가능하다는 것이다.
+
+따라서 다른 스크립트 파일 내에서 동일한 이름으로 명명된 변수나 함수가 같은 스코프 내에 존재할 경우 원치 않는 결과를 가져올 수 있다.
+
+즉시 실행 함수 내에 처리 로직을 모아 두면 혹시 있을 수도 있는 변수명 또는 함수명의 충돌을 방지할 수 있어 이를 위한 목적으로 즉시실행함수를 사용되기도 한다.
+
+특히 jQuery와 같은 라이브러리의 경우, 코드를 즉시 실행 함수 내에 정의해 두면 라이브러리의 변수들이 독립된 영역 내에 있게 되므로 여러 라이브러리들은 동시에 사용하더라도 변수명 충돌과 같은 문제를 방지할 수 있다.
+
+``` javascript
+(function () {
+  var foo = 1;
+  console.log(foo);
+}());
+
+var foo = 100;
+console.log(foo);
+```
+
+## 7.2 내부 함수
+함수 내부에 정의된 함수를 내부함수(Inner function)라 한다. 
+
+아래 예제의 내부함수 child는 자신을 포함하고 있는 부모함수 parent의 변수에 접근할 수 있다. 하지만 부모함수는 자식함수(내부함수)의 변수에 접근할 수 없다. 
+
+``` javascript
+function parent(param) {
+  var parentVar = param;
+  function child() {
+    var childVar = 'lee';
+    console.log(parentVar + ' ' + childVar); // Hello lee
+  }
+  child();
+  console.log(parentVar + ' ' + childVar);
+  // Uncaught ReferenceError: childVar is not defined
+}
+parent('Hello');
+```
+
+또한 내부함수는 부모함수의 외부에서 접근할 수 없다.
+
+``` javascript
+function sayHello(name){
+  var text = 'Hello ' + name;
+  var logHello = function(){ console.log(text); }
+  logHello();
+}
+
+sayHello('lee');  // Hello lee
+logHello('lee');  // logHello is not defined
+```
+
+## 7.3 재귀 함수
+재귀 함수(Recusive function)는 자기 자신을 호출하는 함수를 말한다. 
+
+``` javascript
+// 피보나치 수열
+// 피보나치 수는 0과 1로 시작하며, 다음 피보나치 수는 바로 앞의 두 피보나치 수의 합이 된다.
+// 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, ...
+function fibonacci(n) {
+  if (n < 2) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+console.log(fibonacci(0)); // 0
+console.log(fibonacci(1)); // 1
+console.log(fibonacci(2)); // 1
+console.log(fibonacci(3)); // 2
+console.log(fibonacci(4)); // 3
+console.log(fibonacci(5)); // 5
+console.log(fibonacci(6)); // 8
+
+// 팩토리얼
+// 팩토리얼(계승)은 1부터 자신까지의 모든 양의 정수의 곱이다.
+// n! = 1 * 2 * ... * (n-1) * n
+function factorial(n) {
+  if (n < 2) return 1;
+  return factorial(n - 1) * n;
+}
+
+console.log(factorial(0)); // 1
+console.log(factorial(1)); // 1
+console.log(factorial(2)); // 2
+console.log(factorial(3)); // 6
+console.log(factorial(4)); // 24
+console.log(factorial(5)); // 120
+console.log(factorial(6)); // 720
+```
+
+재귀 함수는 자신을 무한히 연쇄 호출하므로 호출을 멈출 수 있는 탈출 조건을 반드시 만들어야 한다. 탈출 조건이 없는 경우, 함수가 무한 호출되어 stackoverflow 에러가 발생한다. 위의 두개의 예제 모두 조건식을 통해 재귀 호출을 중지하고 있다.
+
+재귀 함수는 반복 연산을 간단히 구현할 수 있다는 장점이 있지만 무한 반복에 빠질 수 있고, stackoverflow 에러를 발생시킬 수 있으므로 주의하여야 한다.
+
+대부분의 재귀 함수는 for나 while 문으로 구현이 가능하다. 반복문보다 재귀 함수를 통해 보다 직관적으로 이해하기 쉬운 구현이 가능한 경우에만 한정적으로 적용하는 것이 바람직하다.
+
+## 7.4 콜백 함수
+콜백 함수(Callback function)는 함수를 명시적으로 호출하는 방식이 아니라 특정 이벤트가 발생했을 때 시스템에 의해 호출되는 함수를 말한다. 
+
+콜백 함수가 자주 사용되는 대표적인 예는 이벤트 헨들러 처리이다. 
+
+``` html
+<!DOCTYPE html>
+<html>
+<body>
+  <button id="myButton">Click me</button>
+  <script>
+    var button = document.getElementById('myButton');
+    button.addEventListener('click', function() {
+      console.log('button clicked!');
+    });
+  </script>
+</body>
+</html>
+```
+
+Javascript의 함수는 일급객체이다. 따라서 Javascript의 함수는 흡사 변수와 같이 사용될 수 있다.
+
+콜백 함수는 매개변수를 통해 전달되고 전달받은 함수의 내부에서 어느 특정시점에 실행된다.
+setTimeout()의 콜백 함수를 살펴보자. 두번째 매개변수에 전달된 시간이 경과되면 첫번째 매개변수에 전달한 콜백 함수가 호출된다.
+
+``` javascript
+setTimeout(function () {
+  console.log('1초 후 출력된다.');
+}, 1000);
+```
+
+콜백 함수는 주로 비동기식 처리 모델(Asynchronous processing model)에 사용된다. 비동기식 처리 모델이란 처리가 종료하면 호출될 함수(콜백함수)를 미리 매개변수에 전달하고 처리가 종료하면 콜백함수를 호출하는 것이다.
+
+콜백함수는 콜백 큐에 들어가 있다가 해당 이벤트가 발생하면 호출된다. 콜백 함수는 클로저이므로 콜백 큐에 단독으로 존재하다가 호출되어도 콜백함수를 전달받은 함수의 변수에 접근할 수 있다.
+
+``` javascript
+function doSomething() {
+  var name = 'Lee';
+
+  setTimeout(function () {
+    console.log('My name is ' + name);
+  }, 100);
+}
+
+doSomething(); // My name is Lee
+```
+
+# Reference
+[poiemaweb.com/js-function](https://poiemaweb.com/js-function)
