@@ -71,3 +71,145 @@ console.dir(foo);    // prototype 프로퍼티가 없다.
 ``` javascript
 console.log(Person.prototype === foo.__proto__);
 ```
+
+# 3. constructor 프로퍼티
+프로토타입 객체는 constructor 프로퍼티를 갖는다. 이 constructor 프로퍼티는 객체의 입장에서 자신을 생성한 객체를 가리킨다. 
+
+예를 들어 Person() 생성자 함수에 의해 생성된 객체를 foo라 하자. 이 foo 객체를 생성한 객체는 Person() 생성자 함수이다. 이때 foo 객체 입장에서 자신을 생성한 객체는 Person() 생성자 함수이며, foo 객체의 프로토타입 객체는 Person.prototype이다. 따라서 프로토타입 객체 Person.prototype 의 constructor 프로퍼티는 Person() 생성자 함수를 가리킨다. 
+
+``` javascript
+function Person(name) {
+  this.name = name;
+}
+
+var foo = new Person('Lee');
+
+// Person() 생성자 함수에 의해 생성된 객체를 생성한 객체는 Person() 생성자 함수이다.
+console.log(Person.prototype.constructor === Person);
+
+// foo 객체를 생성한 객체는 Person() 생성자 함수이다.
+console.log(foo.constructor === Person);
+
+// Person() 생성자 함수를 생성한 객체는 Function() 생성자 함수이다.
+console.log(Person.constructor === Function);
+```
+
+# 4.Prototype chain 
+자바스크립트는 특정 객체의 프로퍼티나 메소드에 접근하려고 할 때 해당 객체에 접근하려는 프로퍼티 또는 메소드가 없다면 [[Prototype]]이 가리키는 링크를 따라 자신의 부모 역할을 하는 프로토타입 객체의 프로퍼티나 메소드를 차례대로 검색한다. 이것을 프로토타입 체인이라 한다. 
+
+``` javascript
+var student = {
+  name: 'Lee',
+  score: 90
+}
+
+// Object.prototype.hasOwnProperty()
+console.log(student.hasOwnProperty('name')); // true
+```
+
+student 객체는 hasOwnProperty 메소드를 가지고 있지 않으므로 에러가 발행하여야 하나 정상적으로 결과가 출력되었다. 이는 student 객체의 [[Prototype]]이 가리키는 링크를 따라가서 student 객체의 부모 역할을 하는 프로토타입 객체(Object.prototype)의 메소드 hasOwnProterty를 호출하였기 때문에 가능한 것이다. 
+
+``` javascript
+var student = {
+  name: 'Lee',
+  score: 90
+}
+console.dir(student);
+console.log(student.hasOwnProperty('name')); // true
+console.log(student.__proto__ === Object.prototype); // true
+console.log(Object.prototype.hasOwnProperty('hasOwnProperty')); // true
+```
+
+## 4.1 객체 리터럴 방식으로 생성된 객체의 프로토타입 체인 
+객체생성 방법은 3가지가 있다. 
+- 객체 리터럴
+- 생성자 함수
+- Object() 생성자 함수
+
+객체 리터럴 방식으로 생성된 객체는 결국 내장함수(Built-in)인 Object() 생성자 함수로 객체를 생성하는 것을 단순화시킨 것이다. 자바스크립트 엔진은 객체 리터럴로 객체를 생성하는 코드를 만나면 내부적으로 Object() 생성자 함수를 사용하여 객체를 생성한다. 
+
+Object() 생성자 함수는 물론 함수이다. 따라서 함수 객체인 Object() 생성자 함수는 일반 객체와 달리 prototype 프로퍼티가 있다. 
+- prototype 프로퍼티는 함수 객체가 생성자로 사용될 때 이 함수를 통해 생성된 객체의 부모 역할을 하는 객체, 즉 프로토타입 객체를 가리킨다. 
+- [[Prototype]]은 객체의 입장에서 자신의 부모 역할을 하는 객체, 즉 프로토타입 객체를 가리킨다. 
+
+``` javascript
+var person = {
+  name: 'Lee',
+  gender: 'male',
+  sayHello: function(){
+    console.log('Hi! my name is ' + this.name);
+  }
+};
+
+console.dir(person);
+
+console.log(person.__proto__ === Object.prototype);   // ① true
+console.log(Object.prototype.constructor === Object); // ② true
+console.log(Object.__proto__ === Function.prototype); // ③ true
+console.log(Function.prototype.__proto__ === Object.prototype); // ④ true
+```
+
+> 결론적으로 객체 리터럴을 사용하여 객체를 생성한 경우, 그 객체의 프로토타입 객체는 Object.prototype이다. 
+
+## 4.2 생성자 함수로 생성된 객체의 프로토타입 체인
+생성자 함수로 객체를 생성하기 위해서는 우선 생성자 함수를 정의하여야 한다. 
+
+함수를 정의하는 방식은 3가지가 있다. 
+- 함수선언식(Function declaration)
+- 함수표현식(Funciton expression)
+- Funciton() 생성자 함수
+
+함수표현식으로 함수를 정의할 때 함수 리터럴 방식을 사용한다. 
+
+``` javascript
+var square = function(number) {
+  return number * number;
+};
+```
+
+함수 선언식의 경우 자바스크립트 엔진이 내부적으로 기명 함수표현식으로 변환한다. 
+
+``` javascript
+var square = function square(number) {
+  return number * number;
+};
+```
+
+결국 함수선언식, 함수표현식 모두 함수 리터럴 방식을 사용한다. 함수 리터럴 방식은 Function() 생성자 함수로 함수를 생성하는 것을 단순화 시킨것이다. 
+
+> 즉, 3자기 함수 정의 방식은 결국 Function() 생성자 함수를 통해 함수 객체를 생성한다, 따라서 어떠한 방식으로 함수 객체를 생성하여도 모든 함수 객체의 prototype 객체는 Function.prototype이다. 생성자 함수도 함수 객체이므로 생성자 함수의 prototyupe 객체는 Function.prototype이다. 
+
+이제 객체의 관점에서 prototype 객체를 살펴보자. 
+
+객체를 생성하는 방식은 3가지가 있다. 3가지 객체 생성 방식에 의해 생성된 객체의 prototype 객체를 정리해 보면 아래와 같다. 
+
+|객체 생성 방식|엔진의 객체 생성|인스턴스의 prototype 객체|
+|--------------|----------------|------------------------|
+|객체 리터럴|Object() 생성자 함수|Object.prototype|
+|Object() 생성자 함수|Object() 생성자 함수|Object.prototype|
+|생성자 함수|생성자 함수|생성자 함수 이름.prototype|
+
+``` javascript
+function Person(name, gender) {
+  this.name = name;
+  this.gender = gender;
+  this.sayHello = function(){
+    console.log('Hi! my name is ' + this.name);
+  };
+}
+
+var foo = new Person('Lee', 'male');
+
+console.dir(Person);
+console.dir(foo);
+
+console.log(foo.__proto__ === Person.prototype);                // ① true
+console.log(Person.prototype.__proto__ === Object.prototype);   // ② true
+console.log(Person.prototype.constructor === Person);           // ③ true
+console.log(Person.__proto__ === Function.prototype);           // ④ true
+console.log(Function.prototype.__proto__ === Object.prototype); // ⑤ true
+```
+
+foo 객체의 프로토타입 객체 Person.prototype 객체와 Person() 생성자 함수의 프로토타입 객체인 Function.prototype의 프로토타입 객체는 Object.prototype 객체이다.
+
+이는 객체 리터럴 방식이나 생성자 함수 방식이나 결국은 모든 객체의 부모 객체인 Object.prototype 객체에서 프로토타입 체인이 끝나기 때문이다. 이때 Object.prototype 객체를 프로토타입 체인의 종점(End of prototype chain)이라 한다.
