@@ -236,25 +236,133 @@ console.log(x); // ?
 
 ``` javascript
 var foo = function ( ) {
-
   var a = 3, b = 5;
-
   var bar = function ( ) {
     var b = 7, c = 11;
-
-// 이 시점에서 a는 3, b는 7, c는 11
-
+    // 이 시점에서 a는 3, b는 7, c는 11
     a += b + c;
-
-// 이 시점에서 a는 21, b는 7, c는 11
-
+    // 이 시점에서 a는 21, b는 7, c는 11
   };
 
-// 이 시점에서 a는 3, b는 5, c는 not defined
-
+  // 이 시점에서 a는 3, b는 5, c는 not defined
   bar( );
-
-// 이 시점에서 a는 21, b는 5
-
+  // 이 시점에서 a는 21, b는 5
 };
 ```
+
+# 7. 렉시컬 스코프 
+
+``` javascript
+var x = 1;
+
+function foo() {
+  var x = 10;
+  bar();
+}
+
+function bar() {
+  console.log(x);
+}
+
+foo(); // ?
+bar(); // ?
+```
+
+위 예제의 실행 결과는 함수 bar의 상위 스코프가 무엇인지에 따라 결정된다. 두가지 패턴을 예측할 수 있는데 첫번째는 함수를 어디서 호출하였는지에 따라 상위 스코프를 결정하는 것이고 두번째는 함수를 어디서 선언하였는지에 따라 상위 스코프를 결정하는 것이다. 첫번째 방식으로 함수의 상위 스코프를 결정한다면 함수 bar의 상위 스코프는 함수 foo와 전역일 것이고, 두번째 방식으로 함수의 스코프를 결정한다면 함수 bar의 스코프는 전역일 것이다.
+
+프로그래밍 언어는 이 두가지 방식 중 하나의 방식으로 함수의 상위 스코프를 결정한다. 첫번째 방식을 동적 스코프(Dynamic scope)라 하고, 두번째 방식을 렉시컬 스코프(Lexical scope) 또는 정적 스코프(Static scope)라 한다. 자바스크립트를 비롯한 대부분의 프로그래밍 언어는 렉시컬 스코프를 따른다.
+
+**렉시컬 스코프는 함수를 어디서 호출하는지가 아니라 어디에 선언하였는지에 따라 결정된다. ** 자바스크립트는 렉시컬 스코프를 따르므로 함수를 선언한 시점에 상위 스코프가 결정된다. 함수를 어디에서 호출하였는지는 스코프 결정에 아무런 의미를 주지 않는다. 위 예제의 함수 bar는 전역에 선언되었다. 따라서 함수 bar의 상위 스코프는 전역 스코프이고 위 예제는 전역 변수 x의 값 1을 두번 출력한다.
+
+# 8. 암묵적 전역
+``` javascript
+var x = 10; // 전역 변수
+
+function foo () {
+  // 선언하지 않은 식별자
+  y = 20;
+  console.log(x + y);
+}
+
+foo(); // 30
+```
+
+위 예제의 y는 선언하지 않은 식별자이다. 따라서 y = 20이 실행되면 참조 에러가 발생할 것처럼 보인다. 하지만 선언하지 않은 식별자 y는 마치 선언된 변수처럼 동작한다. 이는 선언하지 않은 식별자에 값을 할당하면 전역 객체의 프로퍼티가 되기 때문이다.
+
+foo 함수가 호출되면 자바스크립트 엔진은 변수 y에 값을 할당하기 위해 먼저 스코프 체인을 통해 선언된 변수인지 확인한다. 이때 foo 함수의 스코프와 전역 스코프 어디에서도 변수 y의 선언을 찾을 수 없으므로 참조 에러가 발생해야 하지만 자바스크립트 엔진은 y = 20을 window.y = 20으로 해석하여 프로퍼티를 동적 생성한다. 결국 y는 전역 객체의 프로퍼티가 되어 마치 전역 변수처럼 동작한다. 이러한 현상을 암묵적 전역(implicit global)이라 한다.
+
+하지만 y는 변수 선언없이 단지 전역 객체의 프로퍼티로 추가되었을 뿐이다. 따라서 y는 변수가 아니다. 따라서 변수가 아닌 y는 변수 호이스팅이 발생하지 않는다.
+
+``` javascript
+// 전역 변수 x는 호이스팅이 발생한다.
+console.log(x); // undefined
+// 전역 변수가 아니라 단지 전역 프로퍼티인 y는 호이스팅이 발생하지 않는다.
+console.log(y); // ReferenceError: y is not defined
+
+var x = 10; // 전역 변수
+
+function foo () {
+  // 선언하지 않은 변수
+  y = 20;
+  console.log(x + y);
+}
+
+foo(); // 30
+```
+
+또한 변수가 아니라 단지 프로퍼티인 y는 delete 연산자로 삭제할 수 있다. 전역 변수는 프로퍼티이지만 delete 연산자로 삭제할 수 없다.
+
+``` javascript
+var x = 10; // 전역 변수
+
+function foo () {
+  // 선언하지 않은 변수
+  y = 20;
+  console.log(x + y);
+}
+
+foo(); // 30
+
+console.log(window.x); // 10
+console.log(window.y); // 20
+
+delete x; // 전역 변수는 삭제되지 않는다.
+delete y; // 프로퍼티는 삭제된다.
+
+console.log(window.x); // 10
+console.log(window.y); // undefined
+```
+
+# 9. 최소한의 전역변수 사용
+전역변수 사용을 최소화하는 방법 중 하나는 애플리케이션에서 전역변수 사용을 위해 다음과 같이 전역변수 객체 하나를 만들어 사용하는 것이다. (더글라스 크락포드의 제안)
+``` javascript
+var MYAPP = {};
+
+MYAPP.student = {
+  name: 'Lee',
+  gender: 'male'
+};
+
+console.log(MYAPP.student.name);
+```
+
+# 10. 즉시실행함수를 이용한 전역변수 사용 억제
+전역변수 사용을 억제하기 위해, 즉시 실행 함수(IIFE, Immediately-Invoked Function Expression)를 사용할 수 있다. 이 방법을 사용하면 전역변수를 만들지 않으므로 라이브러리 등에 자주 사용된다. 즉시 실행 함수는 즉시 실행되고 그 후 전역에서 바로 사라진다.
+
+``` javascript
+(function () {
+  var MYAPP = {};
+
+  MYAPP.student = {
+    name: 'Lee',
+    gender: 'male'
+  };
+
+  console.log(MYAPP.student.name);
+}());
+
+console.log(MYAPP.student.name);
+```
+
+# Reference
+[poiemaweb.com/js-scope](https://poiemaweb.com/js-scope)
