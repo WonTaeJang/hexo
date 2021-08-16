@@ -222,3 +222,42 @@ obj2.sayName = obj1.sayName;
 obj1.sayName();
 obj2.sayName();
 ```
+
+프로토타입 객체도 메소드를 가실 수 있다. 프로토타입 객체 메소드 내부에서 사용된 this도 일반 메소드 방식과 마찬가지로 해당 메소드를 호출한 객체에 바인딩된다. 
+
+``` javascript
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.getName = function() {
+  return this.name;
+}
+
+var me = new Person('Lee');
+console.log(me.getName());
+
+Person.prototype.name = 'Kim';
+console.log(Person.prototype.getName());
+```
+
+# 3. 생성자 함수 호출 
+자바스크립트의 생성자 함수는 말 그대로 객체를 생성하는 역할을 한다. 하지만 자바와 같은 객체지향 언어의 생성자 함수와는 다르게 그 형식이 정해져 있는 것이 아니라 기존 함수에 new 연산자를 붙여서 호출하면 해당 함수는 생성자 함수로 동작한다. 
+
+이는 반대로 생각하면 생성자 함수가 아닌 일반 함수에 new 연산자를 붙여 호출 하면 생성자 함수처럼 동작할 수 있다. 따라서 일반적으로 생성자 함수명은 첫문자를 대문자로 기술하여 혼란을 방지하려는 노력을 한다. 
+
+``` javascript
+// 생성자 함수
+function Person(name) {
+  this.name = name;
+}
+
+var me = new Person('Lee');
+console.log(me); // Person&nbsp;{name: "Lee"}
+
+// new 연산자와 함께 생성자 함수를 호출하지 않으면 생성자 함수로 동작하지 않는다.
+var you = Person('Kim');
+console.log(you); // undefined
+```
+
+new 연산자와 함께 생성자 함수를 호출하면 this 바인딩이 메소드나 함수 호출 때와는 다르게 동작한다.
