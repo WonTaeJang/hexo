@@ -180,3 +180,68 @@ var 키워드로 선언된 변수는 선언 단계와 초기화 단계가 한번
 
 전역 컨텍스트(전역 코드)의 경우, Variable Object, 스코프 체인, this 값은 언제나 전역 객체이다.
 
+## 3.2 전역 코드의 실행
+지금까지는 코드 실행 환경을 갖추기 위한 사전 준비였다. 코드의 실행은 지금부터 시작된다.
+
+``` javascript
+var x = 'xxx';
+
+function foo () {
+  var y = 'yyy';
+
+  function bar () {
+    var z = 'zzz';
+    console.log(x + y + z);
+  }
+  bar();
+}
+
+foo();
+```
+
+위 예제를 보면 전역 변수 x에 문자열 ‘xxx’ 할당과 함수 foo의 호출이 실행된다.
+
+### 3.2.1 변수 값의 할당
+전역 변수 x에 문자열 ‘xxx’를 할당할 때, 현재 실행 컨텍스트의 스코프 체인이 참조하고 있는 Variable Object를 선두(0)부터 검색하여 변수명에 해당하는 프로퍼티가 발견되면 값(‘xxx’)을 할당한다.
+
+### 3.2.2 함수 foo의 실행
+전역 코드의 함수 foo가 실행되기 시작하면 새로운 함수 실행 컨텍스트가 생성된다. 함수 foo의 실행 컨텍스트로 컨트롤이 이동하면 전역 코드의 경우와 마찬가지로 1. 스코프 체인의 생성과 초기화, 2. Variable Instantiation 실행, 3. this value 결정이 순차적으로 실행된다.
+
+단, 전역 코드와 다른 점은 이번 실행되는 코드는 함수 코드라는 것이다. 따라서 1. 스코프 체인의 생성과 초기화, 2. Variable Instantiation 실행, 3. this value 결정은 전역 코드의 룰이 아닌 함수 코드의 룰이 적용된다.
+
+### 3.2.2.1 스코프 체인의 생성과 초기화
+함수 코드의 스코프 체인의 생성과 초기화는 우선 Activation Object에 대한 레퍼런스를 스코프 체인의 선두에 설정하는 것으로 시작된다.
+
+Activation Object는 우선 arguments 프로퍼티의 초기화를 실행하고 그 후, Variable Instantiation가 실행된다. Activation Object는 스펙 상의 개념으로 프로그램이 Activation Object에 직접 접근할 수 없다. (Activation Object의 프로퍼티로의 접근은 가능하다)
+
+그 후, Caller(전역 컨텍스트)의 Scope Chain이 참조하고 있는 객체가 스코프 체인에 push된다. 따라서, 이 경우 함수 foo를 실행한 직후 실행 컨텍스트의 스코프 체인은 Activation Object(함수 foo의 실행으로 만들어진 AO-1)과 전역 객체를 순차적으로 참조하게 된다.
+
+### 3.2.2.2 Variable Instantiation 실행
+Function Code의 경우, 스코프 체인의 생성과 초기화에서 생성된 Activation Object를 Variable Object로서 Variable Instantiation가 실행된다. 이것을 제외하면 전역 코드의 경우와 같은 처리가 실행된다. 즉, 함수 객체를 Variable Object(AO-1)에 바인딩한다. (프로퍼티는 bar, 값은 새로 생성된 Function Object. bar function object의 [[Scope]] 프로퍼티 값은 AO-1과 Global Object를 참조하는 리스트）
+
+변수 y를 Variable Object(AO-1)에 설정한다 이때 프로퍼티는 y, 값은 undefined이다.
+
+### 3.2.2.3 this value 결정
+변수 선언 처리가 끝나면 다음은 this value가 결정된다. this에 할당되는 값은 함수 호출 패턴에 의해 결정된다.
+
+내부 함수의 경우, this의 value는 전역 객체이다.
+
+## 3.3 foo 함수 코드의 실행
+이제 함수 foo의 코드 블록 내 구문이 실행된다. 위 예제를 보면 변수 y에 문자열 ‘yyy’의 할당과 함수 bar가 실행된다.
+
+### 3.3.1 변수 값의 할당
+지역 변수 y에 문자열 ‘yyy’를 할당할 때, 현재 실행 컨텍스트의 스코프 체인이 참조하고 있는 Variable Object를 선두(0)부터 검색하여 변수명에 해당하는 프로퍼티가 발견되면 값 ‘yyy’를 할당한다.
+
+### 3.3.2 함수 bar의 실행
+함수 bar가 실행되기 시작하면 새로운 실행 컨텍스트이 생성된다.
+
+이전 함수 foo의 실행 과정과 동일하게 1. 스코프 체인의 생성과 초기화, 2. Variable Instantiation 실행, 3. this value 결정이 순차적으로 실행된다.
+
+이 단계에서 console.log(x + y + z); 구문의 실행 결과는 xxxyyyzzz가 된다.
+
+- x : AO-2에서 x 검색 실패 → AO-1에서 x 검색 실패 → GO에서 x 검색 성공 (값은 ‘xxx’)
+- y : AO-2에서 y 검색 실패 → AO-1에서 y 검색 성공 (값은 ‘yyy’)
+- z : AO-2에서 z 검색 성공 (값은 ‘zzz’)
+
+# Reference
+[poiemaweb.com/js-execution-context](https://poiemaweb.com/js-execution-context)
