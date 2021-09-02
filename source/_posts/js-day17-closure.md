@@ -71,3 +71,66 @@ inner(); // 10
 실행 컨텍스트의 관점에 설명하면, 내부함수가 유효한 상태에서 외부함수가 종료하여 외부함수의 실행 컨텍스트가 반환되어도, 외부함수 실행 컨텍스트 내의 활정객체(Activation object)(변수, 함수 선언 등의 정보를 가지고 있다)는 내부함수에 의해 참조되는 한 유효하여 내부함수가 스코프 체인을 통해 참조할 수 있는 것을 의미한다.
 
 즉 외부함수가 이미 반환되었어도 외부함수 내의 변수는 이를 필요로 하는 내부함수가 하나 이상 존재하는 경우 계속 유지된다. 이때 내부함수가 외부함수에 있는 변수의 복사본이 아니라 실제 변수에 접근한다는 것에 주의하여야 한다.
+
+# 2. 클로저의 활용
+클로저는 자신이 생성될때의 환경(Lexical environment)을 기억해야 하므로 메모리 차원에서 손해를 볼 수 있다. 하지만 클로저는 자바스크립트의 강력한 기능으로 이를 적극적으로 사용해야 한다. 크롤저가 유용하게 사용되는 상황에 대해 살펴보자. 
+
+## 2.1 상태 유지
+클로저가 가장 유용하게 사용되는 상황은 현재 상태를 기억하고 변경된 최신 상태를 유지하는 것이다. 아래 예제를 살펴보자.
+
+``` html
+<!DOCTYPE html>
+<html>
+<body>
+  <button class="toggle">toggle</button>
+  <div class="box" style="width: 100px; height: 100px; background: red;"></div>
+
+  <script>
+    var box = document.querySelector('.box');
+    var toggleBtn = document.querySelector('.toggle');
+
+    var toggle = (function () {
+      var isShow = false;
+
+      // ① 클로저를 반환
+      return function () {
+        box.style.display = isShow ? 'block' : 'none';
+        // ③ 상태 변경
+        isShow = !isShow;
+      };
+    })();
+
+    // ② 이벤트 프로퍼티에 클로저를 할당
+    toggleBtn.onclick = toggle;
+  </script>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='150px' srcdoc="
+<!DOCTYPE html>
+<html>
+<body>
+  <button class='toggle'>toggle</button>
+  <div class='box' style='width: 100px; height: 100px; background: red;'></div>
+  <script>
+    var box = document.querySelector('.box');
+    var toggleBtn = document.querySelector('.toggle');
+    var toggle = (function () {
+      var isShow = false;
+      // ① 클로저를 반환
+      return function () {
+        box.style.display = isShow ? 'block' : 'none';
+        // ③ 상태 변경
+        isShow = !isShow;
+      };
+    })();
+    // ② 이벤트 프로퍼티에 클로저를 할당
+    toggleBtn.onclick = toggle;
+  </script>
+</body>
+</html>
+">
+</iframe>
