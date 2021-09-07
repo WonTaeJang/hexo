@@ -134,3 +134,323 @@ inner(); // 10
 </html>
 ">
 </iframe>
+
+① 즉시실행함수는 함수를 반환하고 즉시 소멸한다. 즉시실행함수가 반환한 함수는 자신이 생성됐을 때의 렉시컬 환경(Lexical environment)에 속한 변수 isShow를 기억하는 클로저다. 클로저가 기억하는 변수 isShow는 box 요소의 표시 상태를 나타낸다.
+
+② 클로저를 이벤트 핸들러로서 이벤트 프로퍼티에 할당했다. 이벤트 프로퍼티에서 이벤트 핸들러인 클로저를 제거하지 않는 한 클로저가 기억하는 렉시컬 환경의 변수 isShow는 소멸하지 않는다. 다시 말해 현재 상태를 기억한다.
+
+③ 버튼을 클릭하면 이벤트 프로퍼티에 할당한 이벤트 핸들러인 클로저가 호출된다. 이때 .box 요소의 표시 상태를 나타내는 변수 isShow의 값이 변경된다. 변수 isShow는 클로저에 의해 참조되고 있기 때문에 유효하며 자신의 변경된 최신 상태를 게속해서 유지한다.
+
+이처럼 클로저는 현재 상태(위 예제의 경우 .box 요소의 표시 상태를 나타내는 isShow 변수)를 기억하고 이 상태가 변경되어도 최신 상태를 유지해야 하는 상황에 매우 유용하다. 만약 자바스크립트에 클로저라는 기능이 없다면 상태를 유지하기 위해 전역 변수를 사용할 수 밖에 없다. 전역 변수는 언제든지 누구나 접근할 수 있고 변경할 수 있기 때문에 많은 부작용을 유발해 오류의 원인이 되므로 사용을 억제해야 한다.
+
+## 2.2 전역 변수의 사용 억제
+버튼이 클릭될 때마다 클릭한 횟수가 누적되어 화면에 표시되는 카운터를 만들어보자. 이 예제의 클릭된 횟수가 바로 유지해야할 상태이다.
+
+``` javascript 
+<!DOCTYPE html>
+<html>
+<body>
+  <p>전역 변수를 사용한 Counting</p>
+  <button id="inclease">+</button>
+  <p id="count">0</p>
+  <script>
+    var incleaseBtn = document.getElementById('inclease');
+    var count = document.getElementById('count');
+
+    // 카운트 상태를 유지하기 위한 전역 변수
+    var counter = 0;
+
+    function increase() {
+      return ++counter;
+    }
+
+    incleaseBtn.onclick = function () {
+      count.innerHTML = increase();
+    };
+  </script>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='150px' srcdoc="
+<!DOCTYPE html>
+<html>
+<body>
+  <p>전역 변수를 사용한 Counting</p>
+  <button id='inclease'>+</button>
+  <p id='count'>0</p>
+  <script>
+    var incleaseBtn = document.getElementById('inclease');
+    var count = document.getElementById('count');
+    // 카운트 상태를 유지하기 위한 전역 변수
+    var counter = 0;
+    function increase() {
+      return ++counter;
+    }
+    incleaseBtn.onclick = function () {
+      count.innerHTML = increase();
+    };
+  </script>
+</body>
+</html>
+">
+</iframe>
+
+위 코드는 잘 동작하지만 오류를 발생시킬 가능성을 내포하고 있는 좋지 않은 코드다. increase 함수는 호출되기 직전에 전역변수 counter의 값이 반드시 0이여야 제대로 동작한다. 하지만 변수 counter는 전역 변수이기 때문에 언제든지 누구나 접근할 수 있고 변경할 수 있다. 이는 의도치 않게 값이 변경될 수 있다는 것을 의미한다. 만약 누군가에 의해 의도치 않게 전역 변수 counter의 값이 변경됐다면 이는 오류로 이어진다. 변수 counter는 카운터를 관리하는 increase 함수가 관리하는 것이 바람직하다. 전역 변수 counter를 increase 함수의 지역 변수로 바꾸어 의도치 않은 상태 변경을 방지해보자.
+
+``` javascript
+<!DOCTYPE html>
+<html>
+<body>
+  <p>지역 변수를 사용한 Counting</p>
+  <button id="inclease">+</button>
+  <p id="count">0</p>
+  <script>
+    var incleaseBtn = document.getElementById('inclease');
+    var count = document.getElementById('count');
+
+    function increase() {
+      // 카운트 상태를 유지하기 위한 지역 변수
+      var counter = 0;
+      return ++counter;
+    }
+
+    incleaseBtn.onclick = function () {
+      count.innerHTML = increase();
+    };
+  </script>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='150px' srcdoc="
+<!DOCTYPE html>
+<html>
+<body>
+  <p>지역 변수를 사용한 Counting</p>
+  <button id='inclease'>+</button>
+  <p id='count'>0</p>
+  <script>
+    var incleaseBtn = document.getElementById('inclease');
+    var count = document.getElementById('count');
+    function increase() {
+      // 카운트 상태를 유지하기 위한 지역 변수
+      var counter = 0;
+      return ++counter;
+    }
+    incleaseBtn.onclick = function () {
+      count.innerHTML = increase();
+    };
+  </script>
+</body>
+</html>
+">
+</iframe>
+
+전역변수를 지역변수로 변경하여 의도치 않은 상태 변경은 방지했다. 하지만 increase 함수가 호출될 때마다 지역변수 counter를 0으로 초기화하기 때문에 언제나 1이 표시된다. 다시 말해 변경된 이전 상태를 기억하지 못한다. 이전 상태를 기억하도록 클로저를 사용하여 이 문제를 해결해보자.
+
+``` javascript
+<!DOCTYPE html>
+<html>
+  <body>
+  <p>클로저를 사용한 Counting</p>
+  <button id="inclease">+</button>
+  <p id="count">0</p>
+  <script>
+    var incleaseBtn = document.getElementById('inclease');
+    var count = document.getElementById('count');
+
+    var increase = (function () {
+      // 카운트 상태를 유지하기 위한 자유 변수
+      var counter = 0;
+      // 클로저를 반환
+      return function () {
+        return ++counter;
+      };
+    }());
+
+    incleaseBtn.onclick = function () {
+      count.innerHTML = increase();
+    };
+  </script>
+</body>
+</html>
+```
+
+### ***result***
+
+<iframe width='100%' height='150px' srcdoc="
+<!DOCTYPE html>
+<html>
+  <body>
+  <p>클로저를 사용한 Counting</p>
+  <button id='inclease'>+</button>
+  <p id='count'>0</p>
+  <script>
+    var incleaseBtn = document.getElementById('inclease');
+    var count = document.getElementById('count');
+    var increase = (function () {
+      // 카운트 상태를 유지하기 위한 자유 변수
+      var counter = 0;
+      // 클로저를 반환
+      return function () {
+        return ++counter;
+      };
+    }());
+    incleaseBtn.onclick = function () {
+      count.innerHTML = increase();
+    };
+  </script>
+</body>
+</html>
+">
+</iframe>
+
+스크립트가 실행되면 즉시실행함수(immediately-invoked function expression)가 호출되고 변수 increase에는 함수 function () { return ++counter; }가 할당된다. 이 함수는 자신이 생성됐을 때의 렉시컬 환경(Lexical environment)을 기억하는 클로저다. 즉시실행함수는 호출된 이후 소멸되지만 즉시실행함수가 반환한 함수는 변수 increase에 할당되어 inclease 버튼을 클릭하면 클릭 이벤트 핸들러 내부에서 호출된다. 이때 클로저인 이 함수는 자신이 선언됐을 때의 렉시컬 환경인 즉시실행함수의 스코프에 속한 지역변수 counter를 기억한다. 따라서 즉시실행함수의 변수 counter에 접근할 수 있고 변수 counter는 자신을 참조하는 함수가 소멸될 때가지 유지된다.
+
+즉시실행함수는 한번만 실행되므로 increase가 호출될 때마다 변수 counter가 재차 초기화될 일은 없을 것이다. 변수 counter는 외부에서 직접 접근할 수 없는 private 변수이므로 전역 변수를 사용했을 때와 같이 의도되지 않은 변경을 걱정할 필요도 없기 때문이 보다 안정적인 프로그래밍이 가능하다.
+
+> 변수의 값은 누군가에 의해 언제든지 변경될 수 있어 오류 발생의 근본적 원인이 될 수 있다. 상태 변경이나 가변(mutable) 데이터를 피하고 불변성(Immutability)을 지향하는 함수형 프로그래밍에서 부수 효과(Side effect)를 최대한 억제하여 오류를 피하고 프로그램의 안정성을 높이기 위해 클로저는 적극적으로 사용된다.
+
+아래는 함수형 프로그래밍에서 클로저를 활용하는 간단한 예제이다.
+
+``` javascript
+// 함수를 인자로 전달받고 함수를 반환하는 고차 함수
+// 이 함수가 반환하는 함수는 클로저로서 카운트 상태를 유지하기 위한 자유 변수 counter을 기억한다.
+function makeCounter(predicate) {
+  // 카운트 상태를 유지하기 위한 자유 변수
+  var counter = 0;
+  // 클로저를 반환
+  return function () {
+    counter = predicate(counter);
+    return counter;
+  };
+}
+
+// 보조 함수
+function increase(n) {
+  return ++n;
+}
+
+// 보조 함수
+function decrease(n) {
+  return --n;
+}
+
+// 함수로 함수를 생성한다.
+// makeCounter 함수는 보조 함수를 인자로 전달받아 함수를 반환한다
+const increaser = makeCounter(increase);
+console.log(increaser()); // 1
+console.log(increaser()); // 2
+
+// increaser 함수와는 별개의 독립된 렉시컬 환경을 갖기 때문에 카운터 상태가 연동하지 않는다.
+const decreaser = makeCounter(decrease);
+console.log(decreaser()); // -1
+console.log(decreaser()); // -2
+```
+
+함수 makeCounter는 보조 함수를 인자로 전달받고 함수를 반환하는 고차 함수이다. 함수 makeCounter가 반환하는 함수는 자신이 생성됐을 때의 렉시컬 환경인 함수 makeCounter의 스코프에 속한 변수 counter을 기억하는 클로저다. 함수 makeCounter는 인자로 전달받은 보조 함수를 합성하여 자신이 반환하는 함수의 동작을 변경할 수 있다. 이때 주의해야 할 것은 함수 makeCounter를 호출해 함수를 반환할 때 반환된 함수는 자신만의 독립된 렉시컬 환경을 갖는다는 것이다. 이는 함수를 호출하면 그때마다 새로운 렉시컬 환경이 생성되기 때문이다. 위 예제에서 변수 increaser와 변수 decreaser에 할당된 함수는 각각 자신만의 독립된 렉시컬 환경을 갖기 때문에 카운트를 유지하기 위한 자유 변수 counter를 공유하지 않아 카운터의 증감이 연동하지 않는다. 따라서 독립된 카운터가 아니라 연동하여 증감이 가능한 카운터를 만들려면 렉시컬 환경을 공유하는 클로저를 만들어야 한다.
+
+## 2.3 정보의 은닉
+이번에는 생성자 함수 Counter를 생성하고 이를 통해 counter 객체를 만들어보자.
+
+``` javascript
+function Counter() {
+  // 카운트를 유지하기 위한 자유 변수
+  var counter = 0;
+
+  // 클로저
+  this.increase = function () {
+    return ++counter;
+  };
+
+  // 클로저
+  this.decrease = function () {
+    return --counter;
+  };
+}
+
+const counter = new Counter();
+
+console.log(counter.increase()); // 1
+console.log(counter.decrease()); // 0
+```
+
+생성자 함수 Counter는 increase, decrease 메소드를 갖는 인스턴스를 생성한다. 이 메소드들은 모두 자신이 생성됐을 때의 렉시컬 환경인 생성자 함수 Counter의 스코프에 속한 변수 counter를 기억하는 클로저이며 렉시컬 환경을 공유한다. 생성자 함수가 함수가 생성한 객체의 메소드는 객체의 프로퍼티에만 접근할 수 있는 것이 아니며 자신이 기억하는 렉시컬 환경의 변수에도 접근할 수 있다.
+
+이때 생성자 함수 Counter의 변수 counter는 this에 바인딩된 프로퍼티가 아니라 변수다. counter가 this에 바인딩된 프로퍼티라면 생성자 함수 Counter가 생성한 인스턴스를 통해 외부에서 접근이 가능한 public 프로퍼티가 되지만 생성자 함수 Counter 내에서 선언된 변수 counter는 생성자 함수 Counter 외부에서 접근할 수 없다. 하지만 생성자 함수 Counter가 생성한 인스턴스의 메소드인 increase, decrease는 클로저이기 때문에 자신이 생성됐을 때의 렉시컬 환경인 생성자 함수 Counter의 변수 counter에 접근할 수 있다. 이러한 클로저의 특징을 사용해 클래스 기반 언어의 private 키워드를 흉내낼 수 있다.
+
+## 2.4 자주 발생하는 실수
+아래의 예제는 클로저를 사용할 때 자주 발생할 수 있는 실수에 관련한 예제다.
+
+``` javascript
+var arr = [];
+
+for (var i = 0; i < 5; i++) {
+  arr[i] = function () {
+    return i;
+  };
+}
+
+for (var j = 0; j < arr.length; j++) {
+  console.log(arr[j]());
+}
+```
+
+배열 arr에 5개의 함수가 할당되고 각각의 함수는 순차적으로 0, 1, 2, 3, 4를 반환할 것으로 기대하겠지만 결과는 그렇지않다. for 문에서 사용한 변수 i는 전역 변수이기 때문이다. 이러한 문제를 클로저를 사용해 바르게 동작하는 코드로 만들어보자
+
+``` javascript
+var arr = [];
+
+for (var i = 0; i < 5; i++){
+  arr[i] = (function (id) { // ②
+    return function () {
+      return id; // ③
+    };
+  }(i)); // ①
+}
+
+for (var j = 0; j < arr.length; j++) {
+  console.log(arr[j]());
+}
+```
+
+① 배열 arr에는 즉시실행함수에 의해 함수가 반환된다.
+
+② 이때 즉시실행함수는 i를 인자로 전달받고 매개변수 id에 할당한 후 내부 함수를 반환하고 life-cycle이 종료된다. 매개변수 id는 자유변수가 된다.
+
+③ 배열 arr에 할당된 함수는 id를 반환한다. 이때 id는 상위 스코프의 자유변수이므로 그 값이 유지된다.
+
+위 예제는 자바스크립트의 함수 레벨 스코프 특성으로 인해 for 루프의 초기문에서 사용된 변수의 스코프가 전역이 되기 때문에 발생하는 현상이다. ES6의 let 키워드를 사용하면 이와 같은 문제는 말끔히 해결된다.
+
+``` javascript
+const arr = [];
+
+for (let i = 0; i < 5; i++) {
+  arr[i] = function () {
+    return i;
+  };
+}
+
+for (let i = 0; i < arr.length; i++) {
+  console.log(arr[i]());
+}
+```
+
+또는 함수형 프로그래밍 기법인 고차 함수를 사용하는 방법이 있다. 이 방법은 변수와 반복문의 사용을 억제할 수 있기 때문에 에플리케이션의 오류를 줄이고 가독성을 좋게 만든다.
+
+``` javascript
+const arr = new Array(5).fill();
+
+arr.forEach((v, i, array) => array[i] = () => i);
+
+arr.forEach(f => console.log(f()));
+```
+
+# Reference
+[poiemaweb.com/js-closure](https://poiemaweb.com/js-closure)
+
