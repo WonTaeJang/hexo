@@ -213,3 +213,166 @@ console.log(me);  // Person { name: 'Lee' }
 console.log(you); // Person { name: 'Kim' }
 console.log(him); // Person { name: 'choi' }
 ```
+
+# 5. 상속(Ineheritance)
+Java같은 클래스 기반 언어에서 상속(또는 확장)은 코드 재사용의 관점에서 매우 유용하다. 새롭게 정의할 클래스가 기존에 있는 클래스와 매우 유사하다면, 상속을 통해 다른 점만 구현하면 된다. 코드 재사용은 개발 비용을 현저히 줄일 수 있는 잠재력이 있기 때문에 매우 중요하다.
+
+클래스 기반 언어에서 객체는 클래스의 인스턴스이며 클래스는 다른 클래스로 상속될 수 있다. 자바스크립트는 기본적으로 프로토타입을 통해 상속을 구현한다. 이것은 프로토타입을 통해 객체가 다른 객체로 직접 상속된다는 의미이다. 이러한 점이 자바스크립트의 약점으로 여겨지기도 하지만 프로토타입 상속 모델은 사실 클래스 기반보다 강력한 방법이다.
+
+자바스크립트의 상속 구현 방식은 크게 두 가지로 구분할 수 있다. 하나는 클래스 기반 언어의 상속 방식을 흉내 내는 것(의사 클래스 패턴 상속. Pseudo-classical Inheritance)이고, 두번째는 프로토타입으로 상속을 구현하는 것(프로토타입 패턴 상속. Prototypal Inheritance)이다.
+
+## 5.1 의사 클래스 패턴 상속 (Pseudo-classical Inheritance)
+
+의사 클래스 패턴은 자식 생성자 함수의 prototype 프로퍼티를 부모 생성자 함수의 인스턴스로 교체하여 상속을 구현하는 방법이다. 부모와 자식 모두 생성자 함수를 정의하여야 한다.
+
+``` javascript
+// 부모 생성자 함수
+var Parent = (function () {
+  // Constructor
+  function Parent(name) {
+    this.name = name;
+  }
+
+  // method
+  Parent.prototype.sayHi = function () {
+    console.log('Hi! ' + this.name);
+  };
+
+  // return constructor
+  return Parent;
+}());
+
+// 자식 생성자 함수
+var Child = (function () {
+  // Constructor
+  function Child(name) {
+    this.name = name;
+  }
+
+  // 자식 생성자 함수의 프로토타입 객체를 부모 생성자 함수의 인스턴스로 교체.
+  Child.prototype = new Parent(); // ②
+
+  // 메소드 오버라이드
+  Child.prototype.sayHi = function () {
+    console.log('안녕하세요! ' + this.name);
+  };
+
+  // sayBye 메소드는 Parent 생성자함수의 인스턴스에 위치된다
+  Child.prototype.sayBye = function () {
+    console.log('안녕히가세요! ' + this.name);
+  };
+
+  // return constructor
+  return Child;
+}());
+
+var child = new Child('child'); // ①
+console.log(child);  // Parent { name: 'child' }
+
+console.log(Child.prototype); // Parent { name: undefined, sayHi: [Function], sayBye: [Function] }
+
+child.sayHi();  // 안녕하세요! child
+child.sayBye(); // 안녕히가세요! child
+
+console.log(child instanceof Parent); // true
+console.log(child instanceof Child);  // true
+```
+
+Child 생성자 함수가 생성한 인스턴스 child(①)의 프로토타입 객체는 Parent 생성자 함수가 생성한 인스턴스(②)이다. 그리고 Parent 생성자 함수가 생성한 인스턴스의 프로토타입 객체는 Parent.prototype이다.
+
+이로써 child는 프로토타입 체인에 의해 Parent 생성자 함수가 생성한 인스턴스와 Parent.prototype의 모든 프로퍼티에 접근할 수 있게 되었다. 이름은 의사 클래스 패턴 상속이지만 내부에서는 프로토타입을 사용하는 것은 변함이 없다.
+
+의사 클래스 패턴은 클래스 기반 언어의 상속을 흉내내어 상속을 구현하였다. 구동 상에 문제는 없지만 의사 클래스 패턴은 아래와 같은 문제를 가지고 있다.
+
+1. new 연산자를 통해 인스턴스를 생성한다.   
+이는 자바스크립트의 프로토타입 본질에 모순되는 것이다. 프로토타입 본성에 맞게 객체에서 다른 객체로 직접 상속하는 방법을 갖는 대신 생성자 함수와 new 연산자를 통해 객체를 생성하는 불필요한 간접적인 단계가 있다. 클래스와 비슷하게 보이는 일부 복잡한 구문은 프로토타입 메커니즘을 명확히 나타내지 못하게 한다.
+게다가 생성자 함수의 사용에는 심각한 위험이 존재한다. 만약 생성자 함수를 호출할 때 new 연산자를 포함하는 것을 잊게 되면 this는 새로운 객체와 바인딩되지 않고 전역객체에 바인딩된다. (new 연산자와 함께 호출된 생성자 함수 내부의 this는 새로 생성된 객체를 참조한다.)
+이런 문제점을 경감시키기 위해 파스칼 표시법(첫글자를 대문자 표기)으로 생성자 함수 이름을 표기하는 방법을 사용하지만, 더 나은 대안은 new 연산자의 사용을 피하는 것이다.
+
+2. 생성자 링크의 파괴   
+위 그림을 보면 child 객체의 프로토타입 객체는 Parent 생성자 함수가 생성한 new Parent() 객체이다. 프로토타입 객체는 내부 프로퍼티로 constructor를 가지며 이는 생성자 함수를 가리킨다. 하지만 의사 클래스 패턴 상속은 프로토타입 객체를 인스턴스로 교체하는 과정에서 constructor의 연결이 깨지게 된다. 즉, child 객체를 생성한 것은 Child 생성자 함수이지만 child.constructor의 출력 결과는 Child 생성자 함수가 아닌 Parent 생성자 함수를 나타낸다. 이는 child 객체의 프로토타입 객체인 new Parent() 객체는 constructor가 없기 때문에 프로토타입 체인에 의해 Parent.prototype의 constructor를 참조했기 때문이다.
+
+``` javascript
+console.log(child.constructor);  // [Function: Parent]
+```
+
+3. 객체리터럴   
+의사 클래스 패턴 상속은 기본적으로 생성자 함수를 사용하기 때문에 객체리터럴 패턴으로 생성한 객체의 상속에는 적합하지 않다. 이는 객체리터럴 패턴으로 생성한 객체의 생성자 함수는 Object()이고 이를 변경할 방법이 없기 때문이다.
+
+``` javascript
+var o = {};
+console.log(o.__proto__ === Object.prototype); // true
+```
+
+## 5.2 프로토타입 패턴 상속 (Prototypal Inheritance)
+
+프로토타입 패턴 상속은 Object.create 함수를 사용하여 객체에서 다른 객체로 직접 상속을 구현하는 방식이다. 프로토타입 패턴 상속은 개념적으로 의사 클래스 패턴 상속보다 더 간단하다. 또한 의사 클래스 패턴의 단점인 new 연산자가 필요없으며, 생성자 링크도 파괴되지 않으며, 객체리터럴에도 사용할 수 있다.
+
+생성자 함수를 사용한 프로토타입 패턴 상속은 아래와 같다.
+
+``` javascript
+// 부모 생성자 함수
+var Parent = (function () {
+  // Constructor
+  function Parent(name) {
+    this.name = name;
+  }
+
+  // method
+  Parent.prototype.sayHi = function () {
+    console.log('Hi! ' + this.name);
+  };
+
+  // return constructor
+  return Parent;
+}());
+
+// create 함수의 인수는 프로토타입이다.
+var child = Object.create(Parent.prototype);
+child.name = 'child';
+
+child.sayHi();  // Hi! child
+
+console.log(child instanceof Parent); // true
+```
+
+객체리터럴 패턴으로 생성한 객체에도 프로토타입 패턴 상속을 사용할 수 있다.
+
+``` javascript
+var parent = {
+  name: 'parent',
+  sayHi: function() {
+    console.log('Hi! ' + this.name);
+  }
+};
+
+// create 함수의 인자는 객체이다.
+var child = Object.create(parent);
+child.name = 'child';
+
+// var child = Object.create(parent, {name: {value: 'child'}});
+
+parent.sayHi(); // Hi! parent
+child.sayHi();  // Hi! child
+
+console.log(parent.isPrototypeOf(child)); // true
+```
+
+Object.create 함수는 매개변수에 프로토타입으로 설정할 객체 또는 인스턴스를 전달하고 이를 상속하는 새로운 객체를 생성한다. Object.create 함수는 표준에 비교적 늦게 추가되어 IE9 이상에서 정상적으로 동작한다. 따라서 크로스 브라우징에 주의하여야 한다. Object.create 함수의 폴리필(Polyfill: 특정 기능이 지원되지 않는 브라우저를 위해 사용할 수 있는 코드 조각이나 플러그인)을 살펴보면 상속의 핵심을 이해할 수 있다.
+
+``` javascript
+// Object.create 함수의 폴리필
+if (!Object.create) {
+  Object.create = function (o) {
+    function F() {}  // 1
+    F.prototype = o; // 2
+    return new F();  // 3
+  };
+}
+```
+
+위 폴리필은 프로토타입 패턴 상속의 핵심을 담고 있다.
+
+1. 비어있는 생성자 함수 F를 생성한다.
+2. 생성자 함수 F의 prototype 프로퍼티에 매개변수로 전달받은 객체를 할당한다.
+3. 생성자 함수 F를 생성자로 하여 새로운 객채를 생성하고 반환한다.
