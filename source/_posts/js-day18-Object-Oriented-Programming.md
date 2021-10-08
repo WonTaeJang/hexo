@@ -376,3 +376,164 @@ if (!Object.create) {
 1. 비어있는 생성자 함수 F를 생성한다.
 2. 생성자 함수 F의 prototype 프로퍼티에 매개변수로 전달받은 객체를 할당한다.
 3. 생성자 함수 F를 생성자로 하여 새로운 객채를 생성하고 반환한다.
+
+# 6. 캡슐화(Encapsulation)와 모듈 패턴(Module Pattern)
+캡슐화는 관련있는 멤버 변수와 메소드를 클래스와 같은 하나의 틀 안에 담고 외부에 공개될 필요가 없는 정보는 숨기는 것을 말하며 다른 말로 정보 은닉(information hiding)이라고 한다.
+
+Java의 경우, 클래스를 정의하고 그 클래스를 구성하는 멤버에 대하여 public 또는 private 등으로 한정할 수 있다. public으로 선언된 메소드 또는 데이터는 외부에서 사용이 가능하며, private으로 선언된 경우는 외부에서 참조할 수 없고 내부에서만 사용된다.
+
+이것은 클래스 외부에는 제한된 접근 권한을 제공하며 원하지 않는 외부의 접근에 대해 내부를 보호하는 작용을 한다. 이렇게 함으로써 이들 부분이 프로그램의 다른 부분들에 영향을 미치지 않고 변경될 수 있다.
+
+하지만 자바스크립트는 public 또는 private 등의 키워드를 제공하지 않는다. 하지만 정보 은닉이 불가능한 것은 아니다.
+
+``` javascript
+var Person = function(arg) {
+  var name = arg ? arg : ''; // ①
+
+  this.getName = function() {
+    return name;
+  };
+
+  this.setName = function(arg) {
+    name = arg;
+  };
+}
+
+var me = new Person('Lee');
+
+var name = me.getName();
+
+console.log(name);
+
+me.setName('Kim');
+name = me.getName();
+
+console.log(name);
+```
+
+①의 name 변수는 private 변수가 된다. 자바스크립트는 function-level scope를 제공하므로 함수 내의 변수는 외부에서 참조할 수 없다. 만약에 var 때신 this를 사용하면 public 멤버가 된다. 단 new 키워드로 객체를 생성하지 않으면 this는 생성된 객체에 바인딩되지 않고 전역객체에 연결된다.
+
+그리고 public 메소드 getName, setName은 클로저로서 private 변수(자유 변수)에 접근할 수 있다. 이것이 기본적인 정보 은닉 방법이다.
+
+위 예제를 조금 더 정리해보자.
+
+``` javascript
+var person = function(arg) {
+  var name = arg ? arg : '';
+
+  return {
+    getName: function() {
+      return name;
+    },
+    setName: function(arg) {
+      name = arg;
+    }
+  }
+}
+
+var me = person('Lee'); /* or var me = new person('Lee'); */
+
+var name = me.getName();
+
+console.log(name);
+
+me.setName('Kim');
+name = me.getName();
+
+console.log(name);
+```
+
+person 함수는 객체를 반환한다. 이 객체 내의 메소드 getName, setName은 클로저로서 private 변수 name에 접근할 수 있다. 이러한 방식을 모듈 패턴이라 하며 캡슐화와 정보 은닉를 제공한다. 많은 라이브러리에서 사용되는 유용한 패턴이다.
+
+이 모듈 패턴은 다음과 같은 주의할 점이 있다.
+
+- private 멤버가 객체나 배열일 경우, 반환된 해당 멤버의 변경이 가능하다.
+
+``` javascript
+var person = function (personInfo) {
+  var o = personInfo;
+
+  return {
+    getPersonInfo: function() {
+      return o;
+    }
+  };
+};
+
+var me = person({ name: 'Lee', gender: 'male' });
+
+var myInfo = me.getPersonInfo();
+console.log('myInfo: ', myInfo);
+// myInfo:  { name: 'Lee', gender: 'male' }
+
+myInfo.name = 'Kim';
+
+myInfo = me.getPersonInfo();
+console.log('myInfo: ', myInfo);
+// myInfo:  { name: 'Kim', gender: 'male' }
+```
+
+객체를 반환하는 경우 반환값은 얕은 복사(shallow copy)로 private 멤버의 참조값을 반환하게 된다. 따라서 외부에서도 private 멤버의 값을 변경할 수 있다. 이를 회피하기 위해서는 객체를 그대로 반환하지 않고 반환해야 할 객체의 정보를 새로운 객체에 담아 반환해야 한다. 반드시 객체 전체가 그대로 반환되어야 하는 경우에는 깊은 복사(deep copy)로 복사본을 만들어 반환한다.
+
+- person 함수가 반환한 객체는 person 함수 객체의 프로토타입에 접근할 수 없다. 이는 상속을 구현할 수 없음을 의미한다.
+앞에서 살펴본 모듈 패턴은 생성자 함수가 아니며 단순히 메소드를 담은 객체를 반환한다. 반환된 객체는 객체 리터럴 방식으로 생성된 객체로 함수 person의 프로토타입에 접근할 수 없다.
+
+``` javascript
+var person = function(arg) {
+  var name = arg ? arg : '';
+
+  return {
+    getName: function() {
+      return name;
+    },
+    setName: function(arg) {
+      name = arg;
+    }
+  }
+}
+
+var me = person('Lee');
+
+console.log(person.prototype === me.__proto__); // false
+console.log(me.__proto__ === Object.prototype); // true: 객체 리터럴 방식으로 생성된 객체와 동일하다
+```
+
+반환된 객체가 함수 person의 프로토타입에 접근할 수 없다는 것은 person을 부모 객체로 상속할 수 없다는 것을 의미한다.
+함수 person을 부모 객체로 상속할 수 없다는 것은 함수 person이 반환하는 객체에 모든 메소드를 포함시켜야한다는 것을 의미한다.
+
+이 문제를 해결하기 위해서는 객체를 반환하는 것이 아닌 함수를 반환해야 한다.
+
+``` javascript
+var Person = function() {
+  var name;
+
+  var F = function(arg) { name = arg ? arg : ''; };
+
+  F.prototype = {
+    getName: function() {
+      return name;
+    },
+    setName: function(arg) {
+      name = arg;
+    }
+  };
+
+  return F;
+}();
+
+var me = new Person('Lee');
+
+console.log(Person.prototype === me.__proto__);
+
+console.log(me.getName());
+me.setName('Kim')
+console.log(me.getName());
+```
+캡슐화를 구현하는 패턴은 다양하며 각각의 패턴에는 장단점이 있다. 다양한 패턴의 장단점을 분석하고 파악하는 것이 보다 효율적인 코드를 작성하는데 중요하다.
+
+지금까지 자바스크립트에서의 객체지향 프로그래밍을 구현하는 방법을 알아보았다. 사실 자바스크립트는 클래스 기반 언어가 아니므로 기존의 전통적 방식으로 구현하려는 시도는 바른 판단은 아니다. 다만 객체지향 프로그래밍이 추구하는 재사용성, 유지보수의 용이성 등을 극대화하기 위한 노력의 일환으로 보아야 한다. 자바스크립트만의 방식을 잘 활용하여 기존의 방식에 얽매이지 않는다면 보다 효율적인 프로그래밍이 가능할 것이다.
+
+
+# Reference
+[poiemaweb.com/js-object-oriented-programming](https://poiemaweb.com/js-object-oriented-programming)
+
