@@ -74,3 +74,93 @@ var o = {};
 ```
 
 객체에 대한 자세한 내용은 Javascript Object을 참조 바란다.
+
+## 1.2 Function
+자바스크립트의 모든 함수는 Function 객체이다. 다른 모든 객체들처럼 Function 객체는 new 연산자을 사용해 생성할 수 있다.
+
+``` javascript
+var adder = new Function('a', 'b', 'return a + b');
+
+adder(2, 6);  // 8
+```
+함수에 대한 자세한 내용은 Javascript Function을 참조 바란다.
+
+## 1.3 Boolean
+Boolean 객체는 원시 타입 boolean을 위한 레퍼(wrapper) 객체이다. Boolean 생성자 함수로 Boolean 객체를 생성할 수 있다.
+
+``` javascript
+var foo = new Boolean(true);    // true
+var foo = new Boolean('false'); // true
+
+var foo = new Boolean(false); // false
+var foo = new Boolean();      // false
+var foo = new Boolean('');    // false
+var foo = new Boolean(0);     // false
+var foo = new Boolean(null);  // false
+```
+
+Boolean 객체와 원시 타입 boolean을 혼동하기 쉽다. Boolean 객체는 true/false를 포함하고 있는 객체이다.
+
+``` javascript
+var x = new Boolean(false);
+if (x) { // x는 객체로서 존재한다. 따라서 참으로 간주된다.
+  // . . . 이 코드는 실행된다.
+}
+```
+
+## 1.4 Number
+
+## 1.5 Math
+
+## 1.6 Date
+
+## 1.7 String
+
+## 1.8 RegExp
+
+## 1.9 Array
+
+## 1.10 Error
+Error 생성자는 error 객체를 생성한다. error 객체의 인스턴스는 런타임 에러가 발생하였을 때 throw된다.
+
+``` javascript
+try {
+  // foo();
+  throw new Error('Whoops!');
+} catch (e) {
+  console.log(e.name + ': ' + e.message);
+}
+```
+
+Error 이외에 Error에 관련한 객체는 아래와 같다.
+
+- EvalError
+- InternalError
+- RangeError
+- ReferenceError
+- SyntaxError
+- TypeError
+- URIError
+
+## 1.11 Symbol
+Symbol은 ECMAScript 6(Javascript 2015) 에서 추가된 유일하고 변경 불가능한(immutable) 원시 타입으로 Symbol 객체는 원시 타입 Symbol 값을 생성한다.
+
+## 1.12 원시 타입과 래퍼객체(Wrapper Object)
+앞서 살펴본 바와 같이 각 네이티브 객체는 각자의 프로퍼티와 메소드를 가진다. 정적(static) 프로퍼티, 메소드는 해당 인스턴스를 생성하지 않아도 사용할 수 있고 prototype에 속해있는 메소드는 해당 prototype을 상속받은 인스턴스가 있어야만 사용할 수 있다.
+
+그런데 원시 타입 값에 대해 표준 빌트인 객체의 메소드를 호출하면 정상적으로 작동한다.
+
+``` javascript
+var str = 'Hello world!';
+var res = str.toUpperCase();
+console.log(res); // 'HELLO WORLD!'
+
+var num = 1.5;
+console.log(num.toFixed()); // 2
+```
+
+이는 원시 타입 값에 대해 표준 빌트인 객체의 메소드를 호출할 때, 원시 타입 값은 연관된 객체(Wrapper 객체)로 일시 변환 되기 때문에 가능한 것이다. 그리고 메소드 호출이 종료되면 객체로 변환된 원시 타입 값은 다시 원시 타입 값으로 복귀한다.
+
+자세한 내용은 Prototype: 6.원시 타입(Primitive data type)의 확장을 참조 바란다.
+
+Wrapper 객체는 String, Number, Boolean이 있다.
