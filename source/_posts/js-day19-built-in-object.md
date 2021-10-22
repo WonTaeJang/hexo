@@ -164,3 +164,40 @@ console.log(num.toFixed()); // 2
 자세한 내용은 Prototype: 6.원시 타입(Primitive data type)의 확장을 참조 바란다.
 
 Wrapper 객체는 String, Number, Boolean이 있다.
+
+# 2. 호스트 객체
+호스트 객체(Host object)는 브라우저 환경에서 제공하는 window, XmlHttpRequest, HTMLElement 등의 DOM 노드 객체와 같이 호스트 환경에 정의된 객체를 말한다. 예를 들어 브라우저에서 동작하는 환경과 브라우저 외부에서 동작하는 환경의 자바스크립트(Node.js)는 다른 호스트 객체를 사용할 수 있다.
+
+브라우저에서 동작하는 환경의 호스트 객체는 전역 객체인 window, BOM(Browser Object Model)과 DOM(Document Object Model) 및 XMLHttpRequest 객체 등을 제공한다.
+
+## 2.1 전역 객체(Global Object)
+- 전역 객체는 모든 객체의 유일한 최상위 객체를 의미하며 일반적으로 Browser-side에서는 window, Server-side(Node.js)에서는 global 객체를 의미한다. 
+
+## 2.2 BOM (Browser Object Model)
+브라우저 객체 모델은 브라우저 탭 또는 브라우저 창의 모델을 생성한다. 최상위 객체는 window객체로 현재 브라우저 창 또는 탭을 표현하는 객체이다. 또한 이 객체의 자식 객체 들은 브라우저의 다른 기능들을 표현한다. 이 객체들은 Standard Built-in Object가 구성된 후에 구성된다. 
+
+- Window (현재 브라우저 창 또는 탭)
+    - document (현재 로드된 웹페이지)
+    - history (브라우저 히스토리에 기록된 웹페이지들)
+    - location (현재 페이지 URL)
+    - navigator (브라우저 관련 정보)
+    - screen (장치의 디스플레이 정보)
+
+## 2.3 DOM (Document Object Model)
+문서 객체 모델은 현재 웹페이지의 모델을 생성한다. 최상위 객체는 document 객체로 전체 문서를 표현한다. 또한 이 객체의 자식 객체들은 문서의 다른 요소들을 표현한다. 이 객체들을 Standard Butilt-in Objects 가 구성된 후에 구성된다. 
+
+- document
+  - &#60;html>
+    - &#60;head> 
+      - &#60;title>
+    - &#60;body>
+      - &#60;div>
+        - &#60;attribute>
+        - &#60;p>
+          - text
+
+
+
+# Reference
+[poiemaweb.com/js-built-in-object](https://poiemaweb.com/js-built-in-object)
+
