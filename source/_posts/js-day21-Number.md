@@ -133,3 +133,258 @@ console.log(1 * 'string');  // NaN
 console.log(typeof NaN);    // number
 ```
 
+# 3. Number Method
+## 3.1 Number.isFinite(testValue:number): boolean
+매개변수에 전달된 값이 정상적인 유한수인지를 검사하여 그 결과를 Boolean으로 반환한다. 
+
+
+``` javascript
+/**
+ * @param {any} testValue - 검사 대상 값. 암묵적 형변환되지 않는다.
+ * @return {boolean}
+ */
+Number.isFinite(testValue)
+```
+
+Number.isFinite()는 전역 함수 isFinite()와 차이가 있다. 전역 함수 isFinite()는 인수를 숫자로 변환하여 검사를 수행하지만 Number.isFinite()는 인수를 변환하지 않는다. 따라서 숫자가 아닌 인수가 주어졌을 때 반환값은 언제나 false가 된다. 
+
+``` javascript
+Number.isFinite(Infinity)  // false
+Number.isFinite(NaN)       // false
+Number.isFinite('Hello')   // false
+Number.isFinite('2005/12/12')   // false
+
+Number.isFinite(0)         // true
+Number.isFinite(2e64)      // true
+Number.isFinite(null)      // false. isFinite(null) => true
+```
+
+## 3.2 Number.isInteger(testValue:number):boolean
+매개변수에 전달된 값이 정수(Integer)인지 검사하여 그 결과를 Boolean으로 반환한다. 검사전에 인수를 숫자로 변환하지 않는다. 
+
+``` javascript
+/**
+ * @param {any} testValue - 검사 대상 값. 암묵적 형변환되지 않는다.
+ * @return {boolean}
+ */
+Number.isInteger(testValue)
+```
+
+``` javascript
+Number.isInteger(123)   //true
+Number.isInteger(-123)  //true
+Number.isInteger(5-2)   //true
+Number.isInteger(0)     //true
+Number.isInteger(0.5)   //false
+Number.isInteger('123') //false
+Number.isInteger(false) //false
+Number.isInteger(Infinity)  //false
+Number.isInteger(-Infinity) //false
+Number.isInteger(0 / 0) //false
+```
+
+## 3.3 Number.isNaN(testValue:number):boolean
+매개변수에 전달된 값이 NaN인지를 검사하여 그 결과를 Boolean으로 반환한다. 
+
+``` javascript
+/**
+ * @param {any} testValue - 검사 대상 값. 암묵적 형변환되지 않는다.
+ * @return {boolean}
+ */
+Number.isNaN(testValue)
+```
+
+Number.isNaN()는 전역함수 isNaN()와 차이가 있다. 전역 함수 isNaN()는 인수를 숫자로 변환하여 검사를 수행하지만 Number.isNaN()는 인수를 변환하지 않는다. 따라서 숫자가 아닌 인수가 주어졌을 때 반환값은 언제나 false가 된다.
+
+``` javascript
+Number.isNaN(NaN)       // true
+Number.isNaN(undefined) // false. undefined → NaN. isNaN(undefined) → true.
+Number.isNaN({})        // false. {} → NaN.        isNaN({}) → true.
+Number.isNaN('blabla')  // false. 'blabla' → NaN.  isNaN('blabla') → true.
+
+Number.isNaN(true)      // false
+Number.isNaN(null)      // false
+Number.isNaN(37)        // false
+Number.isNaN('37');     // false
+Number.isNaN('37.37');  // false
+Number.isNaN('');       // false
+Number.isNaN(' ');      // false
+Number.isNaN(new Date())             // false
+Number.isNaN(new Date().toString())  // false. String → NaN. isNaN(String) → true.
+```
+
+## 3.4 Number.isSafeInteger(testValue:number):boolean
+매개변수에 전달된 값이 안전한(safe) 정수값인지 검사하여 그 결과를 Boolean으로 반환한다. 안전한 정수값은 -(2^53 - 1)와 2^53 - 1 사이의 정수값이다. 검사전에 인수를 숫자로 변환하지 않는다.
+
+``` javascript
+/**
+ * @param {any} testValue - 검사 대상 값. 암묵적 형변환되지 않는다.
+ * @return {boolean}
+ */
+Number.isSafeInteger(testValue)
+```
+
+``` javascript
+Number.isSafeInteger(123)   //true
+Number.isSafeInteger(-123)  //true
+Number.isSafeInteger(5-2)   //true
+Number.isSafeInteger(0)     //true
+Number.isSafeInteger(1000000000000000)  // true
+Number.isSafeInteger(10000000000000001) // false
+Number.isSafeInteger(0.5)   //false
+Number.isSafeInteger('123') //false
+Number.isSafeInteger(false) //false
+Number.isSafeInteger(Infinity)  //false
+Number.isSafeInteger(-Infinity) //false
+Number.isSafeInteger(0 / 0) //false
+```
+
+## 3.5 Number.prototype.toExponential(fractionDigits?: number): string
+대상을 지수 표기법으로 변환하여 문자열로 반환한다. 지수 표기법이란 매우 큰 숫자를 표기할 때 주로 사용하며 e(Exponent) 앞에 있는 숫자에 10의 n승이 곱하는 형식으로 수를 나타내는 방식이다.
+
+``` code  
+1234 = 1.234e+3
+```
+
+``` javascript
+/**
+ * @param {number} [fractionDigits] - 0~20 사이의 정수값으로 소숫점 이하의 자릿수를 나타낸다. 옵션으로 생략 가능하다.
+ * @return {string}
+ */
+numObj.toExponential([fractionDigits])
+```
+
+``` javascript
+var numObj = 77.1234;
+
+console.log(numObj.toExponential());  // logs 7.71234e+1
+console.log(numObj.toExponential(4)); // logs 7.7123e+1
+console.log(numObj.toExponential(2)); // logs 7.71e+1
+console.log(77.1234.toExponential()); // logs 7.71234e+1
+console.log(77.toExponential());      // SyntaxError: Invalid or unexpected token
+console.log(77 .toExponential());     // logs 7.7e+1
+```
+
+정수 리터럴과 함께 메소드를 사용할 경우
+아래의 예제를 실행하면 에러가 발생한다.
+
+``` javascript
+77.toString(); // SyntaxError: Invalid or unexpected token
+```
+
+숫자 뒤의 .은 의미가 모호하다. 소수 구분 기호일 수도 있고 객체 프로퍼티에 접근하기 위한 마침표 표기법(Dot notation)일 수도 있다. 따라서 자바스크립트 엔진은 숫자 뒤의 .을 부동 소수점 숫자의 일부로 해석한다. 그러나 77.toString()은 숫자로 해석할 수 없으므로 에러(SyntaxError: Invalid or unexpected token)가 발생한다.
+
+``` javascript
+1.23.toString (); // '1.23'
+```
+
+위 예제의 경우, 숫자 뒤의 첫 번째 . 뒤에는 숫자가 이어지므로 .은 명백하게 부동 소수점 숫자의 일부이다. 숫자에 소수점은 하나만 존재하므로 두 번째 .은 마침표 표기법(Dot notation)으로 해석된다.
+
+따라서 정수 리터럴과 함께 메소드를 사용할 경우, 아래의 방법을 권장한다.
+
+``` javascript
+(77).toString();//'77'
+```
+
+또한 아래 방법도 허용되기는 한다. 자바스크립트 숫자는 정수 부분과 소수 부분 사이에 공백을 포함할 수 없다. 따라서 숫자 뒤의 . 뒤에 공백이 오면 .을 마침표 표기법(Dot notation)으로 해석하기 때문이다.
+
+``` javascript
+77 .toString(); // '77'
+```
+
+## 3.6 Number.prototype.toFixed(fractionDigits?: number): string
+
+매개변수로 지정된 소숫점자리를 반올림하여 문자열로 반환한다.
+
+``` javascript
+/**
+ * @param {number} [fractionDigits] - 0~20 사이의 정수값으로 소숫점 이하 자릿수를 나타낸다. 기본값은 0이며 옵션으로 생략 가능하다.
+ * @return {string}
+ */
+numObj.toFixed([fractionDigits])
+```
+
+``` javascript
+var numObj = 12345.6789;
+
+// 소숫점 이하 반올림
+console.log(numObj.toFixed());   // '12346'
+// 소숫점 이하 1자리수 유효, 나머지 반올림
+console.log(numObj.toFixed(1));  // '12345.7'
+// 소숫점 이하 2자리수 유효, 나머지 반올림
+console.log(numObj.toFixed(2));  // '12345.68'
+// 소숫점 이하 3자리수 유효, 나머지 반올림
+console.log(numObj.toFixed(3));  // '12345.679'
+// 소숫점 이하 6자리수 유효, 나머지 반올림
+console.log(numObj.toFixed(6));  // '12345.678900'
+```
+
+## 3.7 Number.prototype.toPrecision(precision?: number): string
+매개변수로 지정된 전체 자릿수까지 유효하도록 나머지 자릿수를 반올림하여 문자열로 반환한다. 지정된 전체 자릿수로 표현할 수 없는 경우 지수 표기법으로 결과를 반환한다.
+
+``` javascript
+/**
+ * @param {number} [precision] - 1~21 사이의 정수값으로 전체 자릿수를 나타낸다. 옵션으로 생략 가능하다.
+ * @return {string}
+ */
+numObj.toPrecision([precision])
+```
+
+``` javascript
+var numObj = 15345.6789;
+
+// 전체자리수 유효
+console.log(numObj.toPrecision());   // '12345.6789'
+// 전체 1자리수 유효, 나머지 반올림
+console.log(numObj.toPrecision(1));  // '2e+4'
+// 전체 2자리수 유효, 나머지 반올림
+console.log(numObj.toPrecision(2));  // '1.5e+4'
+// 전체 3자리수 유효, 나머지 반올림
+console.log(numObj.toPrecision(3));  // '1.53e+4'
+// 전체 6자리수 유효, 나머지 반올림
+console.log(numObj.toPrecision(6));  // '12345.7'
+```
+
+## 3.8 Number.prototype.toString(radix?: number): string
+숫자를 문자열로 변환하여 반환한다.
+
+``` javascript
+/**
+ * @param {number} [radix] - 2~36 사이의 정수값으로 진법을 나타낸다. 옵션으로 생략 가능하다.
+ * @return {string}
+ */
+numObj.toString([radix])
+```
+
+``` javascript
+var count = 10;
+console.log(count.toString());   // '10'
+console.log((17).toString());    // '17'
+console.log(17 .toString());     // '17'
+console.log((17.2).toString());  // '17.2'
+
+var x = 16;
+console.log(x.toString(2));       // '10000'
+console.log(x.toString(8));       // '20'
+console.log(x.toString(16));      // '10'
+
+console.log((254).toString(16));  // 'fe'
+console.log((-10).toString(2));   // '-1010'
+console.log((-0xff).toString(2)); // '-11111111'
+```
+
+## 3.9 Number.prototype.valueOf(): number
+Number 객체의 원시 타입 값(primitive value)을 반환한다.
+
+``` javascript
+var numObj = new Number(10);
+console.log(typeof numObj); // object
+
+var num = numObj.valueOf();
+console.log(num);           // 10
+console.log(typeof num);    // number
+```
+
+# Reference
+[poiemaweb.com/js-number](https://poiemaweb.com/js-number)
+
