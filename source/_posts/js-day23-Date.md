@@ -1,7 +1,6 @@
 ---
 title: js-day23-Date
 date: 2021-10-31 18:00:02
-date: 2021-10-29 22:37:38
     - javascript 
     - Date
 categories: 
@@ -99,3 +98,201 @@ Date 생성자 함수를 new 연산자없이 호출하면 인스턴스를 반환
 
 let date = Date();
 console.log(typeof date, date); // string Thu May 16 2019 17:33:03 GMT+0900 (한국 표준시)
+
+# 2. Date Method
+## 2.1 Date.now
+
+1970년 1월 1일 00:00:00(UTC)을 기점으로 현재 시간까지 경과한 밀리초를 숫자로 반환한다.
+
+``` javascript
+const now = Date.now();
+console.log(now);
+```
+
+## 2.2 Date.parse
+1970년 1월 1일 00:00:00(UTC)을 기점으로 인수로 전달된 지정 시간(new Date(dateString)의 인수와 동일한 형식)까지의 밀리초를 숫자로 반환한다.
+
+``` javascript
+let d = Date.parse('Jan 2, 1970 00:00:00 UTC'); // UTC
+console.log(d); // 86400000
+
+d = Date.parse('Jan 2, 1970 09:00:00'); // KST
+console.log(d); // 86400000
+
+d = Date.parse('1970/01/02/09:00:00'); // KST
+console.log(d); // 86400000
+```
+
+## 2.3 Date.UTC
+1970년 1월 1일 00:00:00(UTC)을 기점으로 인수로 전달된 지정 시간까지의 밀리초를 숫자로 반환한다.
+
+Date.UTC 메소드는 new Date(year, month[, day, hour, minute, second, millisecond])와 같은 형식의 인수를 사용해야 한다. Date.UTC 메소드의 인수는 local time(KST)가 아닌 UTC로 인식된다.
+
+``` javascript
+let d = Date.UTC(1970, 0, 2);
+console.log(d); // 86400000
+
+d = Date.UTC('1970/1/2');
+console.log(d); // NaN
+```
+
+month는 월을 의미하는 0~11까지의 정수이다. 0부터 시작하므로 주의가 필요하다.
+
+## 2.4 Date.prototype.getFullYear
+년도를 나타내는 4자리 숫자를 반환한다. 
+
+``` javascript
+const today = new Date();
+const year = today.getFullYear();
+
+console.log(today); // Thu May 16 2019 17:39:30 GMT+0900 (한국 표준시)
+console.log(year);  // 2019
+```
+
+## 2.5 Date.prototype.setFullYear
+
+년도를 나타내는 4자리 숫자를 설정한다. 년도 이외 월, 일도 설정할 수 있다.
+
+``` javascript
+dateObj.setFullYear(year[, month[, day]])
+```
+
+``` javascript
+const today = new Date();
+
+// 년도 지정
+today.setFullYear(2000);
+
+let year = today.getFullYear();
+console.log(today); // Tue May 16 2000 17:42:40 GMT+0900 (한국 표준시)
+console.log(year);  // 2000
+
+// 년도 지정
+today.setFullYear(1900, 0, 1);
+
+year = today.getFullYear();
+console.log(today); // Mon Jan 01 1900 17:42:40 GMT+0827 (한국 표준시)
+console.log(year);  // 1900
+```
+
+## 2.6 Date.prototype.getMonth
+월을 나타내는 0~11의 정수를 반환한다. 1월은 0,12월은 11이다. 
+
+``` javascript
+const today = new Date();
+const month = today.getMonth();
+
+console.log(today); // Thu May 16 2019 17:44:03 GMT+0900 (한국 표준시)
+console.log(month); // 4
+```
+
+## 2.7 Date.prototype.setMonth
+월을 나타내는 0 ~ 11의 정수를 설정한다. 1월은 0, 12월은 11이다. 월 이외 일도 설정할 수 있다.
+
+``` javascript
+dateObj.setMonth(month[, day])
+```
+
+``` javascript
+const today = new Date();
+
+// 월을 지정
+today.setMonth(0); // 1월
+
+let month = today.getMonth();
+console.log(today); // Wed Jan 16 2019 17:45:20 GMT+0900 (한국 표준시)
+console.log(month); // 0
+
+// 월/일을 지정
+today.setMonth(11, 1); // 12월 1일
+
+month = today.getMonth();
+console.log(today); // Sun Dec 01 2019 17:45:20 GMT+0900 (한국 표준시)
+console.log(month); // 11
+```
+
+## 2.8 Date.prototype.getDate
+날짜(1 ~ 31)를 나타내는 정수를 반환한다.
+
+``` javascript
+const today = new Date();
+const date = today.getDate();
+
+console.log(today); // Thu May 16 2019 17:46:42 GMT+0900 (한국 표준시)
+console.log(date);  // 16
+```
+
+## 2.9 Date.prototype.setDate
+날짜(1 ~ 31)를 나타내는 정수를 설정한다.
+
+``` javascript
+const today = new Date();
+
+// 날짜 지정
+today.setDate(1);
+
+const date = today.getDate();
+console.log(today); // Wed May 01 2019 17:47:01 GMT+0900 (한국 표준시)
+console.log(date);  // 1
+```
+
+## 2.10 Dateprototype.getDay
+요일(0 ~ 6)를 나타내는 정수를 반환한다. 반환값은 아래와 같다.
+
+|요일|반환값|
+|------------------|--------------------|
+|일요일|0|
+|월요일|1|
+|화요일|2|
+|수요일|3|
+|목요일|4|
+|금요일|5|
+|토요일|6|
+
+``` javascript
+const today = new Date();
+const day = today.getDay();
+
+console.log(today); // Thu May 16 2019 17:47:31 GMT+0900 (한국 표준시)
+console.log(day);   // 4
+```
+
+## 2.11 Date.prototype.getHours
+시간(0 ~ 23)를 나타내는 정수를 반환한다.
+
+``` javascript
+const today = new Date();
+const hours = today.getHours();
+
+console.log(today); // Thu May 16 2019 17:48:03 GMT+0900 (한국 표준시)
+console.log(hours); // 17
+```
+
+## 2.12 Date.prototype.setHours
+시간(0 ~ 23)를 나타내는 정수를 설정한다. 시간 이외 분, 초, 밀리초도 설정할 수 있다.
+
+``` javascript
+dateObj.setHours(hour[, minute[, second[, ms]]])
+```
+
+``` javascript
+const today = new Date();
+
+// 시간 지정
+today.setHours(7);
+
+let hours = today.getHours();
+console.log(today); // Thu May 16 2019 07:49:06 GMT+0900 (한국 표준시)
+console.log(hours); // 7
+
+// 시간/분/초/밀리초 지정
+today.setHours(0, 0, 0, 0); // 00:00:00:00
+
+hours = today.getHours();
+console.log(today); // Thu May 16 2019 00:00:00 GMT+0900 (한국 표준시)
+console.log(hours); // 0
+```
+
+
+
+
