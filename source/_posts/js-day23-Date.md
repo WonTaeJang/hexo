@@ -293,6 +293,167 @@ console.log(today); // Thu May 16 2019 00:00:00 GMT+0900 (한국 표준시)
 console.log(hours); // 0
 ```
 
+## 2.13 Date.prototype.getMinutes
+분(0~59)를 나타내는 정수를 반환한다. 
 
+``` javascript
+const today = new Date();
+const minutes = today.getMinutes();
 
+console.log(today);   // Thu May 16 2019 17:50:29 GMT+0900 (한국 표준시)
+console.log(minutes); // 50
+```
+
+## 2.14 Date.prototype.setMinutes
+
+분(0 ~ 59)를 나타내는 정수를 설정한다. 분 이외 초, 밀리초도 설정할 수 있다.
+
+``` javascript
+dateObj.setMinutes(minute[, second[, ms]])
+```
+
+``` javascript
+const today = new Date();
+
+// 분 지정
+today.setMinutes(50);
+
+let minutes = today.getMinutes();
+console.log(today);   // Thu May 16 2019 17:50:30 GMT+0900 (한국 표준시)
+console.log(minutes); // 50
+
+// 분/초/밀리초 지정
+today.setMinutes(5, 10, 999); // HH:05:10:999
+
+minutes = today.getMinutes();
+console.log(today);   // Thu May 16 2019 17:05:10 GMT+0900 (한국 표준시)
+console.log(minutes); // 5
+```
+
+## 2.15 Date.prototype.getSeconds
+초(0 ~ 59)를 나타내는 정수를 반환한다.
+
+``` javascript
+const today = new Date();
+const seconds = today.getSeconds();
+
+console.log(today);   // Thu May 16 2019 17:53:17 GMT+0900 (한국 표준시)
+console.log(seconds); // 17
+```
+
+## 2.16 Date.prototype.setSeconds
+초(0 ~ 59)를 나타내는 정수를 설정한다. 초 이외 밀리초도 설정할 수 있다.
+
+``` javascript
+dateObj.setSeconds(second[, ms])
+```
+
+``` javascript
+const today = new Date();
+
+// 초 지정
+today.setSeconds(30);
+
+let seconds = today.getSeconds();
+console.log(today);   // Thu May 16 2019 17:54:30 GMT+0900 (한국 표준시)
+console.log(seconds); // 30
+
+// 초/밀리초 지정
+today.setSeconds(10, 0); // HH:MM:10:000
+
+seconds = today.getSeconds();
+console.log(today);   // Thu May 16 2019 17:54:10 GMT+0900 (한국 표준시)
+console.log(seconds); // 10
+```
+
+## 2.17 Date.prototype.getMilliseconds
+밀리초(0 ~ 999)를 나타내는 정수를 반환한다.
+
+``` javascript
+const today = new Date();
+const ms = today.getMilliseconds();
+
+console.log(today); // Thu May 16 2019 17:55:02 GMT+0900 (한국 표준시)
+console.log(ms);    // 905
+```
+
+## 2.18 Date.prototype.setMilliseconds
+밀리초(0 ~ 999)를 나타내는 정수를 설정한다.
+
+``` javascript
+const today = new Date();
+
+// 밀리초 지정
+today.setMilliseconds(123);
+
+const ms = today.getMilliseconds();
+console.log(today); // Thu May 16 2019 17:55:45 GMT+0900 (한국 표준시)
+console.log(ms);    // 123
+```
+
+## 2.19 Date.prototype.getTime
+1970년 1월 1일 00:00:00(UTC)를 기점으로 현재 시간까지 경과된 밀리초를 반환한다.
+
+``` javascript
+const today = new Date();
+const time = today.getTime();
+
+console.log(today); // Thu May 16 2019 17:56:08 GMT+0900 (한국 표준시)
+console.log(time);  // 1557996968335
+```
+
+## 2.20 Date.prototype.setTime
+1970년 1월 1일 00:00:00(UTC)를 기점으로 현재 시간까지 경과된 밀리초를 설정한다.
+
+``` javascript
+dateObj.setTime(time)
+```
+
+``` javascript
+const today = new Date();
+
+// 1970년 1월 1일 00:00:00(UTC)를 기점으로 현재 시간까지 경과된 밀리초 지정
+today.setTime(86400000); // 86400000 === 1day
+
+const time = today.getTime();
+console.log(today); // Fri Jan 02 1970 09:00:00 GMT+0900 (한국 표준시)
+console.log(time);  // 86400000
+```
+
+## 2.21 Date.prototype.getTimezoneOffset
+UTC와 지정 로케일(Locale) 시간과의 차이를 분단위로 반환한다.
+
+``` javascript
+const today = new Date();
+const x = today.getTimezoneOffset() / 60; // -9
+
+console.log(today); // Thu May 16 2019 17:58:13 GMT+0900 (한국 표준시)
+console.log(x);     // -9
+```
+
+KST(Korea Standard Time)는 UTC에 9시간을 더한 시간이다. 즉, UTC = KST - 9h이다.
+
+## 2.22 Date.prototype.toDateString
+사람이 읽을 수 있는 형식의 문자열로 날짜를 반환한다.
+
+``` javascript
+const d = new Date('2019/5/16/18:30');
+
+console.log(d.toString());     // Thu May 16 2019 18:30:00 GMT+0900 (한국 표준시)
+console.log(d.toDateString()); // Thu May 16 2019
+```
+
+## 2.23 Date.prototype.toTimeString
+
+사람이 읽을 수 있는 형식의 문자열로 시간을 반환한다. 
+
+``` javascript
+const d = new Date('2019/5/16/18:30');
+
+console.log(d.toString());     // Thu May 16 2019 18:30:00 GMT+0900 (한국 표준시)
+console.log(d.toTimeString()); // 18:30:00 GMT+0900 (한국 표준시)
+```
+
+# Reference
+[poiemaweb.com/js-date](https://poiemaweb.com/js-date)
 
