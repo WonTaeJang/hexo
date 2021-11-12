@@ -59,3 +59,60 @@ console.log(str === strObj); // false
 console.log(typeof str);    // string
 console.log(typeof strObj); // object
 ```
+
+# 2. String Property
+## 2.1 String length
+문자열 내의 문자 개수를 반환한다. String 객체는 length 프로퍼티를 소유하고 있으므로 유사 배열 객체이다. 
+
+``` javascript
+const str1 = 'Hello';
+console.log(str1.length); // 5
+
+const str2 = '안녕하세요!';
+console.log(str2.length); // 6
+```
+
+# 3. String Method
+String 객체의 모든 메소드는 언제나 새로운 문자열을 반환한다. 문자열은 변경 불가능(immutable)한 원시 값이기 때문이다. 
+
+## 3.1 String.prototype.charAt(pos:number): string
+인수로 전달한 index를 사용하여 index에 해당하는 위치의 문자를 반환한다. index는 0~ (문자열 길이 -1)사이의 정수이다. 지정한 index가 문자열의 범위(0 ~ (문자열 길이 -1))를 벗어난 경우 빈문자열을 반환한다.
+
+``` javascript
+const str = 'Hello';
+
+console.log(str.charAt(0)); // H
+console.log(str.charAt(1)); // e
+console.log(str.charAt(2)); // l
+console.log(str.charAt(3)); // l
+console.log(str.charAt(4)); // o
+// 지정한 index가 범위(0 ~ str.length-1)를 벗어난 경우 빈문자열을 반환한다.
+console.log(str.charAt(5)); // ''
+
+// 문자열 순회. 문자열은 length 프로퍼티를 갖는다.
+for (let i = 0; i < str.length; i++) {
+  console.log(str.charAt(i));
+}
+
+// String 객체는 유사 배열 객체이므로 배열과 유사하게 접근할 수 있다.
+for (let i = 0; i < str.length; i++) {
+  console.log(str[i]); // str['0']
+}
+```
+
+## 3.2 String.prototype.concat(...string: string[]): string
+인수로 전달한 1개 이상의 문자열과 연결하여 새로운 문자열을 반환한다. 
+
+concat 메소드를 사용하는 것보다는 +, += 할당 연산자를 사용하는 것이 성능상 유리하다. 
+
+``` javascript
+/**
+ * @param {...string} str - 연결할 문자열
+ * @return {string}
+ */
+str.concat(str1[,str2,...,strN])
+```
+
+``` javascript
+console.log('Hello '.concat('Lee')); // Hello Lee
+```
