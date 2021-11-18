@@ -135,3 +135,76 @@ console.log(numbersArr);
 numbersArr.splice(2, 1); // (3) ["zero", "one", "three"]
 console.log(numbersArr);
 ```
+
+# 3. 배열의 순회 
+객체의 프로퍼티를 순회할 때 for...in 문을 사용한다. 배열 역시 객체이므로 for...in문을 사용할 수 있다. 그러나 배열은 객체이기 떄문에 프로퍼티를 가실 수 있다. for...in문을 사용하면 배열 요소뿐만 아니라 불필요한 프로퍼티까지 출력될 수 있고 요소들의 순서를 보장하지 않으므로 배열을 순회하는데 적합하지 않다.
+
+따라서 배열의 순회에는 forEach 메소드, for문, for...of문을 사용하는 것이 좋다. 
+
+``` javascript
+const arr = [0, 1, 2, 3];
+arr.foo = 10;
+
+for (const key in arr) {
+  console.log('key: ' + key, 'value: ' + arr[key]);
+}
+// key: 0 value: 0
+// key: 1 value: 1
+// key: 2 value: 2
+// key: 3 value: 3
+// key: foo value: 10 => 불필요한 프로퍼티까지 출력
+
+arr.forEach((item, index) => console.log(index, item));
+
+for (let i = 0; i < arr.length; i++) {
+  console.log(i, arr[i]);
+}
+
+for (const item of arr) {
+  console.log(item);
+}
+```
+
+# 4. Array Property
+# 4.1 Array.length
+length 프로퍼티는 요소의 개수(배열의 길이)를 나타낸다. 배열 인덱스는 32bit 양의 정수로 처리된다. 따라서 length 프로퍼티의 값은 양의 정수이며 2^32 - 1(4,294,967,296 - 1) 미만이다.
+
+``` javascript
+const arr = [1, 2, 3, 4, 5];
+console.log(arr.length); // 5
+
+arr[4294967294] = 100;
+console.log(arr.length); // 4294967295
+console.log(arr); // (4294967295) [1, 2, 3, 4, 5, empty × 4294967289, 100]
+
+arr[4294967295] = 1000;
+console.log(arr.length); // 4294967295
+console.log(arr); // (4294967295) [1, 2, 3, 4, 5, empty × 4294967289, 100, 4294967295: 1000]
+```
+
+주의할 것은 배열 요소의 개수와 length 프로퍼티의 값이 반드시 일치하지는 않는다는 것이다.
+
+> 배열 요소의 개수와 length 프로퍼티의 값이 일치하지 않는 배열을 희소 배열(sparse array)이라 한다. 희소 배열은 배열의 요소가 연속적이지 않은 배열을 의미한다. 희소 배열이 아닌 일반 배열은 배열의 요소 개수와 length 프로퍼티의 값이 언제나 일치하지만 희소 배열은 배열의 요소 개수보다 length 프로퍼티의 값이 언제나 크다. 희소 배열은 일반 배열보다 느리며 메모리를 낭비한다.
+
+현재 length 프로퍼티 값보다 더 큰 인덱스로 요소를 추가하면 새로운 요소를 추가할 수 있도록 자동으로 length 프로퍼티의 값이 늘어난다. length 프로퍼티의 값은 가장 큰 인덱스에 1을 더한 것과 같다.
+
+``` javascript
+const arr = [];
+console.log(arr.length); // 0
+
+arr[1000] = true;
+
+console.log(arr);        // (1001) [empty × 1000, true]
+console.log(arr.length); // 1001
+console.log(arr[0]);     // undefined
+```
+
+length 프로퍼티의 값은 명시적으로 변경할 수 있다. 만약 length 프로퍼티의 값을 현재보다 작게 변경하면 변경된 length 프로퍼티의 값보다 크거나 같은 인덱스에 해당하는 요소는 모두 삭제된다.
+
+``` javascript
+const arr = [ 1, 2, 3, 4, 5 ];
+
+// 배열 길이의 명시적 변경
+arr.length = 3;
+console.log(arr); // (3) [1, 2, 3]
+```
