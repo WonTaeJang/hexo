@@ -208,3 +208,105 @@ const arr = [ 1, 2, 3, 4, 5 ];
 arr.length = 3;
 console.log(arr); // (3) [1, 2, 3]
 ```
+
+# 5 Array Method
+## 5.1 Array.isArray(arg:any): boolean
+정적 메소드 Array.isArray는 주어진 인수가 배열이면 true, 배열이 아니면 false를 반환한다. 
+
+``` javascript
+// true
+Array.isArray([]);
+Array.isArray([1, 2]);
+Array.isArray(new Array());
+
+// false
+Array.isArray();
+Array.isArray({});
+Array.isArray(null);
+Array.isArray(undefined);
+Array.isArray(1);
+Array.isArray('Array');
+Array.isArray(true);
+Array.isArray(false);
+```
+
+## 5.2 Array.from
+ES6에서 새롭게 도입된 Array.from 메소드는 유사 배열 객체(array-like object)또는 이터러블 객체(iterable object)를 변환하여 새로운 배열을 생성한다. 
+
+``` javascript
+// 문자열은 이터러블이다.
+const arr1 = Array.from('Hello');
+console.log(arr1); // [ 'H', 'e', 'l', 'l', 'o' ]
+
+// 유사 배열 객체를 새로운 배열을 변환하여 반환한다.
+const arr2 = Array.from({ length: 2, 0: 'a', 1: 'b' });
+console.log(arr2); // [ 'a', 'b' ]
+
+// Array.from의 두번째 매개변수에게 배열의 모든 요소에 대해 호출할 함수를 전달할 수 있다.
+// 이 함수는 첫번째 매개변수에게 전달된 인수로 생성된 배열의 모든 요소를 인수로 전달받아 호출된다.
+const arr3 = Array.from({ length: 5 }, function (v, i) { return i; });
+console.log(arr3); // [ 0, 1, 2, 3, 4 ]
+```
+
+## 5.3 Array.of
+ES6에서 새롭게 도입된 Array.of 메소드는 전달된 인수를 요소로 갖는 배열을 생성한다. 
+
+Array.of는 Array 생성자 함수와 다르게 전달된 인수가 1개이고 숫자이더라도 인수를 요소로 갖는 배열을 생성한다. 
+
+``` javascript
+// 전달된 인수가 1개이고 숫자이더라도 인수를 요소로 갖는 배열을 생성한다.
+const arr1 = Array.of(1);
+console.log(arr1); // // [1]
+
+const arr2 = Array.of(1, 2, 3);
+console.log(arr2); // [1, 2, 3]
+
+const arr3 = Array.of('string');
+console.log(arr3); // 'string'
+```
+
+## 5.4 Array.prototype.indexOf(searchElement: T, fromIndex?: number): number
+원본 배열에서 인수로 전달된 요소를 검색하여 인덱스를 반환한다.
+- 중복되는 요소가 있을 경우, 첫번째 인덱스를 반환한다. 
+- 해당하는 요소가 없는 경우, -1을 반환한다. 
+- 해당 메소드는 this(원본 배열)를 변경하지 않는다.
+
+``` javascript
+const arr = [1, 2, 2, 3];
+
+// 배열 arr에서 요소 2를 검색하여 첫번째 인덱스를 반환
+arr.indexOf(2);    // -> 1
+// 배열 arr에서 요소 4가 없으므로 -1을 반환
+arr.indexOf(4);    // -1
+// 두번째 인수는 검색을 시작할 인덱스이다. 두번째 인수를 생략하면 처음부터 검색한다.
+arr.indexOf(2, 2); // 2
+```
+
+indexOf 메소드는 배열에 요소가 존재하는지 여부를 확인할 때 유용하다.
+
+``` javascript
+const foods = ['apple', 'banana', 'orange'];
+
+// foods 배열에 'orange' 요소가 존재하는지 확인
+if (foods.indexOf('orange') === -1) {
+  // foods 배열에 'orange' 요소가 존재하지 않으면 'orange' 요소를 추가
+  foods.push('orange');
+}
+
+console.log(foods); // ["apple", "banana", "orange"]
+```
+
+ES7에서 새롭게 도입된 Array.prototype.includes 메소드를 사용하면 보다 가독성이 좋다.
+
+``` javascript
+const foods = ['apple', 'banana'];
+
+// ES7: Array.prototype.includes
+// foods 배열에 'orange' 요소가 존재하는지 확인
+if (!foods.includes('orange')) {
+  // foods 배열에 'orange' 요소가 존재하지 않으면 'orange' 요소를 추가
+  foods.push('orange');
+}
+
+console.log(foods); // ["apple", "banana", "orange"]
+```
